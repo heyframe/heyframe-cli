@@ -97,38 +97,38 @@ func TestESBuildAdminTypeScript(t *testing.T) {
 	assert.NoError(t, err)
 }
 
-func TestESBuildStorefront(t *testing.T) {
+func TestESBuildFrontend(t *testing.T) {
 	dir := t.TempDir()
 
-	storefrontDir := filepath.Join(dir, "Resources", "app", "storefront", "src")
-	_ = os.MkdirAll(storefrontDir, os.ModePerm)
+	frontendDir := filepath.Join(dir, "Resources", "app", "frontend", "src")
+	_ = os.MkdirAll(frontendDir, os.ModePerm)
 
-	_ = os.WriteFile(filepath.Join(storefrontDir, "main.js"), []byte("console.log('bla')"), os.ModePerm)
+	_ = os.WriteFile(filepath.Join(frontendDir, "main.js"), []byte("console.log('bla')"), os.ModePerm)
 
-	options := NewAssetCompileOptionsStorefront("Bla", dir, false)
+	options := NewAssetCompileOptionsFrontend("Bla", dir, false)
 	_, err := CompileExtensionAsset(getTestContext(), options)
 
 	assert.NoError(t, err)
 
-	compiledFilePath := filepath.Join(dir, "Resources", "app", "storefront", "dist", "storefront", "js", "bla.js")
+	compiledFilePath := filepath.Join(dir, "Resources", "app", "frontend", "dist", "frontend", "js", "bla.js")
 	_, err = os.Stat(compiledFilePath)
 	assert.NoError(t, err)
 }
 
-func TestESBuildStorefrontNewLayout(t *testing.T) {
+func TestESBuildFrontendNewLayout(t *testing.T) {
 	dir := t.TempDir()
 
-	storefrontDir := filepath.Join(dir, "Resources", "app", "storefront", "src")
-	_ = os.MkdirAll(storefrontDir, os.ModePerm)
+	frontendDir := filepath.Join(dir, "Resources", "app", "frontend", "src")
+	_ = os.MkdirAll(frontendDir, os.ModePerm)
 
-	_ = os.WriteFile(filepath.Join(storefrontDir, "main.js"), []byte("console.log('bla')"), os.ModePerm)
+	_ = os.WriteFile(filepath.Join(frontendDir, "main.js"), []byte("console.log('bla')"), os.ModePerm)
 
-	options := NewAssetCompileOptionsStorefront("Bla", dir, true)
+	options := NewAssetCompileOptionsFrontend("Bla", dir, true)
 	_, err := CompileExtensionAsset(getTestContext(), options)
 
 	assert.NoError(t, err)
 
-	compiledFilePath := filepath.Join(dir, "Resources", "app", "storefront", "dist", "storefront", "js", "bla", "bla.js")
+	compiledFilePath := filepath.Join(dir, "Resources", "app", "frontend", "dist", "frontend", "js", "bla", "bla.js")
 	_, err = os.Stat(compiledFilePath)
 	assert.NoError(t, err)
 }

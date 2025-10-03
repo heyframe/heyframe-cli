@@ -279,7 +279,7 @@ func generateComposerJson(ctx context.Context, version string, rc bool, useDocke
 		{{if .UseElasticsearch}}
         "heyframe/elasticsearch": "{{ .DependingVersions }}",
 		{{end}}
-        "heyframe/storefront": "{{ .DependingVersions }}",
+        "heyframe/frontend": "{{ .DependingVersions }}",
 		{{if .UseDocker}}
 		"heyframe/docker-dev": "*",
 		{{end}}

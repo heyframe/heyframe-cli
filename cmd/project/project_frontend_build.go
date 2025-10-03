@@ -11,10 +11,10 @@ import (
 	"github.com/heyframe/heyframe-cli/platform"
 )
 
-var projectStorefrontBuildCmd = &cobra.Command{
-	Use:     "storefront-build [path]",
-	Short:   "Builds the Storefront",
-	Aliases: []string{"build-storefront"},
+var projectFrontendBuildCmd = &cobra.Command{
+	Use:     "frontend-build [path]",
+	Short:   "Builds the Frontend",
+	Aliases: []string{"build-frontend"},
 	RunE: func(cmd *cobra.Command, args []string) error {
 		var projectRoot string
 		var err error
@@ -73,10 +73,10 @@ var projectStorefrontBuildCmd = &cobra.Command{
 }
 
 func init() {
-	projectRootCmd.AddCommand(projectStorefrontBuildCmd)
-	projectStorefrontBuildCmd.PersistentFlags().Bool("skip-theme-compile", false, "Skip theme compilation")
-	projectStorefrontBuildCmd.PersistentFlags().Bool("force-install-dependencies", false, "Force install NPM dependencies")
-	projectStorefrontBuildCmd.PersistentFlags().String("only-extensions", "", "Only watch the given extensions (comma separated)")
-	projectStorefrontBuildCmd.PersistentFlags().String("skip-extensions", "", "Skips the given extensions (comma separated)")
-	projectStorefrontBuildCmd.PersistentFlags().Bool("only-custom-static-extensions", false, "Only build extensions from custom/static-plugins directory")
+	projectRootCmd.AddCommand(projectFrontendBuildCmd)
+	projectFrontendBuildCmd.PersistentFlags().Bool("skip-theme-compile", false, "Skip theme compilation")
+	projectFrontendBuildCmd.PersistentFlags().Bool("force-install-dependencies", false, "Force install NPM dependencies")
+	projectFrontendBuildCmd.PersistentFlags().String("only-extensions", "", "Only watch the given extensions (comma separated)")
+	projectFrontendBuildCmd.PersistentFlags().String("skip-extensions", "", "Skips the given extensions (comma separated)")
+	projectFrontendBuildCmd.PersistentFlags().Bool("only-custom-static-extensions", false, "Only build extensions from custom/static-plugins directory")
 }

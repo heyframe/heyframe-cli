@@ -33,8 +33,8 @@ func validateAssets(ext Extension, check validation.Check) {
 func validateAssetByResourceDir(check validation.Check, resourceDir string) {
 	_, foundAdminBuildFiles := os.Stat(filepath.Join(resourceDir, "public", "administration"))
 	foundAdminEntrypoint := hasJavascriptEntrypoint(filepath.Join(resourceDir, "app", "administration", "src"))
-	foundStorefrontEntrypoint := hasJavascriptEntrypoint(filepath.Join(resourceDir, "app", "storefront", "src"))
-	_, foundStorefrontDistFiles := os.Stat(filepath.Join(resourceDir, "app", "storefront", "dist"))
+	foundFrontendEntrypoint := hasJavascriptEntrypoint(filepath.Join(resourceDir, "app", "frontend", "src"))
+	_, foundFrontendDistFiles := os.Stat(filepath.Join(resourceDir, "app", "frontend", "dist"))
 
 	if foundAdminBuildFiles == nil && !foundAdminEntrypoint {
 		check.AddResult(validation.CheckResult{
@@ -54,20 +54,20 @@ func validateAssetByResourceDir(check validation.Check, resourceDir string) {
 		})
 	}
 
-	if foundStorefrontDistFiles != nil && foundStorefrontEntrypoint {
+	if foundFrontendDistFiles != nil && foundFrontendEntrypoint {
 		check.AddResult(validation.CheckResult{
 			Path:       resourceDir,
-			Identifier: "assets.storefront.sources_missing",
-			Message:    fmt.Sprintf("Found storefront build files in %s but no source files to rebuild the assets.", resourceDir),
+			Identifier: "assets.frontend.sources_missing",
+			Message:    fmt.Sprintf("Found frontend build files in %s but no source files to rebuild the assets.", resourceDir),
 			Severity:   validation.SeverityError,
 		})
 	}
 
-	if foundStorefrontDistFiles == nil && !foundStorefrontEntrypoint {
+	if foundFrontendDistFiles == nil && !foundFrontendEntrypoint {
 		check.AddResult(validation.CheckResult{
 			Path:       resourceDir,
-			Identifier: "assets.storefront.build_missing",
-			Message:    fmt.Sprintf("Found storefront source files in %s but no build files. Please run the build command to generate the assets.", resourceDir),
+			Identifier: "assets.frontend.build_missing",
+			Message:    fmt.Sprintf("Found frontend source files in %s but no build files. Please run the build command to generate the assets.", resourceDir),
 			Severity:   validation.SeverityError,
 		})
 	}

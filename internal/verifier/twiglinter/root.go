@@ -11,21 +11,21 @@ var HeyFrame67Constraint = version.MustConstraints(version.NewConstraint(">=6.7.
 
 const TwigExtension = ".twig"
 
-var availableStorefrontFixers = []TwigFixer{}
+var availableFrontendFixers = []TwigFixer{}
 
 var availableAdministrationFixers = []TwigFixer{}
 
-func AddStorefrontFixer(fixer TwigFixer) {
-	availableStorefrontFixers = append(availableStorefrontFixers, fixer)
+func AddFrontendFixer(fixer TwigFixer) {
+	availableFrontendFixers = append(availableFrontendFixers, fixer)
 }
 
 func AddAdministrationFixer(fixer TwigFixer) {
 	availableAdministrationFixers = append(availableAdministrationFixers, fixer)
 }
 
-func GetStorefrontFixers(version *version.Version) []TwigFixer {
+func GetFrontendFixers(version *version.Version) []TwigFixer {
 	fixers := []TwigFixer{}
-	for _, fixer := range availableStorefrontFixers {
+	for _, fixer := range availableFrontendFixers {
 		if fixer.Supports(version) {
 			fixers = append(fixers, fixer)
 		}

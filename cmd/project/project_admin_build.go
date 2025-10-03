@@ -53,11 +53,11 @@ var projectAdminBuildCmd = &cobra.Command{
 		}
 
 		assetCfg := extension.AssetBuildConfig{
-			DisableStorefrontBuild: true,
-			HeyFrameRoot:           projectRoot,
-			HeyFrameVersion:        heyframeConstraint,
-			NPMForceInstall:        forceInstall,
-			ForceAdminBuild:        shopCfg.Build.ForceAdminBuild,
+			DisableFrontendBuild: true,
+			HeyFrameRoot:         projectRoot,
+			HeyFrameVersion:      heyframeConstraint,
+			NPMForceInstall:      forceInstall,
+			ForceAdminBuild:      shopCfg.Build.ForceAdminBuild,
 		}
 
 		if err := extension.BuildAssetsForExtensions(cmd.Context(), sources, assetCfg); err != nil {

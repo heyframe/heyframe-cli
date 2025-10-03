@@ -21,12 +21,12 @@ func ConvertExtensionsToSources(ctx context.Context, extensions []Extension) []a
 		}
 
 		sources = append(sources, asset.Source{
-			Name:                        name,
-			Path:                        ext.GetRootDir(),
-			AdminEsbuildCompatible:      ext.GetExtensionConfig().Build.Zip.Assets.EnableESBuildForAdmin,
-			StorefrontEsbuildCompatible: ext.GetExtensionConfig().Build.Zip.Assets.EnableESBuildForStorefront,
-			DisableSass:                 ext.GetExtensionConfig().Build.Zip.Assets.DisableSass,
-			NpmStrict:                   ext.GetExtensionConfig().Build.Zip.Assets.NpmStrict,
+			Name:                      name,
+			Path:                      ext.GetRootDir(),
+			AdminEsbuildCompatible:    ext.GetExtensionConfig().Build.Zip.Assets.EnableESBuildForAdmin,
+			FrontendEsbuildCompatible: ext.GetExtensionConfig().Build.Zip.Assets.EnableESBuildForFrontend,
+			DisableSass:               ext.GetExtensionConfig().Build.Zip.Assets.DisableSass,
+			NpmStrict:                 ext.GetExtensionConfig().Build.Zip.Assets.NpmStrict,
 		})
 
 		extConfig := ext.GetExtensionConfig()
@@ -47,12 +47,12 @@ func ConvertExtensionsToSources(ctx context.Context, extensions []Extension) []a
 				}
 
 				sources = append(sources, asset.Source{
-					Name:                        bundleName,
-					Path:                        bundlePath,
-					AdminEsbuildCompatible:      ext.GetExtensionConfig().Build.Zip.Assets.EnableESBuildForAdmin,
-					StorefrontEsbuildCompatible: ext.GetExtensionConfig().Build.Zip.Assets.EnableESBuildForStorefront,
-					DisableSass:                 ext.GetExtensionConfig().Build.Zip.Assets.DisableSass,
-					NpmStrict:                   ext.GetExtensionConfig().Build.Zip.Assets.NpmStrict,
+					Name:                      bundleName,
+					Path:                      bundlePath,
+					AdminEsbuildCompatible:    ext.GetExtensionConfig().Build.Zip.Assets.EnableESBuildForAdmin,
+					FrontendEsbuildCompatible: ext.GetExtensionConfig().Build.Zip.Assets.EnableESBuildForFrontend,
+					DisableSass:               ext.GetExtensionConfig().Build.Zip.Assets.DisableSass,
+					NpmStrict:                 ext.GetExtensionConfig().Build.Zip.Assets.NpmStrict,
 				})
 			}
 		}

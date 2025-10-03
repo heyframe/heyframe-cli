@@ -21,11 +21,11 @@ import (
 )
 
 const (
-	StorefrontWebpackConfig        = "Resources/app/storefront/build/webpack.config.js"
-	StorefrontWebpackCJSConfig     = "Resources/app/storefront/build/webpack.config.cjs"
-	StorefrontEntrypointJS         = "Resources/app/storefront/src/main.js"
-	StorefrontEntrypointTS         = "Resources/app/storefront/src/main.ts"
-	StorefrontBaseCSS              = "Resources/app/storefront/src/scss/base.scss"
+	FrontendWebpackConfig          = "Resources/app/frontend/build/webpack.config.js"
+	FrontendWebpackCJSConfig       = "Resources/app/frontend/build/webpack.config.cjs"
+	FrontendEntrypointJS           = "Resources/app/frontend/src/main.js"
+	FrontendEntrypointTS           = "Resources/app/frontend/src/main.ts"
+	FrontendBaseCSS                = "Resources/app/frontend/src/scss/base.scss"
 	AdministrationWebpackConfig    = "Resources/app/administration/build/webpack.config.js"
 	AdministrationWebpackCJSConfig = "Resources/app/administration/build/webpack.config.cjs"
 	AdministrationEntrypointJS     = "Resources/app/administration/src/main.js"
@@ -35,7 +35,7 @@ const (
 type AssetBuildConfig struct {
 	CleanupNodeModules           bool
 	DisableAdminBuild            bool
-	DisableStorefrontBuild       bool
+	DisableFrontendBuild         bool
 	HeyFrameRoot                 string
 	HeyFrameVersion              *version.Constraints
 	Browserslist                 string
@@ -60,7 +60,7 @@ func (c ExtensionAssetConfig) RequiresHeyFrameRepository() bool {
 			return true
 		}
 
-		if entry.Storefront.EntryFilePath != nil && !entry.EnableESBuildForStorefront {
+		if entry.Frontend.EntryFilePath != nil && !entry.EnableESBuildForFrontend {
 			return true
 		}
 	}
@@ -78,9 +78,9 @@ func (c ExtensionAssetConfig) RequiresAdminBuild() bool {
 	return false
 }
 
-func (c ExtensionAssetConfig) RequiresStorefrontBuild() bool {
+func (c ExtensionAssetConfig) RequiresFrontendBuild() bool {
 	for _, entry := range c {
-		if entry.Storefront.EntryFilePath != nil {
+		if entry.Frontend.EntryFilePath != nil {
 			return true
 		}
 	}
@@ -112,11 +112,11 @@ func (c ExtensionAssetConfig) FilterByAdminAndEsBuild(esbuildEnabled bool) Exten
 	return filtered
 }
 
-func (c ExtensionAssetConfig) FilterByStorefrontAndEsBuild(esbuildEnabled bool) ExtensionAssetConfig {
+func (c ExtensionAssetConfig) FilterByFrontendAndEsBuild(esbuildEnabled bool) ExtensionAssetConfig {
 	filtered := make(ExtensionAssetConfig)
 
 	for name, entry := range c {
-		if entry.Storefront.EntryFilePath != nil && entry.EnableESBuildForStorefront == esbuildEnabled {
+		if entry.Frontend.EntryFilePath != nil && entry.EnableESBuildForFrontend == esbuildEnabled {
 			filtered[name] = entry
 		}
 	}
@@ -149,15 +149,15 @@ func (c ExtensionAssetConfig) Not(extensions []string) ExtensionAssetConfig {
 }
 
 type ExtensionAssetConfigEntry struct {
-	BasePath                   string                         `json:"basePath"`
-	Views                      []string                       `json:"views"`
-	TechnicalName              string                         `json:"technicalName"`
-	Administration             ExtensionAssetConfigAdmin      `json:"administration"`
-	Storefront                 ExtensionAssetConfigStorefront `json:"storefront"`
-	EnableESBuildForAdmin      bool
-	EnableESBuildForStorefront bool
-	DisableSass                bool
-	NpmStrict                  bool
+	BasePath                 string                       `json:"basePath"`
+	Views                    []string                     `json:"views"`
+	TechnicalName            string                       `json:"technicalName"`
+	Administration           ExtensionAssetConfigAdmin    `json:"administration"`
+	Frontend                 ExtensionAssetConfigFrontend `json:"frontend"`
+	EnableESBuildForAdmin    bool
+	EnableESBuildForFrontend bool
+	DisableSass              bool
+	NpmStrict                bool
 
 	// internal cache
 	cachedPossibleNodePaths []string
@@ -167,13 +167,13 @@ type ExtensionAssetConfigEntry struct {
 }
 
 func (e *ExtensionAssetConfigEntry) RequiresBuild() bool {
-	return e.Administration.EntryFilePath != nil || e.Storefront.EntryFilePath != nil
+	return e.Administration.EntryFilePath != nil || e.Frontend.EntryFilePath != nil
 }
 
 func (e *ExtensionAssetConfigEntry) getPossibleNodePaths() []string {
 	e.once.Do(func() {
 		possibleNodePaths := []string{
-			// shared between admin and storefront
+			// shared between admin and frontend
 			path.Join(e.BasePath, "Resources", "app", "package.json"),
 			path.Join(e.BasePath, "package.json"),
 			path.Join(path.Dir(e.BasePath), "package.json"),
@@ -181,13 +181,13 @@ func (e *ExtensionAssetConfigEntry) getPossibleNodePaths() []string {
 			path.Join(path.Dir(path.Dir(path.Dir(e.BasePath))), "package.json"),
 		}
 
-		// only try administration and storefront node_modules folder when we have an entry file
+		// only try administration and frontend node_modules folder when we have an entry file
 		if e.Administration.EntryFilePath != nil {
 			possibleNodePaths = append(possibleNodePaths, path.Join(e.BasePath, "Resources", "app", "administration", "package.json"), path.Join(e.BasePath, "Resources", "app", "administration", "src", "package.json"))
 		}
 
-		if e.Storefront.EntryFilePath != nil {
-			possibleNodePaths = append(possibleNodePaths, path.Join(e.BasePath, "Resources", "app", "storefront", "package.json"), path.Join(e.BasePath, "Resources", "app", "storefront", "src", "package.json"))
+		if e.Frontend.EntryFilePath != nil {
+			possibleNodePaths = append(possibleNodePaths, path.Join(e.BasePath, "Resources", "app", "frontend", "package.json"), path.Join(e.BasePath, "Resources", "app", "frontend", "src", "package.json"))
 		}
 
 		existingPaths := make([]string, 0)
@@ -301,20 +301,20 @@ func (e *ExtensionAssetConfigEntry) collectFilesForHashing() ([]string, error) {
 		}
 	}
 
-	// Collect storefront files
-	if e.Storefront.EntryFilePath != nil {
-		storefrontPath := path.Join(e.BasePath, e.Storefront.Path)
-		if err := e.collectFilesFromDir(storefrontPath, &files); err != nil {
-			return nil, fmt.Errorf("failed to collect storefront files: %w", err)
+	// Collect frontend files
+	if e.Frontend.EntryFilePath != nil {
+		frontendPath := path.Join(e.BasePath, e.Frontend.Path)
+		if err := e.collectFilesFromDir(frontendPath, &files); err != nil {
+			return nil, fmt.Errorf("failed to collect frontend files: %w", err)
 		}
 
 		// Add webpack config if exists
-		if e.Storefront.Webpack != nil {
-			files = append(files, path.Join(e.BasePath, *e.Storefront.Webpack))
+		if e.Frontend.Webpack != nil {
+			files = append(files, path.Join(e.BasePath, *e.Frontend.Webpack))
 		}
 
 		// Add style files
-		for _, styleFile := range e.Storefront.StyleFiles {
+		for _, styleFile := range e.Frontend.StyleFiles {
 			files = append(files, path.Join(e.BasePath, styleFile))
 		}
 	}
@@ -388,8 +388,8 @@ func (e *ExtensionAssetConfigEntry) GetOutputAdminPath() string {
 	return path.Join(e.BasePath, "Resources", "public", "administration")
 }
 
-func (e *ExtensionAssetConfigEntry) GetOutputStorefrontPath() string {
-	return path.Join(e.BasePath, "Resources", "app", "storefront", "dist", "storefront")
+func (e *ExtensionAssetConfigEntry) GetOutputFrontendPath() string {
+	return path.Join(e.BasePath, "Resources", "app", "frontend", "dist", "frontend")
 }
 
 type ExtensionAssetConfigAdmin struct {
@@ -398,7 +398,7 @@ type ExtensionAssetConfigAdmin struct {
 	Webpack       *string `json:"webpack"`
 }
 
-type ExtensionAssetConfigStorefront struct {
+type ExtensionAssetConfigFrontend struct {
 	Path          string   `json:"path"`
 	EntryFilePath *string  `json:"entryFilePath"`
 	Webpack       *string  `json:"webpack"`
@@ -433,21 +433,21 @@ func BuildAssetConfigFromExtensions(ctx context.Context, sources []asset.Source,
 
 		sourceConfig := createConfigFromPath(source.Name, absPath)
 		sourceConfig.EnableESBuildForAdmin = source.AdminEsbuildCompatible
-		sourceConfig.EnableESBuildForStorefront = source.StorefrontEsbuildCompatible
+		sourceConfig.EnableESBuildForFrontend = source.FrontendEsbuildCompatible
 		sourceConfig.DisableSass = source.DisableSass
 		sourceConfig.NpmStrict = source.NpmStrict
 
 		if assetCfg.SkipExtensionsWithBuildFiles {
 			expectedAdminCompiledFile := path.Join(source.Path, "Resources", "public", "administration", "js", esbuild.ToKebabCase(source.Name)+".js")
 			expectedAdminVitePath := path.Join(source.Path, "Resources", "public", "administration", ".vite", "manifest.json")
-			expectedStorefrontCompiledFile := path.Join(source.Path, "Resources", "app", "storefront", "dist", "storefront", "js", esbuild.ToKebabCase(source.Name), esbuild.ToKebabCase(source.Name)+".js")
+			expectedFrontendCompiledFile := path.Join(source.Path, "Resources", "app", "frontend", "dist", "frontend", "js", esbuild.ToKebabCase(source.Name), esbuild.ToKebabCase(source.Name)+".js")
 
 			// Check if extension is in the ForceExtensionBuild list
 			forceExtensionBuild := slices.Contains(assetCfg.ForceExtensionBuild, source.Name)
 
 			_, foundAdminCompiled := os.Stat(expectedAdminCompiledFile)
 			_, foundAdminVite := os.Stat(expectedAdminVitePath)
-			_, foundStorefrontCompiled := os.Stat(expectedStorefrontCompiledFile)
+			_, foundFrontendCompiled := os.Stat(expectedFrontendCompiledFile)
 
 			if (foundAdminCompiled == nil || foundAdminVite == nil) && !forceExtensionBuild {
 				// clear out the entrypoint, so the admin does not build it
@@ -457,12 +457,12 @@ func BuildAssetConfigFromExtensions(ctx context.Context, sources []asset.Source,
 				logging.FromContext(ctx).Infof("Skipping building administration assets for \"%s\" as compiled files are present", source.Name)
 			}
 
-			if foundStorefrontCompiled == nil && !forceExtensionBuild {
-				// clear out the entrypoint, so the storefront does not build it
-				sourceConfig.Storefront.EntryFilePath = nil
-				sourceConfig.Storefront.Webpack = nil
+			if foundFrontendCompiled == nil && !forceExtensionBuild {
+				// clear out the entrypoint, so the frontend does not build it
+				sourceConfig.Frontend.EntryFilePath = nil
+				sourceConfig.Frontend.Webpack = nil
 
-				logging.FromContext(ctx).Infof("Skipping building storefront assets for \"%s\" as compiled files are present", source.Name)
+				logging.FromContext(ctx).Infof("Skipping building frontend assets for \"%s\" as compiled files are present", source.Name)
 			}
 		}
 
@@ -473,8 +473,8 @@ func BuildAssetConfigFromExtensions(ctx context.Context, sources []asset.Source,
 }
 
 func createConfigFromPath(entryPointName string, extensionRoot string) *ExtensionAssetConfigEntry {
-	var entryFilePathAdmin, entryFilePathStorefront, webpackFileAdmin, webpackFileStorefront *string
-	storefrontStyles := make([]string, 0)
+	var entryFilePathAdmin, entryFilePathFrontend, webpackFileAdmin, webpackFileFrontend *string
+	frontendStyles := make([]string, 0)
 
 	if _, err := os.Stat(path.Join(extensionRoot, AdministrationEntrypointJS)); err == nil {
 		val := AdministrationEntrypointJS
@@ -496,28 +496,28 @@ func createConfigFromPath(entryPointName string, extensionRoot string) *Extensio
 		webpackFileAdmin = &val
 	}
 
-	if _, err := os.Stat(path.Join(extensionRoot, StorefrontEntrypointJS)); err == nil {
-		val := StorefrontEntrypointJS
-		entryFilePathStorefront = &val
+	if _, err := os.Stat(path.Join(extensionRoot, FrontendEntrypointJS)); err == nil {
+		val := FrontendEntrypointJS
+		entryFilePathFrontend = &val
 	}
 
-	if _, err := os.Stat(path.Join(extensionRoot, StorefrontEntrypointTS)); err == nil {
-		val := StorefrontEntrypointTS
-		entryFilePathStorefront = &val
+	if _, err := os.Stat(path.Join(extensionRoot, FrontendEntrypointTS)); err == nil {
+		val := FrontendEntrypointTS
+		entryFilePathFrontend = &val
 	}
 
-	if _, err := os.Stat(path.Join(extensionRoot, StorefrontWebpackConfig)); err == nil {
-		val := StorefrontWebpackConfig
-		webpackFileStorefront = &val
+	if _, err := os.Stat(path.Join(extensionRoot, FrontendWebpackConfig)); err == nil {
+		val := FrontendWebpackConfig
+		webpackFileFrontend = &val
 	}
 
-	if _, err := os.Stat(path.Join(extensionRoot, StorefrontWebpackCJSConfig)); err == nil {
-		val := StorefrontWebpackCJSConfig
-		webpackFileStorefront = &val
+	if _, err := os.Stat(path.Join(extensionRoot, FrontendWebpackCJSConfig)); err == nil {
+		val := FrontendWebpackCJSConfig
+		webpackFileFrontend = &val
 	}
 
-	if _, err := os.Stat(path.Join(extensionRoot, StorefrontBaseCSS)); err == nil {
-		storefrontStyles = append(storefrontStyles, StorefrontBaseCSS)
+	if _, err := os.Stat(path.Join(extensionRoot, FrontendBaseCSS)); err == nil {
+		frontendStyles = append(frontendStyles, FrontendBaseCSS)
 	}
 
 	extensionRoot = strings.TrimRight(extensionRoot, "/") + "/"
@@ -533,11 +533,11 @@ func createConfigFromPath(entryPointName string, extensionRoot string) *Extensio
 			EntryFilePath: entryFilePathAdmin,
 			Webpack:       webpackFileAdmin,
 		},
-		Storefront: ExtensionAssetConfigStorefront{
-			Path:          "Resources/app/storefront/src",
-			EntryFilePath: entryFilePathStorefront,
-			Webpack:       webpackFileStorefront,
-			StyleFiles:    storefrontStyles,
+		Frontend: ExtensionAssetConfigFrontend{
+			Path:          "Resources/app/frontend/src",
+			EntryFilePath: entryFilePathFrontend,
+			Webpack:       webpackFileFrontend,
+			StyleFiles:    frontendStyles,
 		},
 	}
 	return &cfg

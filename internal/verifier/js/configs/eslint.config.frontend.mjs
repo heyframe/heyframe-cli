@@ -3,14 +3,14 @@ import pluginJs from "@eslint/js";
 import tseslint from "typescript-eslint";
 import eslintConfigPrettier from "eslint-config-prettier";
 
-import storefrontRules from "@heyframe-ag/storefront-eslint-rules";
+import frontendRules from "@heyframe-ag/frontend-eslint-rules";
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
 	{ languageOptions: { globals: globals.browser } },
 	pluginJs.configs.recommended,
 	...tseslint.configs.recommended,
-	storefrontRules,
+	frontendRules,
 	eslintConfigPrettier,
 	{
 		rules: {

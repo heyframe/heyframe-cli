@@ -97,7 +97,7 @@
         },
         "browserslist": {
           "type": "string",
-          "description": "Browserslist configuration for the Storefront build"
+          "description": "Browserslist configuration for the Frontend build"
         },
         "exclude_extensions": {
           "items": {
@@ -106,9 +106,9 @@
           "type": "array",
           "description": "Extensions to exclude from the build"
         },
-        "disable_storefront_build": {
+        "disable_frontend_build": {
           "type": "boolean",
-          "description": "When enabled, the storefront build will be skipped"
+          "description": "When enabled, the frontend build will be skipped"
         },
         "force_extension_build": {
           "items": {

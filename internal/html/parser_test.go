@@ -92,14 +92,14 @@ func TestFormatting(t *testing.T) {
 
 			stringParts[2] = strings.Trim(stringParts[2], "\n")
 
-			parsed, err = NewStorefrontParser(stringParts[0])
+			parsed, err = NewFrontendParser(stringParts[0])
 			if err != nil {
 				t.Fatal(err)
 			}
 
 			assert.Equal(t, stringParts[2], parsed.Dump(0))
 
-			parsed, err = NewStorefrontParser(parsed.Dump(0))
+			parsed, err = NewFrontendParser(parsed.Dump(0))
 			if err != nil {
 				t.Fatal(err)
 			}

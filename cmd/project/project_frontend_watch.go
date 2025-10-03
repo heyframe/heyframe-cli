@@ -12,10 +12,10 @@ import (
 	"github.com/heyframe/heyframe-cli/platform"
 )
 
-var projectStorefrontWatchCmd = &cobra.Command{
-	Use:     "storefront-watch [path]",
-	Short:   "Starts the HeyFrame Storefront Watcher",
-	Aliases: []string{"watch-storefront"},
+var projectFrontendWatchCmd = &cobra.Command{
+	Use:     "frontend-watch [path]",
+	Short:   "Starts the HeyFrame Frontend Watcher",
+	Aliases: []string{"watch-frontend"},
 	RunE: func(cmd *cobra.Command, args []string) error {
 		var projectRoot string
 		var err error
@@ -61,22 +61,22 @@ var projectStorefrontWatchCmd = &cobra.Command{
 			return err
 		}
 
-		if err := os.Setenv("STOREFRONT_ROOT", extension.PlatformPath(projectRoot, "Storefront", "")); err != nil {
+		if err := os.Setenv("STOREFRONT_ROOT", extension.PlatformPath(projectRoot, "Frontend", "")); err != nil {
 			return err
 		}
 
-		if _, err := os.Stat(extension.PlatformPath(projectRoot, "Storefront", "Resources/app/storefront/node_modules/webpack-dev-server")); os.IsNotExist(err) {
-			if err := extension.InstallNPMDependencies(cmd.Context(), extension.PlatformPath(projectRoot, "Storefront", "Resources/app/storefront"), extension.NpmPackage{Dependencies: map[string]string{"not-empty": "not-empty"}}); err != nil {
+		if _, err := os.Stat(extension.PlatformPath(projectRoot, "Frontend", "Resources/app/frontend/node_modules/webpack-dev-server")); os.IsNotExist(err) {
+			if err := extension.InstallNPMDependencies(cmd.Context(), extension.PlatformPath(projectRoot, "Frontend", "Resources/app/frontend"), extension.NpmPackage{Dependencies: map[string]string{"not-empty": "not-empty"}}); err != nil {
 				return err
 			}
 		}
 
-		return runTransparentCommand(commandWithRoot(exec.CommandContext(cmd.Context(), "npm", "run-script", "hot-proxy"), extension.PlatformPath(projectRoot, "Storefront", "Resources/app/storefront")))
+		return runTransparentCommand(commandWithRoot(exec.CommandContext(cmd.Context(), "npm", "run-script", "hot-proxy"), extension.PlatformPath(projectRoot, "Frontend", "Resources/app/frontend")))
 	},
 }
 
 func themeCompileSupportsActiveOnly(projectRoot string) bool {
-	themeFile := extension.PlatformPath(projectRoot, "Storefront", "Theme/Command/ThemeCompileCommand.php")
+	themeFile := extension.PlatformPath(projectRoot, "Frontend", "Theme/Command/ThemeCompileCommand.php")
 
 	bytes, err := os.ReadFile(themeFile)
 	if err != nil {
@@ -87,8 +87,8 @@ func themeCompileSupportsActiveOnly(projectRoot string) bool {
 }
 
 func init() {
-	projectRootCmd.AddCommand(projectStorefrontWatchCmd)
-	projectStorefrontWatchCmd.PersistentFlags().String("only-extensions", "", "Only watch the given extensions (comma separated)")
-	projectStorefrontWatchCmd.PersistentFlags().String("skip-extensions", "", "Skips the given extensions (comma separated)")
-	projectStorefrontWatchCmd.PersistentFlags().Bool("only-custom-static-extensions", false, "Only build extensions from custom/static-plugins directory")
+	projectRootCmd.AddCommand(projectFrontendWatchCmd)
+	projectFrontendWatchCmd.PersistentFlags().String("only-extensions", "", "Only watch the given extensions (comma separated)")
+	projectFrontendWatchCmd.PersistentFlags().String("skip-extensions", "", "Skips the given extensions (comma separated)")
+	projectFrontendWatchCmd.PersistentFlags().Bool("only-custom-static-extensions", false, "Only build extensions from custom/static-plugins directory")
 }

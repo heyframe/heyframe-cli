@@ -16,13 +16,13 @@ import (
 
 const jsonFileExtension = ".json"
 
-func validateStorefrontSnippets(ext Extension, check validation.Check) {
+func validateFrontendSnippets(ext Extension, check validation.Check) {
 	rootDir := ext.GetRootDir()
 
 	for _, val := range ext.GetResourcesDirs() {
-		storefrontFolder := path.Join(val, "snippet")
+		frontendFolder := path.Join(val, "snippet")
 
-		if err := validateStorefrontSnippetsByPath(storefrontFolder, rootDir, check); err != nil {
+		if err := validateFrontendSnippetsByPath(frontendFolder, rootDir, check); err != nil {
 			return
 		}
 	}
@@ -36,15 +36,15 @@ func validateStorefrontSnippets(ext Extension, check validation.Check) {
 			bundlePath = path.Join(bundlePath, extraBundle.Name)
 		}
 
-		storefrontFolder := path.Join(bundlePath, "Resources", "snippet")
+		frontendFolder := path.Join(bundlePath, "Resources", "snippet")
 
-		if err := validateStorefrontSnippetsByPath(storefrontFolder, rootDir, check); err != nil {
+		if err := validateFrontendSnippetsByPath(frontendFolder, rootDir, check); err != nil {
 			return
 		}
 	}
 }
 
-func validateStorefrontSnippetsByPath(snippetFolder, rootDir string, check validation.Check) error {
+func validateFrontendSnippetsByPath(snippetFolder, rootDir string, check validation.Check) error {
 	if _, err := os.Stat(snippetFolder); err != nil {
 		return nil //nolint:nilerr
 	}

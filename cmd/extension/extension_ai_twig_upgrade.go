@@ -56,13 +56,13 @@ var extensionAiTwigUpgradeCmd = &cobra.Command{
 		}
 
 		for _, sourceDirectory := range toolCfg.SourceDirectories {
-			twigFolder := path.Join(sourceDirectory, "Resources", "views", "storefront")
+			twigFolder := path.Join(sourceDirectory, "Resources", "views", "frontend")
 
 			if _, err := os.Stat(twigFolder); os.IsNotExist(err) {
 				return nil
 			}
 
-			oldVersion, err := cloneHeyFrameStorefront(cmd.Context(), args[1])
+			oldVersion, err := cloneHeyFrameFrontend(cmd.Context(), args[1])
 			if err != nil {
 				return err
 			}
@@ -73,7 +73,7 @@ var extensionAiTwigUpgradeCmd = &cobra.Command{
 				}
 			}()
 
-			newVersion, err := cloneHeyFrameStorefront(cmd.Context(), args[2])
+			newVersion, err := cloneHeyFrameFrontend(cmd.Context(), args[2])
 			if err != nil {
 				return err
 			}
@@ -193,13 +193,13 @@ func init() {
 	extensionAiCmd.AddCommand(extensionAiTwigUpgradeCmd)
 }
 
-func cloneHeyFrameStorefront(ctx context.Context, version string) (string, error) {
+func cloneHeyFrameFrontend(ctx context.Context, version string) (string, error) {
 	tempDir, err := os.MkdirTemp(os.TempDir(), "heyframe")
 	if err != nil {
 		return "", err
 	}
 
-	git := exec.CommandContext(ctx, "git", "-c", "advice.detachedHead=false", "clone", "-q", "--branch", "v"+version, "https://github.com/heyframe/storefront", tempDir, "--depth", "1")
+	git := exec.CommandContext(ctx, "git", "-c", "advice.detachedHead=false", "clone", "-q", "--branch", "v"+version, "https://github.com/heyframe/frontend", tempDir, "--depth", "1")
 	output, err := git.CombinedOutput()
 	if err != nil {
 		logging.FromContext(ctx).Error(string(output))

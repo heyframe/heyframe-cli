@@ -38,7 +38,7 @@ func InstallNodeModulesOfConfigs(ctx context.Context, cfgs ExtensionAssetConfig,
 
 	addedJobs := make(map[string]bool)
 
-	// Install shared node_modules between admin and storefront
+	// Install shared node_modules between admin and frontend
 	for _, entry := range cfgs {
 		additionalNpmParameters := []string{}
 

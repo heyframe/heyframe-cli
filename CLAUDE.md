@@ -102,11 +102,11 @@ heyframe-cli project create
 
 # Build assets
 heyframe-cli project admin-build
-heyframe-cli project storefront-build
+heyframe-cli project frontend-build
 
 # Development servers
 heyframe-cli project admin-watch
-heyframe-cli project storefront-watch
+heyframe-cli project frontend-watch
 ```
 
 ## Code Quality Integration

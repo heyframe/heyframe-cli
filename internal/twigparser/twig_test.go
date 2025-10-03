@@ -64,11 +64,11 @@ func TestSwExtendsParsing(t *testing.T) {
 		},
 		{
 			template: `{% sw_extends {
-    template: '@Storefront/storefront/page/checkout/finish/finish-details.html.twig',
+    template: '@Frontend/frontend/page/checkout/finish/finish-details.html.twig',
     scopes: ['default', 'subscription']
     }
 %}`,
-			path:   "@Storefront/storefront/page/checkout/finish/finish-details.html.twig",
+			path:   "@Frontend/frontend/page/checkout/finish/finish-details.html.twig",
 			scopes: []string{"default", "subscription"},
 		},
 	}

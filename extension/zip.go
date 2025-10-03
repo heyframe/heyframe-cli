@@ -60,7 +60,7 @@ var (
 		"src/Resources/app/administration/.tmp",
 		"src/Resources/app/administration/node_modules",
 		"src/Resources/app/node_modules",
-		"src/Resources/app/storefront/node_modules",
+		"src/Resources/app/frontend/node_modules",
 		"src/Resources/store",
 		"tests",
 		"var",
@@ -483,7 +483,7 @@ func filterRequires(composer map[string]interface{}, extCfg *Config) map[string]
 	provide := composer["provide"]
 	require := composer["require"]
 
-	keys := []string{"heyframe/platform", "heyframe/core", "heyframe/heyframe", "heyframe/storefront", "heyframe/administration", "heyframe/elasticsearch", "composer/installers"}
+	keys := []string{"heyframe/platform", "heyframe/core", "heyframe/heyframe", "heyframe/frontend", "heyframe/administration", "heyframe/elasticsearch", "composer/installers"}
 	if extCfg != nil {
 		keys = append(keys, extCfg.Build.Zip.Composer.ExcludedPackages...)
 	}
@@ -510,7 +510,7 @@ func addComposerReplacements(composer map[string]interface{}, minVersion string)
 	replace := composer["replace"]
 	require := composer["require"]
 
-	components := []string{"core", "administration", "storefront", "administration"}
+	components := []string{"core", "administration", "frontend", "administration"}
 
 	composerInfo, err := getComposerInfoFS()
 	if err != nil {

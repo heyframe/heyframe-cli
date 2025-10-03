@@ -18,26 +18,26 @@ func getTestContext() context.Context {
 	return logging.WithLogger(context.TODO(), logger)
 }
 
-func TestGenerateConfigWithAdminAndStorefrontFiles(t *testing.T) {
+func TestGenerateConfigWithAdminAndFrontendFiles(t *testing.T) {
 	dir := t.TempDir()
 
 	assert.NoError(t, os.MkdirAll(filepath.Join(dir, "Resources", "app", "administration", "src"), os.ModePerm))
 	assert.NoError(t, os.WriteFile(filepath.Join(dir, "Resources", "app", "administration", "src", "main.js"), []byte("test"), os.ModePerm))
-	assert.NoError(t, os.MkdirAll(filepath.Join(dir, "Resources", "app", "storefront", "src"), os.ModePerm))
-	assert.NoError(t, os.WriteFile(filepath.Join(dir, "Resources", "app", "storefront", "src", "main.js"), []byte("test"), os.ModePerm))
+	assert.NoError(t, os.MkdirAll(filepath.Join(dir, "Resources", "app", "frontend", "src"), os.ModePerm))
+	assert.NoError(t, os.WriteFile(filepath.Join(dir, "Resources", "app", "frontend", "src", "main.js"), []byte("test"), os.ModePerm))
 
 	config := BuildAssetConfigFromExtensions(getTestContext(), []asset.Source{{Name: "FroshTools", Path: dir}}, AssetBuildConfig{})
 
 	assert.True(t, config.Has("FroshTools"))
 	assert.True(t, config.RequiresAdminBuild())
-	assert.True(t, config.RequiresStorefrontBuild())
+	assert.True(t, config.RequiresFrontendBuild())
 	assert.Equal(t, "frosh-tools", config["FroshTools"].TechnicalName)
 	assert.Equal(t, "Resources/app/administration/src/main.js", *config["FroshTools"].Administration.EntryFilePath)
-	assert.Equal(t, "Resources/app/storefront/src/main.js", *config["FroshTools"].Storefront.EntryFilePath)
+	assert.Equal(t, "Resources/app/frontend/src/main.js", *config["FroshTools"].Frontend.EntryFilePath)
 	assert.Nil(t, config["FroshTools"].Administration.Webpack)
-	assert.Nil(t, config["FroshTools"].Storefront.Webpack)
+	assert.Nil(t, config["FroshTools"].Frontend.Webpack)
 	assert.Equal(t, "Resources/app/administration/src", config["FroshTools"].Administration.Path)
-	assert.Equal(t, "Resources/app/storefront/src", config["FroshTools"].Storefront.Path)
+	assert.Equal(t, "Resources/app/frontend/src", config["FroshTools"].Frontend.Path)
 }
 
 func TestGenerateConfigWithTypeScript(t *testing.T) {
@@ -46,28 +46,28 @@ func TestGenerateConfigWithTypeScript(t *testing.T) {
 	assert.NoError(t, os.MkdirAll(filepath.Join(dir, "Resources", "app", "administration", "src"), os.ModePerm))
 	assert.NoError(t, os.MkdirAll(filepath.Join(dir, "Resources", "app", "administration", "build"), os.ModePerm))
 
-	assert.NoError(t, os.MkdirAll(filepath.Join(dir, "Resources", "app", "storefront", "src"), os.ModePerm))
-	assert.NoError(t, os.MkdirAll(filepath.Join(dir, "Resources", "app", "storefront", "build"), os.ModePerm))
+	assert.NoError(t, os.MkdirAll(filepath.Join(dir, "Resources", "app", "frontend", "src"), os.ModePerm))
+	assert.NoError(t, os.MkdirAll(filepath.Join(dir, "Resources", "app", "frontend", "build"), os.ModePerm))
 
 	assert.NoError(t, os.WriteFile(filepath.Join(dir, "Resources", "app", "administration", "src", "main.ts"), []byte("test"), os.ModePerm))
 
 	assert.NoError(t, os.WriteFile(filepath.Join(dir, "Resources", "app", "administration", "build", "webpack.config.js"), []byte("test"), os.ModePerm))
 
-	assert.NoError(t, os.WriteFile(filepath.Join(dir, "Resources", "app", "storefront", "src", "main.ts"), []byte("test"), os.ModePerm))
-	assert.NoError(t, os.WriteFile(filepath.Join(dir, "Resources", "app", "storefront", "build", "webpack.config.js"), []byte("test"), os.ModePerm))
+	assert.NoError(t, os.WriteFile(filepath.Join(dir, "Resources", "app", "frontend", "src", "main.ts"), []byte("test"), os.ModePerm))
+	assert.NoError(t, os.WriteFile(filepath.Join(dir, "Resources", "app", "frontend", "build", "webpack.config.js"), []byte("test"), os.ModePerm))
 
 	config := BuildAssetConfigFromExtensions(getTestContext(), []asset.Source{{Name: "FroshTools", Path: dir}}, AssetBuildConfig{})
 
 	assert.True(t, config.Has("FroshTools"))
 	assert.True(t, config.RequiresAdminBuild())
-	assert.True(t, config.RequiresStorefrontBuild())
+	assert.True(t, config.RequiresFrontendBuild())
 	assert.Equal(t, "frosh-tools", config["FroshTools"].TechnicalName)
 	assert.Equal(t, "Resources/app/administration/src/main.ts", *config["FroshTools"].Administration.EntryFilePath)
-	assert.Equal(t, "Resources/app/storefront/src/main.ts", *config["FroshTools"].Storefront.EntryFilePath)
+	assert.Equal(t, "Resources/app/frontend/src/main.ts", *config["FroshTools"].Frontend.EntryFilePath)
 	assert.Equal(t, "Resources/app/administration/build/webpack.config.js", *config["FroshTools"].Administration.Webpack)
-	assert.Equal(t, "Resources/app/storefront/build/webpack.config.js", *config["FroshTools"].Storefront.Webpack)
+	assert.Equal(t, "Resources/app/frontend/build/webpack.config.js", *config["FroshTools"].Frontend.Webpack)
 	assert.Equal(t, "Resources/app/administration/src", config["FroshTools"].Administration.Path)
-	assert.Equal(t, "Resources/app/storefront/src", config["FroshTools"].Storefront.Path)
+	assert.Equal(t, "Resources/app/frontend/src", config["FroshTools"].Frontend.Path)
 }
 
 func TestGenerateWebpackCJS(t *testing.T) {
@@ -76,34 +76,34 @@ func TestGenerateWebpackCJS(t *testing.T) {
 	assert.NoError(t, os.MkdirAll(filepath.Join(dir, "Resources", "app", "administration", "src"), os.ModePerm))
 	assert.NoError(t, os.MkdirAll(filepath.Join(dir, "Resources", "app", "administration", "build"), os.ModePerm))
 
-	assert.NoError(t, os.MkdirAll(filepath.Join(dir, "Resources", "app", "storefront", "src"), os.ModePerm))
-	assert.NoError(t, os.MkdirAll(filepath.Join(dir, "Resources", "app", "storefront", "build"), os.ModePerm))
+	assert.NoError(t, os.MkdirAll(filepath.Join(dir, "Resources", "app", "frontend", "src"), os.ModePerm))
+	assert.NoError(t, os.MkdirAll(filepath.Join(dir, "Resources", "app", "frontend", "build"), os.ModePerm))
 
 	assert.NoError(t, os.WriteFile(filepath.Join(dir, "Resources", "app", "administration", "src", "main.ts"), []byte("test"), os.ModePerm))
 
 	assert.NoError(t, os.WriteFile(filepath.Join(dir, "Resources", "app", "administration", "build", "webpack.config.cjs"), []byte("test"), os.ModePerm))
 
-	assert.NoError(t, os.WriteFile(filepath.Join(dir, "Resources", "app", "storefront", "src", "main.ts"), []byte("test"), os.ModePerm))
-	assert.NoError(t, os.WriteFile(filepath.Join(dir, "Resources", "app", "storefront", "build", "webpack.config.cjs"), []byte("test"), os.ModePerm))
+	assert.NoError(t, os.WriteFile(filepath.Join(dir, "Resources", "app", "frontend", "src", "main.ts"), []byte("test"), os.ModePerm))
+	assert.NoError(t, os.WriteFile(filepath.Join(dir, "Resources", "app", "frontend", "build", "webpack.config.cjs"), []byte("test"), os.ModePerm))
 
 	config := BuildAssetConfigFromExtensions(getTestContext(), []asset.Source{{Name: "FroshTools", Path: dir}}, AssetBuildConfig{})
 
 	assert.True(t, config.Has("FroshTools"))
 	assert.True(t, config.RequiresAdminBuild())
-	assert.True(t, config.RequiresStorefrontBuild())
+	assert.True(t, config.RequiresFrontendBuild())
 	assert.Equal(t, "frosh-tools", config["FroshTools"].TechnicalName)
 	assert.Equal(t, "Resources/app/administration/src/main.ts", *config["FroshTools"].Administration.EntryFilePath)
-	assert.Equal(t, "Resources/app/storefront/src/main.ts", *config["FroshTools"].Storefront.EntryFilePath)
+	assert.Equal(t, "Resources/app/frontend/src/main.ts", *config["FroshTools"].Frontend.EntryFilePath)
 	assert.Equal(t, "Resources/app/administration/build/webpack.config.cjs", *config["FroshTools"].Administration.Webpack)
-	assert.Equal(t, "Resources/app/storefront/build/webpack.config.cjs", *config["FroshTools"].Storefront.Webpack)
+	assert.Equal(t, "Resources/app/frontend/build/webpack.config.cjs", *config["FroshTools"].Frontend.Webpack)
 	assert.Equal(t, "Resources/app/administration/src", config["FroshTools"].Administration.Path)
-	assert.Equal(t, "Resources/app/storefront/src", config["FroshTools"].Storefront.Path)
+	assert.Equal(t, "Resources/app/frontend/src", config["FroshTools"].Frontend.Path)
 }
 
-func TestGenerateConfigAddsStorefrontAlwaysAsEntrypoint(t *testing.T) {
+func TestGenerateConfigAddsFrontendAlwaysAsEntrypoint(t *testing.T) {
 	config := BuildAssetConfigFromExtensions(getTestContext(), []asset.Source{}, AssetBuildConfig{})
 
-	assert.False(t, config.RequiresStorefrontBuild())
+	assert.False(t, config.RequiresFrontendBuild())
 	assert.False(t, config.RequiresAdminBuild())
 }
 

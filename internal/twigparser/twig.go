@@ -312,7 +312,7 @@ func splitAndTrim(s, sep string) []string {
 // parseSwExtendsLiteral parses the object literal inside a sw_extends tag.
 // It expects an input like:
 //
-//	template: '@Storefront/storefront/page/checkout/finish/finish-details.html.twig',
+//	template: '@Frontend/frontend/page/checkout/finish/finish-details.html.twig',
 //	scopes: ['default', 'subscription']
 func parseSwExtendsLiteral(s string) (string, []string, error) {
 	var tmpl string

@@ -1,4 +1,4 @@
-package storefronttwiglinter
+package frontendtwiglinter
 
 import (
 	"testing"

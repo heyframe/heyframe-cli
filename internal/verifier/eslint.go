@@ -48,7 +48,7 @@ func (e Eslint) Name() string {
 }
 
 func (e Eslint) Check(ctx context.Context, check *Check, config ToolConfig) error {
-	paths := append([]string{}, config.StorefrontDirectories...)
+	paths := append([]string{}, config.FrontendDirectories...)
 	paths = append(paths, config.AdminDirectories...)
 
 	var gr errgroup.Group
@@ -109,7 +109,7 @@ func (e Eslint) Check(ctx context.Context, check *Check, config ToolConfig) erro
 }
 
 func (e Eslint) Fix(ctx context.Context, config ToolConfig) error {
-	paths := append([]string{}, config.StorefrontDirectories...)
+	paths := append([]string{}, config.FrontendDirectories...)
 	paths = append(paths, config.AdminDirectories...)
 	env := append(os.Environ(), fmt.Sprintf("HEYFRAME_VERSION=%s", config.MinHeyFrameVersion))
 

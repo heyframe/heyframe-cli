@@ -30,7 +30,7 @@ func BuildAssetsForExtensions(ctx context.Context, sources []asset.Source, asset
 		return err
 	}
 
-	if !cfgs.RequiresAdminBuild() && !cfgs.RequiresStorefrontBuild() {
+	if !cfgs.RequiresAdminBuild() && !cfgs.RequiresFrontendBuild() {
 		logging.FromContext(ctx).Infof("Building assets has been skipped as not required")
 		return nil
 	}
@@ -97,26 +97,26 @@ func BuildAssetsForExtensions(ctx context.Context, sources []asset.Source, asset
 
 		if len(nonCompatibleExtensions) != 0 {
 			if projectRequiresBuild(heyframeRoot) {
-				// add the storefront itself as plugin into json
+				// add the frontend itself as plugin into json
 				var basePath string
 				if heyframeRoot == "" {
-					basePath = "src/Storefront/"
+					basePath = "src/Frontend/"
 				} else {
 					basePath = strings.TrimLeft(
-						strings.Replace(PlatformPath(heyframeRoot, "Storefront", ""), heyframeRoot, "", 1),
+						strings.Replace(PlatformPath(heyframeRoot, "Frontend", ""), heyframeRoot, "", 1),
 						"/",
 					) + "/"
 				}
 
-				storefrontEntryPath := "Resources/app/storefront/src/main.js"
+				frontendEntryPath := "Resources/app/frontend/src/main.js"
 				adminEntryPath := "Resources/app/administration/src/main.js"
-				nonCompatibleExtensions["Storefront"] = &ExtensionAssetConfigEntry{
+				nonCompatibleExtensions["Frontend"] = &ExtensionAssetConfigEntry{
 					BasePath:      basePath,
 					Views:         []string{"Resources/views"},
-					TechnicalName: "storefront",
-					Storefront: ExtensionAssetConfigStorefront{
-						Path:          "Resources/app/storefront/src",
-						EntryFilePath: &storefrontEntryPath,
+					TechnicalName: "frontend",
+					Frontend: ExtensionAssetConfigFrontend{
+						Path:          "Resources/app/frontend/src",
+						EntryFilePath: &frontendEntryPath,
 						StyleFiles:    []string{},
 					},
 					Administration: ExtensionAssetConfigAdmin{
@@ -184,45 +184,45 @@ func BuildAssetsForExtensions(ctx context.Context, sources []asset.Source, asset
 		administrationSection.End(ctx)
 	}
 
-	if !assetConfig.DisableStorefrontBuild && cfgs.RequiresStorefrontBuild() {
-		storefrontSection := ci.Default.Section(ctx, "Building storefront assets")
+	if !assetConfig.DisableFrontendBuild && cfgs.RequiresFrontendBuild() {
+		frontendSection := ci.Default.Section(ctx, "Building frontend assets")
 		// Build all extensions compatible with esbuild first
-		for name, entry := range cfgs.FilterByStorefrontAndEsBuild(true) {
+		for name, entry := range cfgs.FilterByFrontendAndEsBuild(true) {
 			isNewLayout := false
 
 			if minVersion == DevVersionNumber || version.Must(version.NewVersion(minVersion)).GreaterThanOrEqual(version.Must(version.NewVersion("6.6.0.0"))) {
 				isNewLayout = true
 			}
 
-			options := esbuild.NewAssetCompileOptionsStorefront(name, entry.BasePath, isNewLayout)
+			options := esbuild.NewAssetCompileOptionsFrontend(name, entry.BasePath, isNewLayout)
 
 			if _, err := esbuild.CompileExtensionAsset(ctx, options); err != nil {
 				return err
 			}
-			logging.FromContext(ctx).Infof("Building storefront assets for %s using ESBuild", name)
+			logging.FromContext(ctx).Infof("Building frontend assets for %s using ESBuild", name)
 		}
 
-		nonCompatibleExtensions := cfgs.FilterByStorefrontAndEsBuild(false)
+		nonCompatibleExtensions := cfgs.FilterByFrontendAndEsBuild(false)
 
 		if len(nonCompatibleExtensions) != 0 {
-			// add the storefront itself as plugin into json
+			// add the frontend itself as plugin into json
 			var basePath string
 			if heyframeRoot == "" {
-				basePath = "src/Storefront/"
+				basePath = "src/Frontend/"
 			} else {
 				basePath = strings.TrimLeft(
-					strings.Replace(PlatformPath(heyframeRoot, "Storefront", ""), heyframeRoot, "", 1),
+					strings.Replace(PlatformPath(heyframeRoot, "Frontend", ""), heyframeRoot, "", 1),
 					"/",
 				) + "/"
 			}
 
-			entryPath := "Resources/app/storefront/src/main.js"
-			nonCompatibleExtensions["Storefront"] = &ExtensionAssetConfigEntry{
+			entryPath := "Resources/app/frontend/src/main.js"
+			nonCompatibleExtensions["Frontend"] = &ExtensionAssetConfigEntry{
 				BasePath:      basePath,
 				Views:         []string{"Resources/views"},
-				TechnicalName: "storefront",
-				Storefront: ExtensionAssetConfigStorefront{
-					Path:          "Resources/app/storefront/src",
+				TechnicalName: "frontend",
+				Frontend: ExtensionAssetConfigFrontend{
+					Path:          "Resources/app/frontend/src",
 					EntryFilePath: &entryPath,
 					StyleFiles:    []string{},
 				},
@@ -235,16 +235,16 @@ func BuildAssetsForExtensions(ctx context.Context, sources []asset.Source, asset
 				return err
 			}
 
-			storefrontRoot := PlatformPath(heyframeRoot, "Storefront", "Resources/app/storefront")
+			frontendRoot := PlatformPath(heyframeRoot, "Frontend", "Resources/app/frontend")
 
-			if assetConfig.NPMForceInstall || !nodeModulesExists(storefrontRoot) {
-				if err := patchPackageLockToRemoveCanIUsePackage(path.Join(storefrontRoot, "package-lock.json")); err != nil {
+			if assetConfig.NPMForceInstall || !nodeModulesExists(frontendRoot) {
+				if err := patchPackageLockToRemoveCanIUsePackage(path.Join(frontendRoot, "package-lock.json")); err != nil {
 					return err
 				}
 
 				additionalNpmParameters := []string{"caniuse-lite"}
 
-				npmPackage, err := getNpmPackage(storefrontRoot)
+				npmPackage, err := getNpmPackage(frontendRoot)
 				if err != nil {
 					return err
 				}
@@ -253,14 +253,14 @@ func BuildAssetsForExtensions(ctx context.Context, sources []asset.Source, asset
 					additionalNpmParameters = append(additionalNpmParameters, "--production")
 				}
 
-				if err := InstallNPMDependencies(ctx, storefrontRoot, npmPackage, additionalNpmParameters...); err != nil {
+				if err := InstallNPMDependencies(ctx, frontendRoot, npmPackage, additionalNpmParameters...); err != nil {
 					return err
 				}
 
 				// As we call npm install caniuse-lite, we need to run the postinstal script manually.
 				if npmPackage.HasScript("postinstall") {
 					npmRunPostInstall := exec.CommandContext(ctx, "npm", "run", "postinstall")
-					npmRunPostInstall.Dir = storefrontRoot
+					npmRunPostInstall.Dir = frontendRoot
 					npmRunPostInstall.Stdout = os.Stdout
 					npmRunPostInstall.Stderr = os.Stderr
 
@@ -269,9 +269,9 @@ func BuildAssetsForExtensions(ctx context.Context, sources []asset.Source, asset
 					}
 				}
 
-				if _, err := os.Stat(path.Join(storefrontRoot, "vendor/bootstrap")); os.IsNotExist(err) {
-					npmVendor := exec.CommandContext(ctx, "node", path.Join(storefrontRoot, "copy-to-vendor.js"))
-					npmVendor.Dir = storefrontRoot
+				if _, err := os.Stat(path.Join(frontendRoot, "vendor/bootstrap")); os.IsNotExist(err) {
+					npmVendor := exec.CommandContext(ctx, "node", path.Join(frontendRoot, "copy-to-vendor.js"))
+					npmVendor.Dir = frontendRoot
 					npmVendor.Stdout = os.Stdout
 					npmVendor.Stderr = os.Stderr
 					if err := npmVendor.Run(); err != nil {
@@ -283,7 +283,7 @@ func BuildAssetsForExtensions(ctx context.Context, sources []asset.Source, asset
 			envList := []string{
 				"NODE_ENV=production",
 				fmt.Sprintf("PROJECT_ROOT=%s", heyframeRoot),
-				fmt.Sprintf("STOREFRONT_ROOT=%s", storefrontRoot),
+				fmt.Sprintf("STOREFRONT_ROOT=%s", frontendRoot),
 			}
 
 			if assetConfig.Browserslist != "" {
@@ -291,7 +291,7 @@ func BuildAssetsForExtensions(ctx context.Context, sources []asset.Source, asset
 			}
 
 			nodeWebpackCmd := exec.CommandContext(ctx, "node", "node_modules/.bin/webpack", "--config", "webpack.config.js")
-			nodeWebpackCmd.Dir = storefrontRoot
+			nodeWebpackCmd.Dir = frontendRoot
 			nodeWebpackCmd.Env = os.Environ()
 			nodeWebpackCmd.Env = append(nodeWebpackCmd.Env, envList...)
 			nodeWebpackCmd.Stdout = os.Stdout
@@ -302,7 +302,7 @@ func BuildAssetsForExtensions(ctx context.Context, sources []asset.Source, asset
 			}
 
 			if assetConfig.CleanupNodeModules {
-				defer deletePaths(ctx, path.Join(storefrontRoot, "node_modules"))
+				defer deletePaths(ctx, path.Join(frontendRoot, "node_modules"))
 			}
 
 			if err != nil {
@@ -310,7 +310,7 @@ func BuildAssetsForExtensions(ctx context.Context, sources []asset.Source, asset
 			}
 		}
 
-		storefrontSection.End(ctx)
+		frontendSection.End(ctx)
 	}
 
 	if err := storeAssetCaches(ctx, cfgs, assetConfig); err != nil {

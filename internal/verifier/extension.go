@@ -24,13 +24,13 @@ func ConvertExtensionToToolConfig(ext extension.Extension) (*ToolConfig, error) 
 	}
 
 	cfg := &ToolConfig{
-		ToolDirectory:         GetToolDirectory(),
-		Extension:             ext,
-		ValidationIgnores:     ignores,
-		RootDir:               ext.GetPath(),
-		SourceDirectories:     ext.GetSourceDirs(),
-		AdminDirectories:      getAdminFolders(ext),
-		StorefrontDirectories: getStorefrontFolders(ext),
+		ToolDirectory:       GetToolDirectory(),
+		Extension:           ext,
+		ValidationIgnores:   ignores,
+		RootDir:             ext.GetPath(),
+		SourceDirectories:   ext.GetSourceDirs(),
+		AdminDirectories:    getAdminFolders(ext),
+		FrontendDirectories: getFrontendFolders(ext),
 	}
 
 	constraint, err := ext.GetHeyFrameVersionConstraint()
@@ -96,15 +96,15 @@ func getAdminFolders(ext extension.Extension) []string {
 	return filterNotExistingPaths(paths)
 }
 
-func getStorefrontFolders(ext extension.Extension) []string {
+func getFrontendFolders(ext extension.Extension) []string {
 	paths := []string{}
 
 	for _, sourceDirs := range ext.GetSourceDirs() {
-		paths = append(paths, path.Join(sourceDirs, "Resources", "app", "storefront"))
+		paths = append(paths, path.Join(sourceDirs, "Resources", "app", "frontend"))
 	}
 
 	for _, bundle := range ext.GetExtensionConfig().Build.ExtraBundles {
-		paths = append(paths, path.Join(ext.GetRootDir(), bundle.Path, "Resources", "app", "storefront"))
+		paths = append(paths, path.Join(ext.GetRootDir(), bundle.Path, "Resources", "app", "frontend"))
 	}
 
 	return filterNotExistingPaths(paths)

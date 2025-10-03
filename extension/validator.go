@@ -91,7 +91,7 @@ func RunValidation(ctx context.Context, ext Extension, check validation.Check) {
 	runDefaultValidate(ext, check)
 	ext.Validate(ctx, check)
 	validateAdministrationSnippets(ext, check)
-	validateStorefrontSnippets(ext, check)
+	validateFrontendSnippets(ext, check)
 	validateAssets(ext, check)
 	validateExtensionIcon(ext, check)
 	// Note: ignores are now applied in the verifier layer

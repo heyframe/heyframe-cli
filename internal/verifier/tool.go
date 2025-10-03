@@ -41,8 +41,8 @@ type ToolConfig struct {
 	ValidationIgnores []validation.ToolConfigIgnore
 	// Contains a list of directories that are considered as admin code
 	AdminDirectories []string
-	// Contains a list of directories that are considered as storefront code
-	StorefrontDirectories []string
+	// Contains a list of directories that are considered as frontend code
+	FrontendDirectories []string
 
 	Extension extension.Extension
 }

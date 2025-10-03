@@ -13,17 +13,17 @@ import (
 	"github.com/heyframe/heyframe-cli/internal/html"
 	"github.com/heyframe/heyframe-cli/internal/validation"
 	"github.com/heyframe/heyframe-cli/internal/verifier/twiglinter"
-	_ "github.com/heyframe/heyframe-cli/internal/verifier/twiglinter/storefronttwiglinter"
+	_ "github.com/heyframe/heyframe-cli/internal/verifier/twiglinter/frontendtwiglinter"
 )
 
-type StorefrontTwigLinter struct{}
+type FrontendTwigLinter struct{}
 
-func (s StorefrontTwigLinter) Name() string {
-	return "storefront-twig"
+func (s FrontendTwigLinter) Name() string {
+	return "frontend-twig"
 }
 
-func (s StorefrontTwigLinter) Check(ctx context.Context, check *Check, config ToolConfig) error {
-	fixers := twiglinter.GetStorefrontFixers(version.Must(version.NewVersion(config.MinHeyFrameVersion)))
+func (s FrontendTwigLinter) Check(ctx context.Context, check *Check, config ToolConfig) error {
+	fixers := twiglinter.GetFrontendFixers(version.Must(version.NewVersion(config.MinHeyFrameVersion)))
 
 	for _, p := range config.SourceDirectories {
 		twigDir := filepath.Join(p, "Resources", "views")
@@ -52,7 +52,7 @@ func (s StorefrontTwigLinter) Check(ctx context.Context, check *Check, config To
 
 			relPath := strings.TrimPrefix(strings.TrimPrefix(path, "/private"), config.RootDir+"/")
 
-			parsed, err := html.NewStorefrontParser(string(file))
+			parsed, err := html.NewFrontendParser(string(file))
 			if err != nil {
 				check.AddResult(validation.CheckResult{
 					Path:       relPath,
@@ -86,14 +86,14 @@ func (s StorefrontTwigLinter) Check(ctx context.Context, check *Check, config To
 
 	return nil
 }
-func (s StorefrontTwigLinter) Fix(ctx context.Context, config ToolConfig) error {
+func (s FrontendTwigLinter) Fix(ctx context.Context, config ToolConfig) error {
 	return nil
 }
 
-func (a StorefrontTwigLinter) Format(ctx context.Context, config ToolConfig, dryRun bool) error {
+func (a FrontendTwigLinter) Format(ctx context.Context, config ToolConfig, dryRun bool) error {
 	return nil
 }
 
 func init() {
-	AddTool(StorefrontTwigLinter{})
+	AddTool(FrontendTwigLinter{})
 }

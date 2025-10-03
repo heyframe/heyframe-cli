@@ -18,7 +18,7 @@ import (
 	"github.com/heyframe/heyframe-cli/platform"
 )
 
-const storefrontBundleName = "Storefront"
+const frontendBundleName = "Frontend"
 
 func findClosestHeyFrameProject() (string, error) {
 	projectRoot := os.Getenv("PROJECT_ROOT")
@@ -110,8 +110,8 @@ func filterAndGetSources(cmd *cobra.Command, projectRoot string, shopCfg *platfo
 		}
 
 		sources = slices.DeleteFunc(sources, func(s asset.Source) bool {
-			// We want to always include the Storefront extension, otherwise the watchers have problems
-			if s.Name == storefrontBundleName {
+			// We want to always include the Frontend extension, otherwise the watchers have problems
+			if s.Name == frontendBundleName {
 				return false
 			}
 
@@ -154,8 +154,8 @@ func filterAndGetSources(cmd *cobra.Command, projectRoot string, shopCfg *platfo
 	if onlyExtensions == "" && skipExtensions == "" && !onlyCustomStatic {
 		logging.FromContext(cmd.Context()).Infof("Excluding extensions based on project config: %s", strings.Join(shopCfg.Build.ExcludeExtensions, ", "))
 		sources = slices.DeleteFunc(sources, func(s asset.Source) bool {
-			// We want to always include the Storefront extension, otherwise the watchers have problems
-			if s.Name == storefrontBundleName {
+			// We want to always include the Frontend extension, otherwise the watchers have problems
+			if s.Name == frontendBundleName {
 				return false
 			}
 
@@ -166,8 +166,8 @@ func filterAndGetSources(cmd *cobra.Command, projectRoot string, shopCfg *platfo
 	if onlyExtensions != "" {
 		logging.FromContext(cmd.Context()).Infof("Only including extensions: %s", onlyExtensions)
 		sources = slices.DeleteFunc(sources, func(s asset.Source) bool {
-			// We want to always include the Storefront extension, otherwise the watchers have problems
-			if s.Name == storefrontBundleName {
+			// We want to always include the Frontend extension, otherwise the watchers have problems
+			if s.Name == frontendBundleName {
 				return false
 			}
 
@@ -176,8 +176,8 @@ func filterAndGetSources(cmd *cobra.Command, projectRoot string, shopCfg *platfo
 	} else if skipExtensions != "" {
 		logging.FromContext(cmd.Context()).Infof("Excluding extensions: %s", skipExtensions)
 		sources = slices.DeleteFunc(sources, func(s asset.Source) bool {
-			// We want to always include the Storefront extension, otherwise the watchers have problems
-			if s.Name == storefrontBundleName {
+			// We want to always include the Frontend extension, otherwise the watchers have problems
+			if s.Name == frontendBundleName {
 				return false
 			}
 

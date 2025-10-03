@@ -53,12 +53,12 @@ type ConfigBuild struct {
 	KeepSourceMaps bool `yaml:"keep_source_maps,omitempty"`
 	// Paths to delete for the final build
 	CleanupPaths []string `yaml:"cleanup_paths,omitempty"`
-	// Browserslist configuration for the Storefront build
+	// Browserslist configuration for the Frontend build
 	Browserslist string `yaml:"browserslist,omitempty"`
 	// Extensions to exclude from the build
 	ExcludeExtensions []string `yaml:"exclude_extensions,omitempty"`
-	// When enabled, the storefront build will be skipped
-	DisableStorefrontBuild bool `yaml:"disable_storefront_build,omitempty"`
+	// When enabled, the frontend build will be skipped
+	DisableFrontendBuild bool `yaml:"disable_frontend_build,omitempty"`
 	// Extensions to force build for, even if they have compiled files
 	ForceExtensionBuild []ConfigBuildExtension `yaml:"force_extension_build,omitempty"`
 	// When enabled, the heyframe admin will be built

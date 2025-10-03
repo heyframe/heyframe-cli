@@ -93,7 +93,7 @@ func GetConfigFromProject(root string) (*ToolConfig, error) {
 
 	sourceDirectories := []string{}
 	adminDirectories := []string{}
-	storefrontDirectories := []string{}
+	frontendDirectories := []string{}
 
 	vendorPath := path.Join(root, "vendor")
 
@@ -130,7 +130,7 @@ func GetConfigFromProject(root string) (*ToolConfig, error) {
 
 		sourceDirectories = append(sourceDirectories, ext.GetSourceDirs()...)
 		adminDirectories = append(adminDirectories, getAdminFolders(ext)...)
-		storefrontDirectories = append(storefrontDirectories, getStorefrontFolders(ext)...)
+		frontendDirectories = append(frontendDirectories, getFrontendFolders(ext)...)
 	}
 
 	var rootComposerJsonData rootComposerJson
@@ -156,14 +156,14 @@ func GetConfigFromProject(root string) (*ToolConfig, error) {
 		sourceDirectories = append(sourceDirectories, path.Join(root, bundlePath))
 
 		expectedAdminPath := path.Join(root, bundlePath, "Resources", "app", "administration")
-		expectedStorefrontPath := path.Join(root, bundlePath, "Resources", "app", "storefront")
+		expectedFrontendPath := path.Join(root, bundlePath, "Resources", "app", "frontend")
 
 		if _, err := os.Stat(expectedAdminPath); err == nil {
 			adminDirectories = append(adminDirectories, expectedAdminPath)
 		}
 
-		if _, err := os.Stat(expectedStorefrontPath); err == nil {
-			storefrontDirectories = append(storefrontDirectories, expectedStorefrontPath)
+		if _, err := os.Stat(expectedFrontendPath); err == nil {
+			frontendDirectories = append(frontendDirectories, expectedFrontendPath)
 		}
 	}
 
@@ -180,12 +180,12 @@ func GetConfigFromProject(root string) (*ToolConfig, error) {
 	}
 
 	toolCfg := &ToolConfig{
-		ToolDirectory:         GetToolDirectory(),
-		RootDir:               root,
-		SourceDirectories:     sourceDirectories,
-		AdminDirectories:      adminDirectories,
-		StorefrontDirectories: storefrontDirectories,
-		ValidationIgnores:     validationIgnores,
+		ToolDirectory:       GetToolDirectory(),
+		RootDir:             root,
+		SourceDirectories:   sourceDirectories,
+		AdminDirectories:    adminDirectories,
+		FrontendDirectories: frontendDirectories,
+		ValidationIgnores:   validationIgnores,
 	}
 
 	if err := determineVersionRange(toolCfg, constraint); err != nil {

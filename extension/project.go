@@ -130,10 +130,10 @@ func FindAssetSourcesOfProject(ctx context.Context, project string, cfg *platfor
 		}
 
 		sources = append(sources, asset.Source{
-			Name:                        name,
-			Path:                        path.Join(project, bundlePath),
-			AdminEsbuildCompatible:      bundleConfig.Build.Zip.Assets.EnableESBuildForAdmin,
-			StorefrontEsbuildCompatible: bundleConfig.Build.Zip.Assets.EnableESBuildForStorefront,
+			Name:                      name,
+			Path:                      path.Join(project, bundlePath),
+			AdminEsbuildCompatible:    bundleConfig.Build.Zip.Assets.EnableESBuildForAdmin,
+			FrontendEsbuildCompatible: bundleConfig.Build.Zip.Assets.EnableESBuildForFrontend,
 		})
 	}
 
@@ -176,7 +176,7 @@ func DumpAndLoadAssetSourcesOfProject(ctx context.Context, project string, cfg *
 	var sources []asset.Source
 
 	for name := range pluginsJson {
-		if pluginsJson[name].Administration.EntryFilePath != nil || pluginsJson[name].Storefront.EntryFilePath != nil {
+		if pluginsJson[name].Administration.EntryFilePath != nil || pluginsJson[name].Frontend.EntryFilePath != nil {
 			source := asset.Source{
 				Name: name,
 				Path: pluginsJson[name].BasePath,
@@ -184,7 +184,7 @@ func DumpAndLoadAssetSourcesOfProject(ctx context.Context, project string, cfg *
 
 			if extensionCfg, err := readExtensionConfig(path.Join(project, pluginsJson[name].BasePath)); err == nil {
 				source.AdminEsbuildCompatible = extensionCfg.Build.Zip.Assets.EnableESBuildForAdmin
-				source.StorefrontEsbuildCompatible = extensionCfg.Build.Zip.Assets.EnableESBuildForStorefront
+				source.FrontendEsbuildCompatible = extensionCfg.Build.Zip.Assets.EnableESBuildForFrontend
 				source.NpmStrict = extensionCfg.Build.Zip.Assets.NpmStrict
 			}
 

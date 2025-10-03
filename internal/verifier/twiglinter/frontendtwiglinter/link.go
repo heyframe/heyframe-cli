@@ -1,4 +1,4 @@
-package storefronttwiglinter
+package frontendtwiglinter
 
 import (
 	"strings"
@@ -86,5 +86,5 @@ func (l LinkCheck) Fix(nodes []html.Node) error {
 }
 
 func init() {
-	twiglinter.AddStorefrontFixer(LinkCheck{})
+	twiglinter.AddFrontendFixer(LinkCheck{})
 }

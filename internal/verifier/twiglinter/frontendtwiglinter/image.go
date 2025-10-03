@@ -1,4 +1,4 @@
-package storefronttwiglinter
+package frontendtwiglinter
 
 import (
 	"strings"
@@ -64,5 +64,5 @@ func (i ImageAltCheck) Fix(nodes []html.Node) error {
 }
 
 func init() {
-	twiglinter.AddStorefrontFixer(ImageAltCheck{})
+	twiglinter.AddFrontendFixer(ImageAltCheck{})
 }

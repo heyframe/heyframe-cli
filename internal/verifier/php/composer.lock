@@ -1589,12 +1589,12 @@
             "version": "0.1.11",
             "source": {
                 "type": "git",
-                "url": "https://github.com/heyframeLabs/phpstan-heyframe.git",
+                "url": "https://github.com/heyframe/phpstan-heyframe.git",
                 "reference": "7f18f3b865ce4b9a585594f26cfc24c2182134c8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/heyframeLabs/phpstan-heyframe/zipball/7f18f3b865ce4b9a585594f26cfc24c2182134c8",
+                "url": "https://api.github.com/repos/heyframe/phpstan-heyframe/zipball/7f18f3b865ce4b9a585594f26cfc24c2182134c8",
                 "reference": "7f18f3b865ce4b9a585594f26cfc24c2182134c8",
                 "shasum": ""
             },
@@ -1628,8 +1628,8 @@
             ],
             "description": "PhpStan Rules for HeyFrame",
             "support": {
-                "issues": "https://github.com/heyframeLabs/phpstan-heyframe/issues",
-                "source": "https://github.com/heyframeLabs/phpstan-heyframe/tree/0.1.11"
+                "issues": "https://github.com/heyframe/phpstan-heyframe/issues",
+                "source": "https://github.com/heyframe/phpstan-heyframe/tree/0.1.11"
             },
             "time": "2025-06-30T08:42:23+00:00"
         },

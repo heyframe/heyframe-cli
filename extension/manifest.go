@@ -9,7 +9,7 @@ type Manifest struct {
 	Meta            Meta             `xml:"meta"`
 	Setup           *Setup           `xml:"setup,omitempty"`
 	Admin           *Admin           `xml:"admin,omitempty"`
-	Storefront      *Storefront      `xml:"storefront,omitempty"`
+	Frontend        *Frontend        `xml:"frontend,omitempty"`
 	Permissions     *Permissions     `xml:"permissions,omitempty"`
 	AllowedHosts    *AllowedHosts    `xml:"allowed-hosts,omitempty"`
 	CustomFields    *CustomFields    `xml:"custom-fields,omitempty"`
@@ -48,7 +48,7 @@ type Admin struct {
 	BaseAppUrl   string         `xml:"base-app-url,omitempty"`
 }
 
-type Storefront struct {
+type Frontend struct {
 	TemplateLoadPriority int `xml:"template-load-priority,omitempty"`
 }
 

@@ -50,7 +50,7 @@ func NewAssetCompileOptionsAdmin(name, path string) AssetCompileOptions {
 	}
 }
 
-func NewAssetCompileOptionsStorefront(name, path string, newLayout bool) AssetCompileOptions {
+func NewAssetCompileOptionsFrontend(name, path string, newLayout bool) AssetCompileOptions {
 	kebabCased := ToKebabCase(name)
 
 	jsFile := filepath.Join("js", kebabCased+DotJs)
@@ -62,12 +62,12 @@ func NewAssetCompileOptionsStorefront(name, path string, newLayout bool) AssetCo
 	return AssetCompileOptions{
 		Name:           name,
 		Path:           path,
-		EntrypointDir:  "Resources/app/storefront/src",
-		OutputDir:      "Resources/app/storefront/dist/storefront",
+		EntrypointDir:  "Resources/app/frontend/src",
+		OutputDir:      "Resources/app/frontend/dist/frontend",
 		ProductionMode: true,
 		OutputJSFile:   jsFile,
 		OutputCSSFile:  filepath.Join("css", kebabCased+".css"),
-		// We never emit CSS for the storefront, they are always lying in a separate SCSS file entrypoint
+		// We never emit CSS for the frontend, they are always lying in a separate SCSS file entrypoint
 		DisableSass: true,
 	}
 }

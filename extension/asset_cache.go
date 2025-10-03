@@ -81,8 +81,8 @@ func restoreAssetCache(ctx context.Context, source *ExtensionAssetConfigEntry, a
 		source.Administration.Webpack = nil
 	}
 
-	if source.Storefront.EntryFilePath != nil {
-		if err := system.GetDefaultCache().RestoreFolderCache(ctx, cacheKey+"-storefront", source.GetOutputStorefrontPath()); err != nil {
+	if source.Frontend.EntryFilePath != nil {
+		if err := system.GetDefaultCache().RestoreFolderCache(ctx, cacheKey+"-frontend", source.GetOutputFrontendPath()); err != nil {
 			if errors.Is(err, system.ErrCacheNotFound) {
 				return nil
 			}
@@ -90,10 +90,10 @@ func restoreAssetCache(ctx context.Context, source *ExtensionAssetConfigEntry, a
 			return err
 		}
 
-		logging.FromContext(ctx).Infof("Restored storefront assets for %s from cache", source.TechnicalName)
+		logging.FromContext(ctx).Infof("Restored frontend assets for %s from cache", source.TechnicalName)
 
-		source.Storefront.EntryFilePath = nil
-		source.Storefront.Webpack = nil
+		source.Frontend.EntryFilePath = nil
+		source.Frontend.Webpack = nil
 	}
 
 	return nil
@@ -116,8 +116,8 @@ func storeAssetCache(ctx context.Context, source *ExtensionAssetConfigEntry, ass
 		}
 	}
 
-	if source.Storefront.EntryFilePath != nil {
-		if err := system.GetDefaultCache().StoreFolderCache(ctx, cacheKey+"-storefront", source.GetOutputStorefrontPath()); err != nil {
+	if source.Frontend.EntryFilePath != nil {
+		if err := system.GetDefaultCache().StoreFolderCache(ctx, cacheKey+"-frontend", source.GetOutputFrontendPath()); err != nil {
 			return err
 		}
 	}

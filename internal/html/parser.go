@@ -1667,8 +1667,8 @@ func NewAdminParser(input string) (ConfiguredNodeList, error) {
 	}, nil
 }
 
-// NewStorefrontParser creates a parser configured for storefront twig files (indents twig block children).
-func NewStorefrontParser(input string) (ConfiguredNodeList, error) {
+// NewFrontendParser creates a parser configured for frontend twig files (indents twig block children).
+func NewFrontendParser(input string) (ConfiguredNodeList, error) {
 	config := DefaultIndentConfig()
 	config.TwigBlockIndentChildren = true
 

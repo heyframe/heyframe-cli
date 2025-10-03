@@ -25,9 +25,9 @@ import (
 
 // cleanupPaths are paths that are not nesscarry for the production build.
 var cleanupPaths = []string{
-	"vendor/heyframe/storefront/Resources/app/storefront/vendor/bootstrap/dist",
-	"vendor/heyframe/storefront/Resources/app/storefront/test",
-	"vendor/heyframe/storefront/Test",
+	"vendor/heyframe/frontend/Resources/app/frontend/vendor/bootstrap/dist",
+	"vendor/heyframe/frontend/Resources/app/frontend/test",
+	"vendor/heyframe/frontend/Test",
 	"vendor/heyframe/core/Framework/Test",
 	"vendor/heyframe/core/Content/Test",
 	"vendor/heyframe/core/Checkout/Test",
@@ -118,7 +118,7 @@ var projectCI = &cobra.Command{
 			HeyFrameVersion:              heyframeConstraint,
 			Browserslist:                 shopCfg.Build.Browserslist,
 			SkipExtensionsWithBuildFiles: true,
-			DisableStorefrontBuild:       shopCfg.Build.DisableStorefrontBuild,
+			DisableFrontendBuild:         shopCfg.Build.DisableFrontendBuild,
 			ForceExtensionBuild:          convertForceExtensionBuild(shopCfg.Build.ForceExtensionBuild),
 			ForceAdminBuild:              shopCfg.Build.ForceAdminBuild,
 			KeepNodeModules:              shopCfg.Build.KeepNodeModules,

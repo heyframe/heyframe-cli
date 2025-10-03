@@ -1,4 +1,4 @@
-package storefronttwiglinter
+package frontendtwiglinter
 
 import (
 	"github.com/shyim/go-version"
@@ -48,5 +48,5 @@ func (s StyleFixer) Fix(nodes []html.Node) error {
 }
 
 func init() {
-	twiglinter.AddStorefrontFixer(StyleFixer{})
+	twiglinter.AddFrontendFixer(StyleFixer{})
 }
