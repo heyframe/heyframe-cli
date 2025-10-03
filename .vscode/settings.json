@@ -29,6 +29,6 @@
     "go.toolsManagement.autoUpdate": false,
     "go.toolsManagement.checkForUpdates": "off",
     "yaml.schemas": {
-        "https://raw.githubusercontent.com/heyframe/heyframe-cli/main/extension/heyFrame-extension-schema.json": "file:///workspaces/heyFrame-cli/.heyFrame-extension.yml"
+        "https://raw.githubusercontent.com/heyframe/heyframe-cli/main/extension/heyframe-extension-schema.json": "file:///workspaces/heyframe-cli/.heyframe-extension.yml"
     },
 }

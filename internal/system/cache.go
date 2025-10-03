@@ -5,7 +5,7 @@ import (
 	"path"
 )
 
-// GetHeyFrameCliCacheDir returns the base cache directory for heyFrame-c
+// GetHeyFrameCliCacheDir returns the base cache directory for heyframe-c
 func GetHeyFrameCliCacheDir() string {
 	if dir := os.Getenv("HEYFRAME_CLI_CACHE_DIR"); dir != "" {
 		return dir
@@ -13,5 +13,5 @@ func GetHeyFrameCliCacheDir() string {
 
 	cacheDir, _ := os.UserCacheDir()
 
-	return path.Join(cacheDir, "heyFrame-cli")
+	return path.Join(cacheDir, "heyframe-cli")
 }

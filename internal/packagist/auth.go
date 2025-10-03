@@ -180,7 +180,7 @@ func fillAuthStruct(auth *ComposerAuth) *ComposerAuth {
 	}
 
 	if composerToken != "" {
-		auth.BearerAuth["packages.heyFrame.com"] = composerToken
+		auth.BearerAuth["packages.heyframe.com"] = composerToken
 	}
 
 	return auth

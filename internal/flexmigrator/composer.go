@@ -12,8 +12,8 @@ func MigrateComposerJson(project string) error {
 		return err
 	}
 
-	if composerJson.HasPackage("heyFrame/recovery") {
-		delete(composerJson.Require, "heyFrame/recovery")
+	if composerJson.HasPackage("heyframe/recovery") {
+		delete(composerJson.Require, "heyframe/recovery")
 	}
 
 	composerJson.Require["symfony/flex"] = "^2"
@@ -24,7 +24,7 @@ func MigrateComposerJson(project string) error {
 	}
 
 	composerJson.RequireDev = packagist.ComposerPackageLink{}
-	composerJson.RequireDev["heyFrame/dev-tools"] = "*"
+	composerJson.RequireDev["heyframe/dev-tools"] = "*"
 
 	if composerJson.HasConfig("platform") {
 		delete(composerJson.Config, "platform")
@@ -37,7 +37,7 @@ func MigrateComposerJson(project string) error {
 	composerJson.Extra["symfony"] = map[string]any{
 		"allow-contrib": true,
 		"endpoint": []string{
-			"https://raw.githubusercontent.com/heyFrame/recipes/flex/main/index.json",
+			"https://raw.githubusercontent.com/heyframe/recipes/flex/main/index.json",
 			"flex://defaults",
 		},
 	}

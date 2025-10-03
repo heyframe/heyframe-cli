@@ -25,13 +25,13 @@ import (
 
 // cleanupPaths are paths that are not nesscarry for the production build.
 var cleanupPaths = []string{
-	"vendor/heyFrame/storefront/Resources/app/storefront/vendor/bootstrap/dist",
-	"vendor/heyFrame/storefront/Resources/app/storefront/test",
-	"vendor/heyFrame/storefront/Test",
-	"vendor/heyFrame/core/Framework/Test",
-	"vendor/heyFrame/core/Content/Test",
-	"vendor/heyFrame/core/Checkout/Test",
-	"vendor/heyFrame/core/System/Test",
+	"vendor/heyframe/storefront/Resources/app/storefront/vendor/bootstrap/dist",
+	"vendor/heyframe/storefront/Resources/app/storefront/test",
+	"vendor/heyframe/storefront/Test",
+	"vendor/heyframe/core/Framework/Test",
+	"vendor/heyframe/core/Content/Test",
+	"vendor/heyframe/core/Checkout/Test",
+	"vendor/heyframe/core/System/Test",
 	"vendor/tecnickcom/tcpdf/examples",
 }
 
@@ -105,7 +105,7 @@ var projectCI = &cobra.Command{
 
 		sources := extension.FindAssetSourcesOfProject(cmd.Context(), args[0], shopCfg)
 
-		heyFrameConstraint, err := extension.GetHeyFrameProjectConstraint(args[0])
+		heyframeConstraint, err := extension.GetHeyFrameProjectConstraint(args[0])
 		if err != nil {
 			return err
 		}
@@ -115,7 +115,7 @@ var projectCI = &cobra.Command{
 		assetCfg := extension.AssetBuildConfig{
 			CleanupNodeModules:           true,
 			HeyFrameRoot:                 args[0],
-			HeyFrameVersion:              heyFrameConstraint,
+			HeyFrameVersion:              heyframeConstraint,
 			Browserslist:                 shopCfg.Build.Browserslist,
 			SkipExtensionsWithBuildFiles: true,
 			DisableStorefrontBuild:       shopCfg.Build.DisableStorefrontBuild,
@@ -129,11 +129,11 @@ var projectCI = &cobra.Command{
 		}
 
 		optimizeSection := ci.Default.Section(cmd.Context(), "Optimizing Administration Assets")
-		if err := cleanupAdministrationFiles(cmd.Context(), path.Join(args[0], "vendor", "heyFrame", "administration")); err != nil {
+		if err := cleanupAdministrationFiles(cmd.Context(), path.Join(args[0], "vendor", "heyframe", "administration")); err != nil {
 			return err
 		}
 
-		if err := createEmptySnippetFolder(path.Join(args[0], "vendor", "heyFrame", "administration")); err != nil {
+		if err := createEmptySnippetFolder(path.Join(args[0], "vendor", "heyframe", "administration")); err != nil {
 			return err
 		}
 
@@ -146,7 +146,7 @@ var projectCI = &cobra.Command{
 		}
 
 		if !shopCfg.Build.KeepSourceMaps {
-			if err := cleanupJavaScriptSourceMaps(path.Join(args[0], "vendor", "heyFrame", "administration", "Resources", "public")); err != nil {
+			if err := cleanupJavaScriptSourceMaps(path.Join(args[0], "vendor", "heyframe", "administration", "Resources", "public")); err != nil {
 				return err
 			}
 
@@ -233,15 +233,15 @@ var projectCI = &cobra.Command{
 				}
 			}
 
-			if err := os.RemoveAll(path.Join(args[0], "vendor", "heyFrame", "administration", "Resources", "public")); err != nil {
+			if err := os.RemoveAll(path.Join(args[0], "vendor", "heyframe", "administration", "Resources", "public")); err != nil {
 				return err
 			}
 
-			if err := os.WriteFile(path.Join(args[0], "vendor", "heyFrame", "administration", "Resources", ".administration-js"), []byte{}, os.ModePerm); err != nil {
+			if err := os.WriteFile(path.Join(args[0], "vendor", "heyframe", "administration", "Resources", ".administration-js"), []byte{}, os.ModePerm); err != nil {
 				return err
 			}
 
-			if err := os.WriteFile(path.Join(args[0], "vendor", "heyFrame", "administration", "Resources", ".administration-css"), []byte{}, os.ModePerm); err != nil {
+			if err := os.WriteFile(path.Join(args[0], "vendor", "heyframe", "administration", "Resources", ".administration-css"), []byte{}, os.ModePerm); err != nil {
 				return err
 			}
 

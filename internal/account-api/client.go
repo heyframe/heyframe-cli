@@ -13,7 +13,7 @@ import (
 	"github.com/heyframe/heyframe-cli/logging"
 )
 
-var httpUserAgent = "heyFrame-cli/0.0.0"
+var httpUserAgent = "heyframe-cli/0.0.0"
 
 func SetUserAgent(userAgent string) {
 	httpUserAgent = userAgent
@@ -34,7 +34,7 @@ func (c *Client) NewAuthenticatedRequest(ctx context.Context, method, path strin
 
 	r.Header.Set("content-type", "application/json")
 	r.Header.Set("accept", "application/json")
-	r.Header.Set("x-heyFrame-token", c.Token.Token)
+	r.Header.Set("x-heyframe-token", c.Token.Token)
 	r.Header.Set("user-agent", httpUserAgent)
 
 	return r, nil
@@ -95,7 +95,7 @@ func (c *Client) isTokenValid() bool {
 	return expire.UTC().Sub(time.Now().UTC()).Seconds() > 60
 }
 
-const CacheFileName = "heyFrame-api-client-token.json"
+const CacheFileName = "heyframe-api-client-token.json"
 
 func getApiTokenCacheFilePath() (string, error) {
 	cacheDir, err := os.UserCacheDir()
@@ -103,8 +103,8 @@ func getApiTokenCacheFilePath() (string, error) {
 		return "", err
 	}
 
-	heyFrameCacheDir := filepath.Join(cacheDir, "heyFrame-cli")
-	return filepath.Join(heyFrameCacheDir, CacheFileName), nil
+	heyframeCacheDir := filepath.Join(cacheDir, "heyframe-cli")
+	return filepath.Join(heyframeCacheDir, CacheFileName), nil
 }
 
 func createApiFromTokenCache(ctx context.Context) (*Client, error) {

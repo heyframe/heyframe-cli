@@ -175,7 +175,7 @@ var projectCreateCmd = &cobra.Command{
 			dockerArgs := []string{"run", "--rm",
 				"-v", fmt.Sprintf("%s:/app", absProjectFolder),
 				"-w", "/app",
-				"ghcr.io/heyFrame/docker-dev:php8.3-node22-caddy",
+				"ghcr.io/heyframe/docker-dev:php8.3-node22-caddy",
 				"composer", "install", "--no-interaction"}
 
 			cmdInstall = exec.CommandContext(cmd.Context(), "docker", dockerArgs...)
@@ -237,7 +237,7 @@ func init() {
 }
 
 func fetchAvailableHeyFrameVersions(ctx context.Context) ([]string, error) {
-	r, err := http.NewRequestWithContext(ctx, http.MethodGet, "https://releases.heyFrame.com/changelog/index.json", http.NoBody)
+	r, err := http.NewRequestWithContext(ctx, http.MethodGet, "https://releases.heyframe.com/changelog/index.json", http.NoBody)
 	if err != nil {
 		return nil, err
 	}
@@ -269,19 +269,19 @@ func fetchAvailableHeyFrameVersions(ctx context.Context) ([]string, error) {
 
 func generateComposerJson(ctx context.Context, version string, rc bool, useDocker bool, withoutElasticsearch bool) (string, error) {
 	tplContent, err := template.New("composer.json").Parse(`{
-    "name": "heyFrame/production",
+    "name": "heyframe/production",
     "license": "MIT",
     "type": "project",
     "require": {
         "composer-runtime-api": "^2.0",
-        "heyFrame/administration": "{{ .DependingVersions }}",
-        "heyFrame/core": "{{ .Version }}",
+        "heyframe/administration": "{{ .DependingVersions }}",
+        "heyframe/core": "{{ .Version }}",
 		{{if .UseElasticsearch}}
-        "heyFrame/elasticsearch": "{{ .DependingVersions }}",
+        "heyframe/elasticsearch": "{{ .DependingVersions }}",
 		{{end}}
-        "heyFrame/storefront": "{{ .DependingVersions }}",
+        "heyframe/storefront": "{{ .DependingVersions }}",
 		{{if .UseDocker}}
-		"heyFrame/docker-dev": "*",
+		"heyframe/docker-dev": "*",
 		{{end}}
         "symfony/flex": "~2"
     },
@@ -339,7 +339,7 @@ func generateComposerJson(ctx context.Context, version string, rc bool, useDocke
         "symfony": {
             "allow-contrib": true,
             "endpoint": [
-                "https://raw.githubusercontent.com/heyFrame/recipes/flex/main/index.json",
+                "https://raw.githubusercontent.com/heyframe/recipes/flex/main/index.json",
                 "flex://defaults"
             ]
         }
@@ -384,12 +384,12 @@ func generateComposerJson(ctx context.Context, version string, rc bool, useDocke
 var kernelFallbackRegExp = regexp.MustCompile(`(?m)HEYFRAME_FALLBACK_VERSION\s*=\s*'?"?(\d+\.\d+)`)
 
 func getLatestFallbackVersion(ctx context.Context, branch string) (string, error) {
-	r, err := http.NewRequestWithContext(ctx, http.MethodGet, fmt.Sprintf("https://raw.githubusercontent.com/heyFrame/core/refs/heads/%s/Kernel.php", branch), http.NoBody)
+	r, err := http.NewRequestWithContext(ctx, http.MethodGet, fmt.Sprintf("https://raw.githubusercontent.com/heyframe/core/refs/heads/%s/Kernel.php", branch), http.NoBody)
 	if err != nil {
 		return "", err
 	}
 
-	r.Header.Set("User-Agent", "heyFrame-cli")
+	r.Header.Set("User-Agent", "heyframe-cli")
 
 	resp, err := http.DefaultClient.Do(r)
 	if err != nil {
@@ -414,7 +414,7 @@ func getLatestFallbackVersion(ctx context.Context, branch string) (string, error
 	matches := kernelFallbackRegExp.FindSubmatch(content)
 
 	if len(matches) < 2 {
-		return "", fmt.Errorf("could not determine heyFrame version")
+		return "", fmt.Errorf("could not determine heyframe version")
 	}
 
 	return string(matches[1]), nil

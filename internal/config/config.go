@@ -77,7 +77,7 @@ func InitConfig(configPath string) error {
 			return err
 		}
 
-		state.cfgPath = fmt.Sprintf("%s/.heyFrame-cli.yml", configDir)
+		state.cfgPath = fmt.Sprintf("%s/.heyframe-cli.yml", configDir)
 	}
 
 	err := env.Parse(state.inner)

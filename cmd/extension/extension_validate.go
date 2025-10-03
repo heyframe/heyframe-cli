@@ -28,7 +28,7 @@ var extensionValidateCmd = &cobra.Command{
 		only, _ := cmd.Flags().GetString("only")
 		exclude, _ := cmd.Flags().GetString("exclude")
 
-		// If the user does not want to run full validation, only run heyFrame-cli
+		// If the user does not want to run full validation, only run heyframe-cli
 		if !isFull {
 			only = "sw-cli"
 		}

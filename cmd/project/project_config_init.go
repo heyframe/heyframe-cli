@@ -42,11 +42,11 @@ var projectConfigInitCmd = &cobra.Command{
 			return err
 		}
 
-		if err := os.WriteFile(".heyFrame-project.yml", content, os.ModePerm); err != nil {
+		if err := os.WriteFile(".heyframe-project.yml", content, os.ModePerm); err != nil {
 			return err
 		}
 
-		logging.FromContext(cmd.Context()).Info("Created .heyFrame-project.yml")
+		logging.FromContext(cmd.Context()).Info("Created .heyframe-project.yml")
 
 		return nil
 	},

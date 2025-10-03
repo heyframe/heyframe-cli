@@ -50,7 +50,7 @@ func TestParseFileConfig(t *testing.T) {
 
 	cwd, err := os.Getwd()
 	assert.NoError(t, err)
-	testConfig := filepath.Join(cwd, "testdata/.heyFrame-cli.yml")
+	testConfig := filepath.Join(cwd, "testdata/.heyframe-cli.yml")
 
 	assert.NoError(t, InitConfig(testConfig))
 	assert.False(t, state.loadedFromEnv)

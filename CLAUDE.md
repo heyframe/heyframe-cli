@@ -5,7 +5,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Development Commands
 
 ### Building and Running
-- **Build the CLI**: `go build -o heyFrame-cli .`
+- **Build the CLI**: `go build -o heyframe-cli .`
 - **Run directly**: `go run main.go [command]`
 - **Run tests**: `go test ./...`
 - **Run specific test**: `go test ./[package_path]`
@@ -44,9 +44,9 @@ The CLI supports three extension types:
 Extension detection is automatic based on file presence. Each type has specific build, validation, and packaging rules.
 
 ### Configuration Files
-- **`.heyFrame-cli.yaml`** - Global CLI configuration
-- **`.heyFrame-extension.yml`** - Extension-specific settings (schema: `extension/heyFrame-extension-schema.json`)
-- **`.heyFrame-project.yml`** - Project-specific settings (schema: `shop/heyFrame-project-schema.json`)
+- **`.heyframe-cli.yaml`** - Global CLI configuration
+- **`.heyframe-extension.yml`** - Extension-specific settings (schema: `extension/heyframe-extension-schema.json`)
+- **`.heyframe-project.yml`** - Project-specific settings (schema: `shop/heyframe-project-schema.json`)
 
 ## Development Patterns
 
@@ -83,30 +83,30 @@ LLM providers are configurable (OpenAI, Gemini, OpenRouter) with API key managem
 ### Building Extensions
 ```bash
 # Build extension (auto-detects type)
-heyFrame-cli extension build
+heyframe-cli extension build
 
 # Watch mode for development
-heyFrame-cli extension admin-watch
+heyframe-cli extension admin-watch
 
 # Validate extension
-heyFrame-cli extension validate
+heyframe-cli extension validate
 
 # Create distribution package
-heyFrame-cli extension zip
+heyframe-cli extension zip
 ```
 
 ### Project Management
 ```bash
 # Create new project
-heyFrame-cli project create
+heyframe-cli project create
 
 # Build assets
-heyFrame-cli project admin-build
-heyFrame-cli project storefront-build
+heyframe-cli project admin-build
+heyframe-cli project storefront-build
 
 # Development servers
-heyFrame-cli project admin-watch
-heyFrame-cli project storefront-watch
+heyframe-cli project admin-watch
+heyframe-cli project storefront-watch
 ```
 
 ## Code Quality Integration

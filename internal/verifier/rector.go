@@ -64,7 +64,7 @@ func (r Rector) Fix(ctx context.Context, config ToolConfig) error {
 	if _, err := os.Stat(path.Join(config.RootDir, "rector.php")); err == nil {
 		rectorConfigFile = path.Join(config.RootDir, "rector.php")
 	} else {
-		rectorConfigFile = path.Join(config.ToolDirectory, "php", "vendor", "frosh", "heyFrame-rector", "config", fmt.Sprintf("heyFrame-%s.0.php", config.MinHeyFrameVersion[0:3]))
+		rectorConfigFile = path.Join(config.ToolDirectory, "php", "vendor", "frosh", "heyframe-rector", "config", fmt.Sprintf("heyframe-%s.0.php", config.MinHeyFrameVersion[0:3]))
 	}
 
 	for _, sourceDirectory := range config.SourceDirectories {

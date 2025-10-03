@@ -30,14 +30,14 @@ type UpdateCheckExtensionCompatibilityStatus struct {
 }
 
 func GetFutureExtensionUpdates(ctx context.Context, currentVersion string, futureVersion string, extensions []UpdateCheckExtension) ([]UpdateCheckExtensionCompatibility, error) {
-	req, err := http.NewRequestWithContext(ctx, http.MethodPost, "https://api.heyFrame.com/swplatform/autoupdate", nil)
+	req, err := http.NewRequestWithContext(ctx, http.MethodPost, "https://api.heyframe.com/swplatform/autoupdate", nil)
 	if err != nil {
 		return nil, err
 	}
 
 	q := req.URL.Query()
 	q.Set("language", "en-GB")
-	q.Set("heyFrameVersion", currentVersion)
+	q.Set("heyframeVersion", currentVersion)
 	req.URL.RawQuery = q.Encode()
 
 	bodyBytes, err := json.Marshal(map[string]interface{}{

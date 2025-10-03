@@ -26,7 +26,7 @@ var projectUpgradeCheckCmd = &cobra.Command{
 	RunE: func(cmd *cobra.Command, args []string) error {
 		var cfg *platform.Config
 		var err error
-		var heyFrameVersion *version.Version
+		var heyframeVersion *version.Version
 		var extensions map[string]string
 
 		if cfg, err = platform.ReadConfig(projectConfigPath, true); err != nil {
@@ -52,10 +52,10 @@ var projectUpgradeCheckCmd = &cobra.Command{
 				extensions[ext.Name] = ext.Version
 			}
 
-			heyFrameVersion = client.HeyFrameVersion
+			heyframeVersion = client.HeyFrameVersion
 		} else {
 			logging.FromContext(cmd.Context()).Debugf("Using local composer.lock to lookup for available extensions")
-			heyFrameVersion, extensions, err = getLocalExtensions()
+			heyframeVersion, extensions, err = getLocalExtensions()
 
 			if err != nil {
 				return fmt.Errorf("failed to get local extensions: %w", err)
@@ -79,7 +79,7 @@ var projectUpgradeCheckCmd = &cobra.Command{
 				continue
 			}
 
-			if ver.LessThan(heyFrameVersion) {
+			if ver.LessThan(heyframeVersion) {
 				continue
 			}
 
@@ -118,7 +118,7 @@ var projectUpgradeCheckCmd = &cobra.Command{
 			})
 		}
 
-		updates, err := account_api.GetFutureExtensionUpdates(cmd.Context(), heyFrameVersion.String(), selectedVersion, extensionNames)
+		updates, err := account_api.GetFutureExtensionUpdates(cmd.Context(), heyframeVersion.String(), selectedVersion, extensionNames)
 		if err != nil {
 			return err
 		}
@@ -168,10 +168,10 @@ func getLocalExtensions() (*version.Version, map[string]string, error) {
 		return nil, nil, fmt.Errorf("failed to read composer.lock: %w", err)
 	}
 
-	corePackage := composerLock.GetPackage("heyFrame/core")
+	corePackage := composerLock.GetPackage("heyframe/core")
 
 	if corePackage == nil {
-		return nil, nil, fmt.Errorf("heyFrame/core package not found in composer.lock")
+		return nil, nil, fmt.Errorf("heyframe/core package not found in composer.lock")
 	}
 
 	currentVersion, err := version.NewVersion(strings.TrimPrefix(corePackage.Version, "v"))

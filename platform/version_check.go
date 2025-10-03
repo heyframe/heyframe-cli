@@ -11,7 +11,7 @@ import (
 
 var (
 	ErrNoComposerFileFound        = errors.New("could not determine HeyFrame version as no composer.json or composer.lock file was found")
-	ErrHeyFrameDependencyNotFound = errors.New("could not determine HeyFrame version as no heyFrame/core dependency was found")
+	ErrHeyFrameDependencyNotFound = errors.New("could not determine HeyFrame version as no heyframe/core dependency was found")
 )
 
 func IsHeyFrameVersion(projectRoot string, requiredVersion string) (bool, error) {
@@ -54,7 +54,7 @@ func determineByComposerLock(composerLock, requiredVersion string) (bool, error)
 	constraint := version.MustConstraints(version.NewConstraint(requiredVersion))
 
 	for _, pkg := range lock.Packages {
-		if pkg.Name == "heyFrame/core" {
+		if pkg.Name == "heyframe/core" {
 			if constraint.Check(version.Must(version.NewVersion(pkg.Version))) {
 				return true, nil
 			}
@@ -81,7 +81,7 @@ func determineByComposerJson(composerJson string) (bool, error) {
 		return false, err
 	}
 
-	if jsonStruct.Name == "heyFrame/platform" {
+	if jsonStruct.Name == "heyframe/platform" {
 		return true, nil
 	}
 

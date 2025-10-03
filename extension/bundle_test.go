@@ -21,7 +21,7 @@ func TestCreateBundleInvalidComposerType(t *testing.T) {
 
 	// Create composer.json
 	composer := []byte(`{
-		"name": "heyFrame/invalid",
+		"name": "heyframe/invalid",
 		"type": "invalid"
 	}
 	`)
@@ -29,7 +29,7 @@ func TestCreateBundleInvalidComposerType(t *testing.T) {
 
 	bundle, err := newHeyFrameBundle(dir)
 	assert.Error(t, err)
-	assert.Contains(t, err.Error(), "composer.json type is not heyFrame-bundle")
+	assert.Contains(t, err.Error(), "composer.json type is not heyframe-bundle")
 	assert.Nil(t, bundle)
 }
 
@@ -38,15 +38,15 @@ func TestCreateBundleMissingName(t *testing.T) {
 
 	// Create composer.json
 	composer := []byte(`{
-		"name": "heyFrame/invalid",
-		"type": "heyFrame-bundle"
+		"name": "heyframe/invalid",
+		"type": "heyframe-bundle"
 	}
 	`)
 	_ = os.WriteFile(path.Join(dir, "composer.json"), composer, 0o644)
 
 	bundle, err := newHeyFrameBundle(dir)
 	assert.Error(t, err)
-	assert.Contains(t, err.Error(), "composer.json does not contain heyFrame-bundle-name")
+	assert.Contains(t, err.Error(), "composer.json does not contain heyframe-bundle-name")
 	assert.Nil(t, bundle)
 }
 
@@ -55,11 +55,11 @@ func TestCreateBundle(t *testing.T) {
 
 	// Create composer.json
 	composer := []byte(`{
-		"name": "heyFrame/invalid",
+		"name": "heyframe/invalid",
 		"version": "1.0.0",
-		"type": "heyFrame-bundle",
+		"type": "heyframe-bundle",
 		"extra": {
-			"heyFrame-bundle-name": "TestBundle"
+			"heyframe-bundle-name": "TestBundle"
 		},
 		"autoload": {
 			"psr-4": {

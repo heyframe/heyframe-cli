@@ -51,7 +51,7 @@ func generateProjectSchema() error {
 		return err
 	}
 
-	if err := os.WriteFile("shop/heyFrame-project-schema.json", bytes, 0o644); err != nil {
+	if err := os.WriteFile("shop/heyframe-project-schema.json", bytes, 0o644); err != nil {
 		return err
 	}
 
@@ -99,7 +99,7 @@ func generateExtensionSchema() error {
 		return err
 	}
 
-	if err := os.WriteFile("extension/heyFrame-extension-schema.json", bytes, 0o644); err != nil {
+	if err := os.WriteFile("extension/heyframe-extension-schema.json", bytes, 0o644); err != nil {
 		return err
 	}
 

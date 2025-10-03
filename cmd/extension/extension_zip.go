@@ -132,15 +132,15 @@ var extensionZipCmd = &cobra.Command{
 				return fmt.Errorf("before hooks assets: %w", err)
 			}
 
-			heyFrameConstraint, err := tempExt.GetHeyFrameVersionConstraint()
+			heyframeConstraint, err := tempExt.GetHeyFrameVersionConstraint()
 			if err != nil {
-				return fmt.Errorf("get heyFrame version constraint: %w", err)
+				return fmt.Errorf("get heyframe version constraint: %w", err)
 			}
 
 			assetBuildConfig := extension.AssetBuildConfig{
 				CleanupNodeModules: true,
 				HeyFrameRoot:       os.Getenv("HEYFRAME_PROJECT_ROOT"),
-				HeyFrameVersion:    heyFrameConstraint,
+				HeyFrameVersion:    heyframeConstraint,
 			}
 
 			if err := extension.BuildAssetsForExtensions(cmd.Context(), extension.ConvertExtensionsToSources(cmd.Context(), []extension.Extension{tempExt}), assetBuildConfig); err != nil {

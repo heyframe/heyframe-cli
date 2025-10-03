@@ -22,7 +22,7 @@ var (
 )
 
 var rootCmd = &cobra.Command{
-	Use:     "heyFrame-cli",
+	Use:     "heyframe-cli",
 	Short:   "A cli for common HeyFrame tasks",
 	Long:    `This application contains some utilities like extension management`,
 	Version: version,
@@ -30,7 +30,7 @@ var rootCmd = &cobra.Command{
 
 func Execute(ctx context.Context) {
 	ctx = logging.WithLogger(ctx, logging.NewLogger(slices.Contains(os.Args, "--verbose")))
-	accountApi.SetUserAgent("heyFrame-cli/" + version)
+	accountApi.SetUserAgent("heyframe-cli/" + version)
 
 	if err := rootCmd.ExecuteContext(ctx); err != nil {
 		logging.FromContext(ctx).Fatalln(err)
@@ -48,7 +48,7 @@ func init() {
 		_ = system.CloseCaches()
 	})
 
-	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.heyFrame-cli.yaml)")
+	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.heyframe-cli.yaml)")
 	rootCmd.PersistentFlags().Bool("verbose", false, "show debug output")
 
 	project.Register(rootCmd)

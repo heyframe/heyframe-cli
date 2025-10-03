@@ -242,7 +242,7 @@ func assembleConnectionURI(cmd *cobra.Command) (*mysql.Config, error) {
 		User:                 "root",
 		Passwd:               "root",
 		Addr:                 "127.0.0.1:3306",
-		DBName:               "heyFrame",
+		DBName:               "heyframe",
 	}
 
 	if projectRoot, err := findClosestHeyFrameProject(); err == nil {

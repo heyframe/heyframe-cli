@@ -15,8 +15,8 @@ import (
 type ConfigBuild struct {
 	// ExtraBundles can be used to declare additional bundles to be considered for building
 	ExtraBundles []ConfigExtraBundle `yaml:"extraBundles,omitempty"`
-	// Override the heyFrame version constraint for building, can be used to specify the version of the heyFrame to use for building
-	HeyFrameVersionConstraint string `yaml:"heyFrameVersionConstraint,omitempty"`
+	// Override the heyframe version constraint for building, can be used to specify the version of the heyframe to use for building
+	HeyFrameVersionConstraint string `yaml:"heyframeVersionConstraint,omitempty"`
 	// Configuration for zipping
 	Zip ConfigBuildZip `yaml:"zip"`
 }
@@ -51,7 +51,7 @@ type ConfigBuildZipComposer struct {
 }
 
 type ConfigBuildZipAssets struct {
-	// When enabled, the heyFrame-cli build the assets
+	// When enabled, the heyframe-cli build the assets
 	Enabled bool `yaml:"enabled"`
 	// Commands to run before the assets build
 	BeforeHooks []string `yaml:"before_hooks,omitempty"`
@@ -194,14 +194,14 @@ func readExtensionConfig(dir string) (*Config, error) {
 	config := &Config{}
 	config.Build.Zip.Assets.Enabled = true
 	config.Build.Zip.Composer.Enabled = true
-	config.FileName = ".heyFrame-extension.yml"
+	config.FileName = ".heyframe-extension.yml"
 
 	configLocation := ""
 
-	if _, err := os.Stat(filepath.Join(dir, ".heyFrame-extension.yml")); err == nil {
-		configLocation = filepath.Join(dir, ".heyFrame-extension.yml")
-	} else if _, err := os.Stat(filepath.Join(dir, ".heyFrame-extension.yaml")); err == nil {
-		configLocation = filepath.Join(dir, ".heyFrame-extension.yaml")
+	if _, err := os.Stat(filepath.Join(dir, ".heyframe-extension.yml")); err == nil {
+		configLocation = filepath.Join(dir, ".heyframe-extension.yml")
+	} else if _, err := os.Stat(filepath.Join(dir, ".heyframe-extension.yaml")); err == nil {
+		configLocation = filepath.Join(dir, ".heyframe-extension.yaml")
 	} else {
 		return config, nil
 	}

@@ -380,7 +380,7 @@ func doJUnitReport(result Check) error {
 	}
 
 	suite := JUnitTestSuite{
-		Name:     "heyFrame-cli-validation",
+		Name:     "heyframe-cli-validation",
 		Tests:    len(testCases),
 		Failures: failures,
 		Errors:   errors,

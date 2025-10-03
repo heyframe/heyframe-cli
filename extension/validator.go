@@ -100,7 +100,7 @@ func RunValidation(ctx context.Context, ext Extension, check validation.Check) {
 func runDefaultValidate(ext Extension, check validation.Check) {
 	_, versionErr := ext.GetVersion()
 	name, nameErr := ext.GetName()
-	_, heyFrameVersionErr := ext.GetHeyFrameVersionConstraint()
+	_, heyframeVersionErr := ext.GetHeyFrameVersionConstraint()
 
 	rootFile := "composer.json"
 
@@ -127,11 +127,11 @@ func runDefaultValidate(ext Extension, check validation.Check) {
 		})
 	}
 
-	if heyFrameVersionErr != nil {
+	if heyframeVersionErr != nil {
 		check.AddResult(validation.CheckResult{
 			Path:       rootFile,
-			Identifier: "metadata.heyFrame_version",
-			Message:    heyFrameVersionErr.Error(),
+			Identifier: "metadata.heyframe_version",
+			Message:    heyframeVersionErr.Error(),
 			Severity:   validation.SeverityError,
 		})
 	}

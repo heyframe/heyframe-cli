@@ -20,7 +20,7 @@ func TestGetHeyFrameProjectConstraintComposerJson(t *testing.T) {
 			Files: map[string]string{
 				"composer.json": `{
 		"require": {
-			"heyFrame/core": "~6.5.0"
+			"heyframe/core": "~6.5.0"
 	}}`,
 			},
 			Constraint: "~6.5.0",
@@ -30,12 +30,12 @@ func TestGetHeyFrameProjectConstraintComposerJson(t *testing.T) {
 			Files: map[string]string{
 				"composer.json": `{
 		"require": {
-			"heyFrame/core": "6.5.*"
+			"heyframe/core": "6.5.*"
 	}}`,
 				"composer.lock": `{
 		"packages": [
 {
-"name": "heyFrame/core",
+"name": "heyframe/core",
 "version": "6.5.0"
 }
 ]}`,
@@ -47,12 +47,12 @@ func TestGetHeyFrameProjectConstraintComposerJson(t *testing.T) {
 			Files: map[string]string{
 				"composer.json": `{
 		"require": {
-			"heyFrame/core": "6.5.*"
+			"heyframe/core": "6.5.*"
 	}}`,
 				"composer.lock": `{
 		"packages": [
 {
-"name": "heyFrame/core",
+"name": "heyframe/core",
 "version": "dev-trunk"
 }
 ]}`,
@@ -64,7 +64,7 @@ final public const HEYFRAME_FALLBACK_VERSION = '6.6.9999999.9999999-dev';
 			Constraint: "6.5.*",
 		},
 		{
-			Name: "Get constraint from kernel (heyFrame/heyFrame case)",
+			Name: "Get constraint from kernel (heyframe/heyframe case)",
 			Files: map[string]string{
 				"composer.json":          `{}`,
 				"src/Core/composer.json": `{}`,
@@ -91,11 +91,11 @@ final public const HEYFRAME_FALLBACK_VERSION = '6.6.9999999.9999999-dev';
 		},
 
 		{
-			Name: "composer.json with no heyFrame package",
+			Name: "composer.json with no heyframe package",
 			Files: map[string]string{
 				"composer.json": `{}`,
 			},
-			Error: "missing heyFrame/core requirement in composer.json",
+			Error: "missing heyframe/core requirement in composer.json",
 		},
 
 		{
@@ -103,18 +103,18 @@ final public const HEYFRAME_FALLBACK_VERSION = '6.6.9999999.9999999-dev';
 			Files: map[string]string{
 				"composer.json": `{
 		"require": {
-			"heyFrame/core": "6.5.*"
+			"heyframe/core": "6.5.*"
 	}}`,
 			},
 			Constraint: "6.5.*",
 		},
 
 		{
-			Name: "composer.json malformed version, lock does not contain heyFrame/core",
+			Name: "composer.json malformed version, lock does not contain heyframe/core",
 			Files: map[string]string{
 				"composer.json": `{
 		"require": {
-			"heyFrame/core": "6.5.*"
+			"heyframe/core": "6.5.*"
 	}}`,
 				"composer.lock": `{"packages": []}`,
 			},

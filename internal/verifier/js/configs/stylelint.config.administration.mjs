@@ -2,13 +2,13 @@
 export default {
 	extends: ["stylelint-config-recommended-scss"],
 	customSyntax: "postcss-scss",
-	plugins: ["stylelint-scss", "@heyFrame-ag/admin-stylelint-rules"],
+	plugins: ["stylelint-scss", "@heyframe-ag/admin-stylelint-rules"],
 	rules: {
 		"selector-class-pattern": null,
 		"import-notation": null,
 		"declaration-property-value-no-unknown": null,
 		"at-rule-no-unknown": null,
-		"heyFrame-administration/no-scss-extension-import": true,
+		"heyframe-administration/no-scss-extension-import": true,
 		"no-descending-specificity": null,
 		"max-nesting-depth": [
 			3,

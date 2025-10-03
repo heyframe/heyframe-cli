@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<manifest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/heyFrame/platform/trunk/src/Core/Framework/App/Manifest/Schema/manifest-1.0.xsd">
+<manifest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/heyframe/platform/trunk/src/Core/Framework/App/Manifest/Schema/manifest-1.0.xsd">
     <meta>
         <name>InstoImmersiveElements</name>
         <label>Immersive Elements</label>
@@ -12,11 +12,11 @@
     </meta>
 
     <setup>
-        <registrationUrl>https://instorier.apps.heyFrame.io/app/lifecycle/register</registrationUrl>
+        <registrationUrl>https://instorier.apps.heyframe.io/app/lifecycle/register</registrationUrl>
     </setup>
 
     <admin>
-        <base-app-url>https://instorier.apps.heyFrame.io/iframe</base-app-url>
+        <base-app-url>https://instorier.apps.heyframe.io/iframe</base-app-url>
     </admin>
     <permissions>
         <read>cms_slot</read>

@@ -54,9 +54,9 @@ jobs:
 
       - name: Gather Homebrew Token
         uses: octo-sts/action@a26b0c6455c7f13316f29a8766287f939e75f6c8 # ratchet:octo-sts/action@v1.0.2
-        id: sts-heyFrame
+        id: sts-heyframe
         with:
-          scope: heyFrame/homebrew-tap
+          scope: heyframe/homebrew-tap
           identity: swcli
 
       - name: Gather NUR Token
@@ -83,7 +83,7 @@ jobs:
           args: release --clean
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          HOMEBREW_TAP_GITHUB_TOKEN_HEYFRAME: ${{ steps.sts-heyFrame.outputs.token }}
+          HOMEBREW_TAP_GITHUB_TOKEN_HEYFRAME: ${{ steps.sts-heyframe.outputs.token }}
           NUR_GITHUB_TOKEN: ${{ steps.sts-nur.outputs.token }}
           AUR_KEY: ${{ secrets.AUR_KEY }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -103,11 +103,11 @@ jobs:
           CLOUDSMITH_API_KEY: ${{ secrets.CLOUDSMITH_API_KEY }}
         run: |
           for filename in dist/*.deb; do
-              cloudsmith push deb friendsofheyFrame/stable/any-distro/any-version $filename
+              cloudsmith push deb friendsofheyframe/stable/any-distro/any-version $filename
           done
           for filename in dist/*.rpm; do
-              cloudsmith push rpm friendsofheyFrame/stable/any-distro/any-version $filename
+              cloudsmith push rpm friendsofheyframe/stable/any-distro/any-version $filename
           done
           for filename in dist/*.apk; do
-              cloudsmith push alpine friendsofheyFrame/stable/alpine/any-version $filename
+              cloudsmith push alpine friendsofheyframe/stable/alpine/any-version $filename
           done

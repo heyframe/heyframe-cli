@@ -47,7 +47,7 @@ var projectStorefrontBuildCmd = &cobra.Command{
 
 		forceInstall, _ := cmd.PersistentFlags().GetBool("force-install-dependencies")
 
-		heyFrameConstraint, err := extension.GetHeyFrameProjectConstraint(projectRoot)
+		heyframeConstraint, err := extension.GetHeyFrameProjectConstraint(projectRoot)
 		if err != nil {
 			return err
 		}
@@ -55,7 +55,7 @@ var projectStorefrontBuildCmd = &cobra.Command{
 		assetCfg := extension.AssetBuildConfig{
 			DisableAdminBuild: true,
 			HeyFrameRoot:      projectRoot,
-			HeyFrameVersion:   heyFrameConstraint,
+			HeyFrameVersion:   heyframeConstraint,
 			NPMForceInstall:   forceInstall,
 		}
 

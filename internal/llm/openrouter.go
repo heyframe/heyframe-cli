@@ -84,7 +84,7 @@ func (c *OpenRouterClient) Generate(ctx context.Context, prompt string, options 
 
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("Authorization", "Bearer "+c.apiKey)
-	req.Header.Set("HTTP-Referer", "https://github.com/heyFrameLabs/extension-verifier")
+	req.Header.Set("HTTP-Referer", "https://github.com/heyframeLabs/extension-verifier")
 	req.Header.Set("X-Title", "HeyFrame Extension Verifier")
 
 	resp, err := c.client.Do(req)

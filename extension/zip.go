@@ -382,9 +382,9 @@ func PrepareFolderForZipping(ctx context.Context, path string, ext Extension, ex
 		return fmt.Errorf("lookup for min matching version: %w", err)
 	}
 
-	heyFrame65Constraint, _ := version.NewConstraint(">=6.5.0")
+	heyframe65Constraint, _ := version.NewConstraint(">=6.5.0")
 
-	if heyFrame65Constraint.Check(version.Must(version.NewVersion(minVersion))) {
+	if heyframe65Constraint.Check(version.Must(version.NewVersion(minVersion))) {
 		return nil
 	}
 
@@ -483,7 +483,7 @@ func filterRequires(composer map[string]interface{}, extCfg *Config) map[string]
 	provide := composer["provide"]
 	require := composer["require"]
 
-	keys := []string{"heyFrame/platform", "heyFrame/core", "heyFrame/heyFrame", "heyFrame/storefront", "heyFrame/administration", "heyFrame/elasticsearch", "composer/installers"}
+	keys := []string{"heyframe/platform", "heyframe/core", "heyframe/heyframe", "heyframe/storefront", "heyframe/administration", "heyframe/elasticsearch", "composer/installers"}
 	if extCfg != nil {
 		keys = append(keys, extCfg.Build.Zip.Composer.ExcludedPackages...)
 	}
@@ -518,7 +518,7 @@ func addComposerReplacements(composer map[string]interface{}, minVersion string)
 	}
 
 	for _, component := range components {
-		packageName := fmt.Sprintf("heyFrame/%s", component)
+		packageName := fmt.Sprintf("heyframe/%s", component)
 
 		if _, ok := require.(map[string]interface{})[packageName]; ok {
 			composerFile, err := composerInfo.Open(fmt.Sprintf("%s/%s.json", minVersion, component))
@@ -562,12 +562,12 @@ type packagistResponse struct {
 	Packages struct {
 		Core []struct {
 			Version string `json:"version_normalized"`
-		} `json:"heyFrame/core"`
+		} `json:"heyframe/core"`
 	} `json:"packages"`
 }
 
 func GetHeyFrameVersions(ctx context.Context) ([]string, error) {
-	req, err := http.NewRequestWithContext(ctx, http.MethodGet, "https://repo.packagist.org/p2/heyFrame/core.json", http.NoBody)
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, "https://repo.packagist.org/p2/heyframe/core.json", http.NoBody)
 	if err != nil {
 		return nil, fmt.Errorf("create composer version request: %w", err)
 	}
@@ -606,7 +606,7 @@ func GetHeyFrameVersions(ctx context.Context) ([]string, error) {
 func lookupForMinMatchingVersion(ctx context.Context, versionConstraint *version.Constraints) (string, error) {
 	versions, err := GetHeyFrameVersions(ctx)
 	if err != nil {
-		return "", fmt.Errorf("get heyFrame versions: %w", err)
+		return "", fmt.Errorf("get heyframe versions: %w", err)
 	}
 
 	return getMinMatchingVersion(versionConstraint, versions), nil

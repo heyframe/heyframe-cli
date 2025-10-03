@@ -22,7 +22,7 @@ func TestPackageResponseHasPackage(t *testing.T) {
 			name:        "package exists",
 			packageName: "SwagExtensionStore",
 			responseData: map[string]map[string]PackageVersion{
-				"store.heyFrame.com/swagextensionstore": {
+				"store.heyframe.com/swagextensionstore": {
 					"1.0.0": {
 						Version: "1.0.0",
 					},
@@ -34,7 +34,7 @@ func TestPackageResponseHasPackage(t *testing.T) {
 			name:        "package exists with different case",
 			packageName: "SWAGEXTENSIONSTORE",
 			responseData: map[string]map[string]PackageVersion{
-				"store.heyFrame.com/swagextensionstore": {
+				"store.heyframe.com/swagextensionstore": {
 					"1.0.0": {
 						Version: "1.0.0",
 					},
@@ -46,7 +46,7 @@ func TestPackageResponseHasPackage(t *testing.T) {
 			name:        "package does not exist",
 			packageName: "NonExistentPackage",
 			responseData: map[string]map[string]PackageVersion{
-				"store.heyFrame.com/swagextensionstore": {
+				"store.heyframe.com/swagextensionstore": {
 					"1.0.0": {
 						Version: "1.0.0",
 					},
@@ -90,7 +90,7 @@ func TestGetPackages(t *testing.T) {
 			// Return successful response
 			response := PackageResponse{
 				Packages: map[string]map[string]PackageVersion{
-					"store.heyFrame.com/swagextensionstore": {
+					"store.heyframe.com/swagextensionstore": {
 						"1.0.0": {
 							Version: "1.0.0",
 							Replace: map[string]string{
@@ -120,7 +120,7 @@ func TestGetPackages(t *testing.T) {
 		assert.NoError(t, err)
 		assert.NotNil(t, packages)
 		assert.True(t, packages.HasPackage("SwagExtensionStore"))
-		assert.Equal(t, "1.0.0", packages.Packages["store.heyFrame.com/swagextensionstore"]["1.0.0"].Version)
+		assert.Equal(t, "1.0.0", packages.Packages["store.heyframe.com/swagextensionstore"]["1.0.0"].Version)
 	})
 
 	t.Run("unauthorized request", func(t *testing.T) {

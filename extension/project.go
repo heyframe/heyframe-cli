@@ -32,14 +32,14 @@ func GetHeyFrameProjectConstraint(project string) (*version.Constraints, error) 
 		return nil, fmt.Errorf("could not parse composer.json: %w", err)
 	}
 
-	constraint, ok := composer.Require["heyFrame/core"]
+	constraint, ok := composer.Require["heyframe/core"]
 
 	if !ok {
 		if v, err := getProjectConstraintFromKernel(project); err == nil {
 			return v, nil
 		}
 
-		return nil, fmt.Errorf("missing heyFrame/core requirement in composer.json")
+		return nil, fmt.Errorf("missing heyframe/core requirement in composer.json")
 	}
 
 	c, err := version.NewConstraint(constraint)
@@ -55,7 +55,7 @@ func GetHeyFrameProjectConstraint(project string) (*version.Constraints, error) 
 			}
 
 			for _, pkg := range lock.Packages {
-				if pkg.Name == "heyFrame/core" {
+				if pkg.Name == "heyframe/core" {
 					v, err := version.NewConstraint(pkg.Version)
 					if err != nil {
 						return getProjectConstraintFromKernel(project)
@@ -79,13 +79,13 @@ func getProjectConstraintFromKernel(project string) (*version.Constraints, error
 
 	kernel, err := os.ReadFile(kernelPath)
 	if err != nil {
-		return nil, fmt.Errorf("could not determine heyFrame version")
+		return nil, fmt.Errorf("could not determine heyframe version")
 	}
 
 	matches := kernelFallbackRegExp.FindSubmatch(kernel)
 
 	if len(matches) < 2 {
-		return nil, fmt.Errorf("could not determine heyFrame version")
+		return nil, fmt.Errorf("could not determine heyframe version")
 	}
 
 	v, err := version.NewConstraint(fmt.Sprintf("~%s.0", string(matches[1])))
@@ -337,7 +337,7 @@ type composerLock struct {
 type rootComposerJson struct {
 	Require map[string]string `json:"require"`
 	Extra   struct {
-		Bundles map[string]rootHeyFrameBundle `json:"heyFrame-bundles"`
+		Bundles map[string]rootHeyFrameBundle `json:"heyframe-bundles"`
 	}
 }
 

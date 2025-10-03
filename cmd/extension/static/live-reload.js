@@ -12,11 +12,11 @@ for (const bundleName of Object.keys(bundles)) {
         continue;
     }
 
-    new EventSource(`/.heyFrame-cli/${bundle.name}/esbuild`).addEventListener('change', e => {
+    new EventSource(`/.heyframe-cli/${bundle.name}/esbuild`).addEventListener('change', e => {
         const { added, removed, updated } = JSON.parse(e.data)
 
         // patch the path of esbuild
-        updated[0] = `/.heyFrame-cli/${bundle.name}${updated[0]}`
+        updated[0] = `/.heyframe-cli/${bundle.name}${updated[0]}`
 
         if (!added.length && !removed.length && updated.length === 1) {
             for (const link of document.getElementsByTagName("link")) {

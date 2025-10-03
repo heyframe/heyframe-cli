@@ -78,7 +78,7 @@ If a file is not found locally, it proxies the request to the upstream server.`,
 		}
 
 		if upstreamURL == "" {
-			return fmt.Errorf("upstream URL must be provided either via --url flag or in .heyFrame-project.yml")
+			return fmt.Errorf("upstream URL must be provided either via --url flag or in .heyframe-project.yml")
 		}
 
 		// Parse upstream URL
@@ -219,7 +219,7 @@ If a file is not found locally, it proxies the request to the upstream server.`,
 			}
 
 			// Write HeyFrame configuration
-			configContent := fmt.Sprintf(`heyFrame:
+			configContent := fmt.Sprintf(`heyframe:
   filesystem:
     public:
       type: "local"

@@ -14,7 +14,7 @@ import (
 
 type HeyFrameBundle struct {
 	path     string
-	Composer heyFrameBundleComposerJson
+	Composer heyframeBundleComposerJson
 	config   *Config
 }
 
@@ -29,18 +29,18 @@ func newHeyFrameBundle(path string) (*HeyFrameBundle, error) {
 		return nil, fmt.Errorf("newHeyFrameBundle: %v", err)
 	}
 
-	var composerJson heyFrameBundleComposerJson
+	var composerJson heyframeBundleComposerJson
 	err = json.Unmarshal(jsonFile, &composerJson)
 	if err != nil {
 		return nil, fmt.Errorf("newHeyFrameBundle: %v", err)
 	}
 
-	if composerJson.Type != "heyFrame-bundle" {
-		return nil, fmt.Errorf("newHeyFrameBundle: composer.json type is not heyFrame-bundle")
+	if composerJson.Type != "heyframe-bundle" {
+		return nil, fmt.Errorf("newHeyFrameBundle: composer.json type is not heyframe-bundle")
 	}
 
 	if composerJson.Extra.BundleName == "" {
-		return nil, fmt.Errorf("composer.json does not contain heyFrame-bundle-name in extra")
+		return nil, fmt.Errorf("composer.json does not contain heyframe-bundle-name in extra")
 	}
 
 	cfg, err := readExtensionConfig(path)
@@ -61,19 +61,19 @@ type composerAutoload struct {
 	Psr4 map[string]string `json:"psr-4"`
 }
 
-type heyFrameBundleComposerJson struct {
+type heyframeBundleComposerJson struct {
 	Name     string                          `json:"name"`
 	Type     string                          `json:"type"`
 	License  string                          `json:"license"`
 	Version  string                          `json:"version"`
 	Require  map[string]string               `json:"require"`
-	Extra    heyFrameBundleComposerJsonExtra `json:"extra"`
+	Extra    heyframeBundleComposerJsonExtra `json:"extra"`
 	Suggest  map[string]string               `json:"suggest"`
 	Autoload composerAutoload                `json:"autoload"`
 }
 
-type heyFrameBundleComposerJsonExtra struct {
-	BundleName string `json:"heyFrame-bundle-name"`
+type heyframeBundleComposerJsonExtra struct {
+	BundleName string `json:"heyframe-bundle-name"`
 }
 
 func (p HeyFrameBundle) GetComposerName() (string, error) {
@@ -95,7 +95,7 @@ func (p HeyFrameBundle) GetSourceDirs() []string {
 	return result
 }
 
-// GetResourcesDir returns the resources directory of the heyFrame bundle.
+// GetResourcesDir returns the resources directory of the heyframe bundle.
 func (p HeyFrameBundle) GetResourcesDir() string {
 	return path.Join(p.GetRootDir(), "Resources")
 }
@@ -128,18 +128,18 @@ func (p HeyFrameBundle) GetHeyFrameVersionConstraint() (*version.Constraints, er
 		return &constraint, nil
 	}
 
-	heyFrameConstraintString, ok := p.Composer.Require["heyFrame/core"]
+	heyframeConstraintString, ok := p.Composer.Require["heyframe/core"]
 
 	if !ok {
-		return nil, fmt.Errorf("require.heyFrame/core is required")
+		return nil, fmt.Errorf("require.heyframe/core is required")
 	}
 
-	heyFrameConstraint, err := version.NewConstraint(heyFrameConstraintString)
+	heyframeConstraint, err := version.NewConstraint(heyframeConstraintString)
 	if err != nil {
 		return nil, err
 	}
 
-	return &heyFrameConstraint, err
+	return &heyframeConstraint, err
 }
 
 func (HeyFrameBundle) GetType() string {

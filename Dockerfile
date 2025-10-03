@@ -4,7 +4,7 @@ FROM ghcr.io/heyframe/heyframe-cli-base:${PHP_VERSION}
 
 ARG TARGETPLATFORM
 
-COPY $TARGETPLATFORM/heyFrame-cli /usr/local/bin/
+COPY $TARGETPLATFORM/heyframe-cli /usr/local/bin/
 
-ENTRYPOINT ["/usr/local/bin/heyFrame-cli"]
+ENTRYPOINT ["/usr/local/bin/heyframe-cli"]
 CMD ["--help"]

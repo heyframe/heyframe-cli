@@ -18,7 +18,7 @@ func (f *DefaultCacheFactory) CreateCache() Cache {
 	// Check if we're running in GitHub Actions
 	if isGitHubActions() {
 		// Try to create GitHub Actions cache
-		if cache, err := NewGitHubActionsCache("heyFrame-cli"); err == nil {
+		if cache, err := NewGitHubActionsCache("heyframe-cli"); err == nil {
 			return trackCache(cache)
 		}
 		// Fall back to disk cache if GitHub Actions cache fails

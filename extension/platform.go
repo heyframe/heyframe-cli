@@ -110,7 +110,7 @@ type PlatformComposerJson struct {
 }
 
 type platformComposerJsonExtra struct {
-	HeyFramePluginClass string            `json:"heyFrame-plugin-class"`
+	HeyFramePluginClass string            `json:"heyframe-plugin-class"`
 	Label               map[string]string `json:"label"`
 	Description         map[string]string `json:"description"`
 	ManufacturerLink    map[string]string `json:"manufacturerLink"`
@@ -146,18 +146,18 @@ func (p PlatformPlugin) GetHeyFrameVersionConstraint() (*version.Constraints, er
 		return &constraint, nil
 	}
 
-	heyFrameConstraintString, ok := p.Composer.Require["heyFrame/core"]
+	heyframeConstraintString, ok := p.Composer.Require["heyframe/core"]
 
 	if !ok {
-		return nil, fmt.Errorf("require.heyFrame/core is required")
+		return nil, fmt.Errorf("require.heyframe/core is required")
 	}
 
-	heyFrameConstraint, err := version.NewConstraint(heyFrameConstraintString)
+	heyframeConstraint, err := version.NewConstraint(heyframeConstraintString)
 	if err != nil {
 		return nil, err
 	}
 
-	return &heyFrameConstraint, err
+	return &heyframeConstraint, err
 }
 
 func (PlatformPlugin) GetType() string {
@@ -225,7 +225,7 @@ func (p PlatformPlugin) Validate(c context.Context, check validation.Check) {
 		check.AddResult(validation.CheckResult{
 			Path:       "composer.json",
 			Identifier: "metadata.type",
-			Message:    "The composer type must be heyFrame-platform-plugin",
+			Message:    "The composer type must be heyframe-platform-plugin",
 			Severity:   validation.SeverityError,
 		})
 	}
@@ -274,13 +274,13 @@ func (p PlatformPlugin) Validate(c context.Context, check validation.Check) {
 			Severity:   validation.SeverityError,
 		})
 	} else {
-		_, exists := p.Composer.Require["heyFrame/core"]
+		_, exists := p.Composer.Require["heyframe/core"]
 
 		if !exists {
 			check.AddResult(validation.CheckResult{
 				Path:       "composer.json",
 				Identifier: "metadata.require",
-				Message:    "You need to require \"heyFrame/core\" package",
+				Message:    "You need to require \"heyframe/core\" package",
 				Severity:   validation.SeverityError,
 			})
 		}
@@ -356,7 +356,7 @@ func validatePHPFiles(c context.Context, ext Extension, check validation.Check) 
 		check.AddResult(validation.CheckResult{
 			Path:       "composer.json",
 			Identifier: "php.linter",
-			Message:    fmt.Sprintf("Could not parse heyFrame version constraint: %s", err.Error()),
+			Message:    fmt.Sprintf("Could not parse heyframe version constraint: %s", err.Error()),
 			Severity:   validation.SeverityError,
 		})
 		return
@@ -403,7 +403,7 @@ func validatePHPFiles(c context.Context, ext Extension, check validation.Check) 
 }
 
 func GetPhpVersion(ctx context.Context, constraint *version.Constraints) (string, error) {
-	r, _ := http.NewRequestWithContext(context.Background(), http.MethodGet, "https://raw.githubusercontent.com/FriendsOfHeyFrame/heyFrame-static-data/main/data/php-version.json", http.NoBody)
+	r, _ := http.NewRequestWithContext(context.Background(), http.MethodGet, "https://raw.githubusercontent.com/FriendsOfHeyFrame/heyframe-static-data/main/data/php-version.json", http.NoBody)
 
 	resp, err := http.DefaultClient.Do(r)
 	if err != nil {
@@ -416,23 +416,23 @@ func GetPhpVersion(ctx context.Context, constraint *version.Constraints) (string
 		}
 	}()
 
-	var heyFrameToPHPVersion map[string]string
+	var heyframeToPHPVersion map[string]string
 
-	err = json.NewDecoder(resp.Body).Decode(&heyFrameToPHPVersion)
+	err = json.NewDecoder(resp.Body).Decode(&heyframeToPHPVersion)
 	if err != nil {
 		return "", err
 	}
 
-	for heyFrameVersion, phpVersion := range heyFrameToPHPVersion {
-		heyFrameVersionConstraint, err := version.NewVersion(heyFrameVersion)
+	for heyframeVersion, phpVersion := range heyframeToPHPVersion {
+		heyframeVersionConstraint, err := version.NewVersion(heyframeVersion)
 		if err != nil {
 			continue
 		}
 
-		if constraint.Check(heyFrameVersionConstraint) {
+		if constraint.Check(heyframeVersionConstraint) {
 			return phpVersion, nil
 		}
 	}
 
-	return "", errors.New("could not find php version for heyFrame version")
+	return "", errors.New("could not find php version for heyframe version")
 }

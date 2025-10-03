@@ -29,7 +29,7 @@ You are a helper agent to help to upgrade Twig templates. I will give you the ol
 `
 
 var extensionAiTwigUpgradeCmd = &cobra.Command{
-	Use:   "twig-upgrade [path] [old-heyFrame-version] [new-heyFrame-version]",
+	Use:   "twig-upgrade [path] [old-heyframe-version] [new-heyframe-version]",
 	Short: "Upgrade Twig templates using AI",
 	Args:  cobra.ExactArgs(3),
 	RunE: func(cmd *cobra.Command, args []string) error {
@@ -194,12 +194,12 @@ func init() {
 }
 
 func cloneHeyFrameStorefront(ctx context.Context, version string) (string, error) {
-	tempDir, err := os.MkdirTemp(os.TempDir(), "heyFrame")
+	tempDir, err := os.MkdirTemp(os.TempDir(), "heyframe")
 	if err != nil {
 		return "", err
 	}
 
-	git := exec.CommandContext(ctx, "git", "-c", "advice.detachedHead=false", "clone", "-q", "--branch", "v"+version, "https://github.com/heyFrame/storefront", tempDir, "--depth", "1")
+	git := exec.CommandContext(ctx, "git", "-c", "advice.detachedHead=false", "clone", "-q", "--branch", "v"+version, "https://github.com/heyframe/storefront", tempDir, "--depth", "1")
 	output, err := git.CombinedOutput()
 	if err != nil {
 		logging.FromContext(ctx).Error(string(output))

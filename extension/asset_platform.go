@@ -42,14 +42,14 @@ func BuildAssetsForExtensions(ctx context.Context, sources []asset.Source, asset
 
 	requiresHeyFrameSources := cfgs.RequiresHeyFrameRepository()
 
-	heyFrameRoot := assetConfig.HeyFrameRoot
-	if heyFrameRoot == "" && requiresHeyFrameSources {
-		heyFrameRoot, err = setupHeyFrameInTemp(ctx, minVersion)
+	heyframeRoot := assetConfig.HeyFrameRoot
+	if heyframeRoot == "" && requiresHeyFrameSources {
+		heyframeRoot, err = setupHeyFrameInTemp(ctx, minVersion)
 		if err != nil {
 			return err
 		}
 
-		defer deletePaths(ctx, heyFrameRoot)
+		defer deletePaths(ctx, heyframeRoot)
 	}
 
 	nodeInstallSection := ci.Default.Section(ctx, "Installing node_modules for extensions")
@@ -61,9 +61,9 @@ func BuildAssetsForExtensions(ctx context.Context, sources []asset.Source, asset
 
 	nodeInstallSection.End(ctx)
 
-	if heyFrameRoot != "" && len(assetConfig.KeepNodeModules) > 0 {
+	if heyframeRoot != "" && len(assetConfig.KeepNodeModules) > 0 {
 		paths = slices.DeleteFunc(paths, func(path string) bool {
-			rel, err := filepath.Rel(heyFrameRoot, path)
+			rel, err := filepath.Rel(heyframeRoot, path)
 			if err != nil {
 				return false
 			}
@@ -96,14 +96,14 @@ func BuildAssetsForExtensions(ctx context.Context, sources []asset.Source, asset
 		nonCompatibleExtensions := cfgs.FilterByAdminAndEsBuild(false)
 
 		if len(nonCompatibleExtensions) != 0 {
-			if projectRequiresBuild(heyFrameRoot) {
+			if projectRequiresBuild(heyframeRoot) {
 				// add the storefront itself as plugin into json
 				var basePath string
-				if heyFrameRoot == "" {
+				if heyframeRoot == "" {
 					basePath = "src/Storefront/"
 				} else {
 					basePath = strings.TrimLeft(
-						strings.Replace(PlatformPath(heyFrameRoot, "Storefront", ""), heyFrameRoot, "", 1),
+						strings.Replace(PlatformPath(heyframeRoot, "Storefront", ""), heyframeRoot, "", 1),
 						"/",
 					) + "/"
 				}
@@ -126,11 +126,11 @@ func BuildAssetsForExtensions(ctx context.Context, sources []asset.Source, asset
 				}
 			}
 
-			if err := prepareHeyFrameForAsset(heyFrameRoot, nonCompatibleExtensions); err != nil {
+			if err := prepareHeyFrameForAsset(heyframeRoot, nonCompatibleExtensions); err != nil {
 				return err
 			}
 
-			administrationRoot := PlatformPath(heyFrameRoot, "Administration", "Resources/app/administration")
+			administrationRoot := PlatformPath(heyframeRoot, "Administration", "Resources/app/administration")
 
 			if assetConfig.NPMForceInstall || !nodeModulesExists(administrationRoot) {
 				var additionalNpmParameters []string
@@ -149,9 +149,9 @@ func BuildAssetsForExtensions(ctx context.Context, sources []asset.Source, asset
 				}
 			}
 
-			envList := []string{fmt.Sprintf("PROJECT_ROOT=%s", heyFrameRoot), fmt.Sprintf("ADMIN_ROOT=%s", PlatformPath(heyFrameRoot, "Administration", ""))}
+			envList := []string{fmt.Sprintf("PROJECT_ROOT=%s", heyframeRoot), fmt.Sprintf("ADMIN_ROOT=%s", PlatformPath(heyframeRoot, "Administration", ""))}
 
-			if !projectRequiresBuild(heyFrameRoot) || !assetConfig.ForceAdminBuild {
+			if !projectRequiresBuild(heyframeRoot) || !assetConfig.ForceAdminBuild {
 				logging.FromContext(ctx).Debugf("Building only administration assets for plugins")
 				envList = append(envList, "HEYFRAME_ADMIN_BUILD_ONLY_EXTENSIONS=1", "HEYFRAME_ADMIN_SKIP_SOURCEMAP_GENERATION=1")
 			} else {
@@ -207,11 +207,11 @@ func BuildAssetsForExtensions(ctx context.Context, sources []asset.Source, asset
 		if len(nonCompatibleExtensions) != 0 {
 			// add the storefront itself as plugin into json
 			var basePath string
-			if heyFrameRoot == "" {
+			if heyframeRoot == "" {
 				basePath = "src/Storefront/"
 			} else {
 				basePath = strings.TrimLeft(
-					strings.Replace(PlatformPath(heyFrameRoot, "Storefront", ""), heyFrameRoot, "", 1),
+					strings.Replace(PlatformPath(heyframeRoot, "Storefront", ""), heyframeRoot, "", 1),
 					"/",
 				) + "/"
 			}
@@ -231,11 +231,11 @@ func BuildAssetsForExtensions(ctx context.Context, sources []asset.Source, asset
 				},
 			}
 
-			if err := prepareHeyFrameForAsset(heyFrameRoot, nonCompatibleExtensions); err != nil {
+			if err := prepareHeyFrameForAsset(heyframeRoot, nonCompatibleExtensions); err != nil {
 				return err
 			}
 
-			storefrontRoot := PlatformPath(heyFrameRoot, "Storefront", "Resources/app/storefront")
+			storefrontRoot := PlatformPath(heyframeRoot, "Storefront", "Resources/app/storefront")
 
 			if assetConfig.NPMForceInstall || !nodeModulesExists(storefrontRoot) {
 				if err := patchPackageLockToRemoveCanIUsePackage(path.Join(storefrontRoot, "package-lock.json")); err != nil {
@@ -282,7 +282,7 @@ func BuildAssetsForExtensions(ctx context.Context, sources []asset.Source, asset
 
 			envList := []string{
 				"NODE_ENV=production",
-				fmt.Sprintf("PROJECT_ROOT=%s", heyFrameRoot),
+				fmt.Sprintf("PROJECT_ROOT=%s", heyframeRoot),
 				fmt.Sprintf("STOREFRONT_ROOT=%s", storefrontRoot),
 			}
 
@@ -320,8 +320,8 @@ func BuildAssetsForExtensions(ctx context.Context, sources []asset.Source, asset
 	return nil
 }
 
-func prepareHeyFrameForAsset(heyFrameRoot string, cfgs ExtensionAssetConfig) error {
-	varFolder := fmt.Sprintf("%s/var", heyFrameRoot)
+func prepareHeyFrameForAsset(heyframeRoot string, cfgs ExtensionAssetConfig) error {
+	varFolder := fmt.Sprintf("%s/var", heyframeRoot)
 	if _, err := os.Stat(varFolder); os.IsNotExist(err) {
 		err := os.Mkdir(varFolder, os.ModePerm)
 		if err != nil {
@@ -334,12 +334,12 @@ func prepareHeyFrameForAsset(heyFrameRoot string, cfgs ExtensionAssetConfig) err
 		return fmt.Errorf("prepareHeyFrameForAsset: %w", err)
 	}
 
-	err = os.WriteFile(fmt.Sprintf("%s/var/plugins.json", heyFrameRoot), pluginJson, os.ModePerm)
+	err = os.WriteFile(fmt.Sprintf("%s/var/plugins.json", heyframeRoot), pluginJson, os.ModePerm)
 	if err != nil {
 		return fmt.Errorf("prepareHeyFrameForAsset: %w", err)
 	}
 
-	err = os.WriteFile(fmt.Sprintf("%s/var/features.json", heyFrameRoot), []byte("{}"), os.ModePerm)
+	err = os.WriteFile(fmt.Sprintf("%s/var/features.json", heyframeRoot), []byte("{}"), os.ModePerm)
 	if err != nil {
 		return fmt.Errorf("prepareHeyFrameForAsset: %w", err)
 	}

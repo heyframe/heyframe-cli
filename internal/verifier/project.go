@@ -63,7 +63,7 @@ func getHeyFrameConstraint(root string) (*version.Constraints, error) {
 
 	var composerJsonData struct {
 		Require struct {
-			HeyFrame string `json:"heyFrame/core"`
+			HeyFrame string `json:"heyframe/core"`
 		} `json:"require"`
 	}
 
@@ -72,7 +72,7 @@ func getHeyFrameConstraint(root string) (*version.Constraints, error) {
 	}
 
 	if composerJsonData.Require.HeyFrame == "" {
-		return nil, fmt.Errorf("heyFrame/core is not required")
+		return nil, fmt.Errorf("heyframe/core is not required")
 	}
 
 	cst, err := version.NewConstraint(composerJsonData.Require.HeyFrame)
@@ -97,7 +97,7 @@ func GetConfigFromProject(root string) (*ToolConfig, error) {
 
 	vendorPath := path.Join(root, "vendor")
 
-	shopCfg, err := platform.ReadConfig(path.Join(root, ".heyFrame-project.yml"), true)
+	shopCfg, err := platform.ReadConfig(path.Join(root, ".heyframe-project.yml"), true)
 	if err != nil {
 		return nil, err
 	}
@@ -198,7 +198,7 @@ func GetConfigFromProject(root string) (*ToolConfig, error) {
 type rootComposerJson struct {
 	Require map[string]string `json:"require"`
 	Extra   struct {
-		Bundles map[string]rootHeyFrameBundle `json:"heyFrame-bundles"`
+		Bundles map[string]rootHeyFrameBundle `json:"heyframe-bundles"`
 	}
 }
 

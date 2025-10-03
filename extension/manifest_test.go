@@ -26,10 +26,10 @@ func TestManifestRead(t *testing.T) {
 	assert.Equal(t, "Resources/config/plugin.png", manifest.Meta.Icon)
 	assert.Equal(t, "Proprietary", manifest.Meta.License)
 
-	assert.Equal(t, "https://instorier.apps.heyFrame.io/app/lifecycle/register", manifest.Setup.RegistrationUrl)
+	assert.Equal(t, "https://instorier.apps.heyframe.io/app/lifecycle/register", manifest.Setup.RegistrationUrl)
 	assert.Equal(t, "", manifest.Setup.Secret)
 
-	assert.Equal(t, "https://instorier.apps.heyFrame.io/iframe", manifest.Admin.BaseAppUrl)
+	assert.Equal(t, "https://instorier.apps.heyframe.io/iframe", manifest.Admin.BaseAppUrl)
 
 	assert.Len(t, manifest.Permissions.Read, 57)
 	assert.Len(t, manifest.Permissions.Create, 4)

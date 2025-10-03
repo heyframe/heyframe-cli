@@ -104,8 +104,8 @@ type MerchantShop struct {
 		Major       string `json:"major"`
 		ReleaseDate string `json:"releaseDate"`
 		Public      bool   `json:"public"`
-	} `json:"heyFrameVersion"`
-	HeyFrameEdition                string `json:"heyFrameEdition"`
+	} `json:"heyframeVersion"`
+	HeyFrameEdition                string `json:"heyframeEdition"`
 	DomainIdn                      string `json:"domain_idn"`
 	LatestVerificationStatusChange struct {
 		Id                   int    `json:"id"`

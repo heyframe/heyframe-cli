@@ -46,7 +46,7 @@ func findClosestHeyFrameProject() (string, error) {
 				}
 				contentString := string(content)
 
-				if strings.Contains(contentString, "heyFrame/core") {
+				if strings.Contains(contentString, "heyframe/core") {
 					if _, err := os.Stat(fmt.Sprintf("%s/bin/console", currentDir)); err == nil {
 						return currentDir, nil
 					}

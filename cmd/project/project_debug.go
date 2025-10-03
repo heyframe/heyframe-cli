@@ -29,7 +29,7 @@ var projectDebug = &cobra.Command{
 			return err
 		}
 
-		heyFrameConstraint, err := extension.GetHeyFrameProjectConstraint(args[0])
+		heyframeConstraint, err := extension.GetHeyFrameProjectConstraint(args[0])
 		if err != nil {
 			return err
 		}
@@ -39,7 +39,7 @@ var projectDebug = &cobra.Command{
 		} else {
 			fmt.Printf("Found config: Yes\n")
 		}
-		fmt.Printf("Detected following HeyFrame version: %s\n", heyFrameConstraint.String())
+		fmt.Printf("Detected following HeyFrame version: %s\n", heyframeConstraint.String())
 
 		sources := extension.FindAssetSourcesOfProject(logging.DisableLogger(cmd.Context()), args[0], shopCfg)
 

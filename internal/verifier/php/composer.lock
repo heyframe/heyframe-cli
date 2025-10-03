@@ -505,16 +505,16 @@
             "time": "2025-09-27T00:24:15+00:00"
         },
         {
-            "name": "frosh/heyFrame-rector",
+            "name": "frosh/heyframe-rector",
             "version": "0.5.7",
             "source": {
                 "type": "git",
-                "url": "https://github.com/FriendsOfHeyFrame/heyFrame-rector.git",
+                "url": "https://github.com/FriendsOfHeyFrame/heyframe-rector.git",
                 "reference": "2e279aeb46cdfaacfa1c70ce47c14be9e2a2e281"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfHeyFrame/heyFrame-rector/zipball/2e279aeb46cdfaacfa1c70ce47c14be9e2a2e281",
+                "url": "https://api.github.com/repos/FriendsOfHeyFrame/heyframe-rector/zipball/2e279aeb46cdfaacfa1c70ce47c14be9e2a2e281",
                 "reference": "2e279aeb46cdfaacfa1c70ce47c14be9e2a2e281",
                 "shasum": ""
             },
@@ -549,8 +549,8 @@
             ],
             "description": "HeyFrame specific Rector",
             "support": {
-                "issues": "https://github.com/FriendsOfHeyFrame/heyFrame-rector/issues",
-                "source": "https://github.com/FriendsOfHeyFrame/heyFrame-rector/tree/0.5.7"
+                "issues": "https://github.com/FriendsOfHeyFrame/heyframe-rector/issues",
+                "source": "https://github.com/FriendsOfHeyFrame/heyframe-rector/tree/0.5.7"
             },
             "time": "2025-08-20T10:13:50+00:00"
         },
@@ -1585,16 +1585,16 @@
             "time": "2024-07-03T04:53:05+00:00"
         },
         {
-            "name": "heyFramelabs/phpstan-heyFrame",
+            "name": "heyframelabs/phpstan-heyframe",
             "version": "0.1.11",
             "source": {
                 "type": "git",
-                "url": "https://github.com/heyFrameLabs/phpstan-heyFrame.git",
+                "url": "https://github.com/heyframeLabs/phpstan-heyframe.git",
                 "reference": "7f18f3b865ce4b9a585594f26cfc24c2182134c8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/heyFrameLabs/phpstan-heyFrame/zipball/7f18f3b865ce4b9a585594f26cfc24c2182134c8",
+                "url": "https://api.github.com/repos/heyframeLabs/phpstan-heyframe/zipball/7f18f3b865ce4b9a585594f26cfc24c2182134c8",
                 "reference": "7f18f3b865ce4b9a585594f26cfc24c2182134c8",
                 "shasum": ""
             },
@@ -1607,7 +1607,7 @@
                 "friendsofphp/php-cs-fixer": "v3.64.0",
                 "phpstan/extension-installer": "*",
                 "phpunit/phpunit": "~11.3.6",
-                "heyFrame/core": "^6.6"
+                "heyframe/core": "^6.6"
             },
             "type": "library",
             "extra": {
@@ -1628,8 +1628,8 @@
             ],
             "description": "PhpStan Rules for HeyFrame",
             "support": {
-                "issues": "https://github.com/heyFrameLabs/phpstan-heyFrame/issues",
-                "source": "https://github.com/heyFrameLabs/phpstan-heyFrame/tree/0.1.11"
+                "issues": "https://github.com/heyframeLabs/phpstan-heyframe/issues",
+                "source": "https://github.com/heyframeLabs/phpstan-heyframe/tree/0.1.11"
             },
             "time": "2025-06-30T08:42:23+00:00"
         },

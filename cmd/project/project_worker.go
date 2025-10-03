@@ -82,7 +82,7 @@ var projectWorkerCmd = &cobra.Command{
 			consumeArgs = append(consumeArgs, "-vvv")
 		}
 
-		baseName := fmt.Sprintf("heyFrame-cli-%d", os.Getpid())
+		baseName := fmt.Sprintf("heyframe-cli-%d", os.Getpid())
 		workerRatelimit := rate.NewLimiter(rate.Every(10*time.Second), workerAmount)
 
 		var wg sync.WaitGroup

@@ -165,7 +165,7 @@ func TestCleanup(t *testing.T) {
 		tempDir := t.TempDir()
 
 		// Create a file that's in cleanupByMd5 but with different content
-		filePath := "config/packages/heyFrame.yaml"
+		filePath := "config/packages/heyframe.yaml"
 		fullPath := filepath.Join(tempDir, filePath)
 		err := os.MkdirAll(filepath.Dir(fullPath), 0o755)
 		require.NoError(t, err)

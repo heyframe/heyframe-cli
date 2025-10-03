@@ -36,13 +36,13 @@ func SetupTools(ctx context.Context, currentVersion string) error {
 	if ok, err := system.IsPHPVersionAtLeast(ctx, "8.2.0"); err != nil {
 		return fmt.Errorf("failed to check installed PHP version: %w", err)
 	} else if !ok {
-		return fmt.Errorf("php version must be at least 8.2.0 to use this. Update your PHP version or use the heyFrame-cli docker image")
+		return fmt.Errorf("php version must be at least 8.2.0 to use this. Update your PHP version or use the heyframe-cli docker image")
 	}
 
 	if ok, err := system.IsNodeVersionAtLeast(ctx, "20.0.0"); err != nil {
 		return fmt.Errorf("failed to check installed Node.js version: %w", err)
 	} else if !ok {
-		return fmt.Errorf("node.js version must be at least 20.0.0 to use this. Update your Node.js version or use the heyFrame-cli docker image")
+		return fmt.Errorf("node.js version must be at least 20.0.0 to use this. Update your Node.js version or use the heyframe-cli docker image")
 	}
 
 	logging.FromContext(ctx).Debugf("Using tool directory: %s", toolsDir)

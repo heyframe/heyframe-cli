@@ -61,7 +61,7 @@ type ConfigBuild struct {
 	DisableStorefrontBuild bool `yaml:"disable_storefront_build,omitempty"`
 	// Extensions to force build for, even if they have compiled files
 	ForceExtensionBuild []ConfigBuildExtension `yaml:"force_extension_build,omitempty"`
-	// When enabled, the heyFrame admin will be built
+	// When enabled, the heyframe admin will be built
 	ForceAdminBuild bool `yaml:"force_admin_build,omitempty"`
 	// Keep following node_modules in the final build
 	KeepNodeModules []string `yaml:"keep_node_modules,omitempty"`
@@ -343,7 +343,7 @@ func ReadConfig(fileName string, allowFallback bool) (*Config, error) {
 			return fillEmptyConfig(config), nil
 		}
 
-		return nil, fmt.Errorf("cannot find project configuration file \"%s\", use heyFrame-cli project config init to create one", fileName)
+		return nil, fmt.Errorf("cannot find project configuration file \"%s\", use heyframe-cli project config init to create one", fileName)
 	}
 
 	if err != nil {
@@ -410,12 +410,12 @@ func NewUuid() string {
 func DefaultConfigFileName() string {
 	currentDir, err := os.Getwd()
 	if err != nil {
-		return ".heyFrame-project.yml"
+		return ".heyframe-project.yml"
 	}
 
-	if _, err := os.Stat(path.Join(currentDir, ".heyFrame-project.yaml")); err == nil {
-		return ".heyFrame-project.yaml"
+	if _, err := os.Stat(path.Join(currentDir, ".heyframe-project.yaml")); err == nil {
+		return ".heyframe-project.yaml"
 	}
 
-	return ".heyFrame-project.yml"
+	return ".heyframe-project.yml"
 }

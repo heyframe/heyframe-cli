@@ -21,9 +21,9 @@ func setupHeyFrameInTemp(ctx context.Context, minVersion string) (string, error)
 		branch = "trunk"
 	}
 
-	logging.FromContext(ctx).Infof("Cloning heyFrame with branch: %s into %s", branch, dir)
+	logging.FromContext(ctx).Infof("Cloning heyframe with branch: %s into %s", branch, dir)
 
-	gitCheckoutCmd := exec.CommandContext(ctx, "git", "clone", "https://github.com/heyFrame/heyFrame.git", "--depth=1", "-b", branch, dir)
+	gitCheckoutCmd := exec.CommandContext(ctx, "git", "clone", "https://github.com/heyframe/heyframe.git", "--depth=1", "-b", branch, dir)
 	gitCheckoutCmd.Stdout = os.Stdout
 	gitCheckoutCmd.Stderr = os.Stderr
 	err = gitCheckoutCmd.Run()

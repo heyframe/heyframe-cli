@@ -59,9 +59,9 @@
           "type": "array",
           "description": "ExtraBundles can be used to declare additional bundles to be considered for building"
         },
-        "heyFrameVersionConstraint": {
+        "heyframeVersionConstraint": {
           "type": "string",
-          "description": "Override the heyFrame version constraint for building, can be used to specify the version of the heyFrame to use for building"
+          "description": "Override the heyframe version constraint for building, can be used to specify the version of the heyframe to use for building"
         },
         "zip": {
           "$ref": "#/$defs/ConfigBuildZip",
@@ -97,7 +97,7 @@
       "properties": {
         "enabled": {
           "type": "boolean",
-          "description": "When enabled, the heyFrame-cli build the assets"
+          "description": "When enabled, the heyframe-cli build the assets"
         },
         "before_hooks": {
           "items": {

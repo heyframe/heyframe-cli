@@ -21,7 +21,7 @@ func TestDetectPlatformTrunk(t *testing.T) {
 	composerJson := filepath.Join(tmpDir, "composer.json")
 
 	jsonStruct := composerJsonStruct{
-		Name: "heyFrame/platform",
+		Name: "heyframe/platform",
 	}
 
 	bytes, _ := json.Marshal(jsonStruct)
@@ -64,7 +64,7 @@ func TestComposerLockMatching(t *testing.T) {
 			Version string `json:"version"`
 		}{
 			{
-				Name:    "heyFrame/core",
+				Name:    "heyframe/core",
 				Version: "6.4.0",
 			},
 		},
@@ -91,7 +91,7 @@ func TestComposerLockNotMatching(t *testing.T) {
 			Version string `json:"version"`
 		}{
 			{
-				Name:    "heyFrame/core",
+				Name:    "heyframe/core",
 				Version: "6.4.0",
 			},
 		},

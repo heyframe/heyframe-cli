@@ -21,7 +21,7 @@ func getTestPlugin(tempDir string) PlatformPlugin {
 			Description: "Frosh Tools",
 			License:     "mit",
 			Version:     "1.0.0",
-			Require:     map[string]string{"heyFrame/core": "6.4.0.0"},
+			Require:     map[string]string{"heyframe/core": "6.4.0.0"},
 			Autoload: struct {
 				Psr0 map[string]string `json:"psr-0"`
 				Psr4 map[string]string `json:"psr-4"`
@@ -30,7 +30,7 @@ func getTestPlugin(tempDir string) PlatformPlugin {
 				Name     string `json:"name"`
 				Homepage string `json:"homepage"`
 			}{{Name: "Frosh", Homepage: "https://frosh.io"}},
-			Type: "heyFrame-platform-plugin",
+			Type: "heyframe-platform-plugin",
 			Extra: platformComposerJsonExtra{
 				HeyFramePluginClass: "FroshTools\\FroshTools",
 				Label: map[string]string{

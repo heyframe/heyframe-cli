@@ -15,7 +15,7 @@ var projectConfigPushCmd = &cobra.Command{
 	Use:   "push",
 	Short: "[Deprecated] Synchronizes your local config to the external shop",
 	RunE: func(cmd *cobra.Command, _ []string) error {
-		logging.FromContext(cmd.Context()).Warnf("This command is deprecated and will be removed in the future. Please use Fixture Bundle instead https://developer.heyFrame.com/docs/resources/tooling/fixture-bundle/")
+		logging.FromContext(cmd.Context()).Warnf("This command is deprecated and will be removed in the future. Please use Fixture Bundle instead https://developer.heyframe.com/docs/resources/tooling/fixture-bundle/")
 
 		logFormat := "Payload: %s"
 

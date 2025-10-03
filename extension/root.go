@@ -17,16 +17,16 @@ import (
 const (
 	TypePlatformApp    = "app"
 	TypePlatformPlugin = "plugin"
-	TypeHeyFrameBundle = "heyFrame-bundle"
+	TypeHeyFrameBundle = "heyframe-bundle"
 
-	ComposerTypePlugin = "heyFrame-platform-plugin"
-	ComposerTypeApp    = "heyFrame-app"
-	ComposerTypeBundle = "heyFrame-bundle"
+	ComposerTypePlugin = "heyframe-platform-plugin"
+	ComposerTypeApp    = "heyframe-app"
+	ComposerTypeBundle = "heyframe-bundle"
 )
 
 func GetExtensionByFolder(path string) (Extension, error) {
 	if _, err := os.Stat(fmt.Sprintf("%s/plugin.xml", path)); err == nil {
-		return nil, fmt.Errorf("heyFrame 5 is not supported. Please use https://github.com/FriendsOfHeyFrame/FroshPluginUploader instead")
+		return nil, fmt.Errorf("heyframe 5 is not supported. Please use https://github.com/FriendsOfHeyFrame/FroshPluginUploader instead")
 	}
 
 	if _, err := os.Stat(fmt.Sprintf("%s/manifest.xml", path)); err == nil {

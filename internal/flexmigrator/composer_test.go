@@ -19,9 +19,9 @@ func TestMigrateComposerJson(t *testing.T) {
 
 		// Create a test composer.json file
 		initialComposer := &packagist.ComposerJson{
-			Name: "heyFrame/project",
+			Name: "heyframe/project",
 			Require: packagist.ComposerPackageLink{
-				"heyFrame/recovery": "1.0.0",
+				"heyframe/recovery": "1.0.0",
 				"php":               "^7.4",
 			},
 			RequireDev: packagist.ComposerPackageLink{
@@ -55,13 +55,13 @@ func TestMigrateComposerJson(t *testing.T) {
 		require.NoError(t, err)
 
 		// Verify package removals
-		assert.False(t, migratedComposer.HasPackage("heyFrame/recovery"))
+		assert.False(t, migratedComposer.HasPackage("heyframe/recovery"))
 		assert.False(t, migratedComposer.HasPackage("php"))
 
 		// Verify package additions
 		assert.Equal(t, "^2", migratedComposer.Require["symfony/flex"])
 		assert.Equal(t, "*", migratedComposer.Require["symfony/runtime"])
-		assert.Equal(t, "*", migratedComposer.RequireDev["heyFrame/dev-tools"])
+		assert.Equal(t, "*", migratedComposer.RequireDev["heyframe/dev-tools"])
 
 		// Verify config changes
 		assert.False(t, migratedComposer.HasConfig("platform"))
@@ -84,7 +84,7 @@ func TestMigrateComposerJson(t *testing.T) {
 		assert.Equal(t, true, symfonyConfig["allow-contrib"])
 		endpoints, ok := symfonyConfig["endpoint"].([]interface{})
 		require.True(t, ok)
-		assert.Contains(t, endpoints, "https://raw.githubusercontent.com/heyFrame/recipes/flex/main/index.json")
+		assert.Contains(t, endpoints, "https://raw.githubusercontent.com/heyframe/recipes/flex/main/index.json")
 		assert.Contains(t, endpoints, "flex://defaults")
 
 		// Verify repository configuration

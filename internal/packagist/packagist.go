@@ -15,7 +15,7 @@ type PackageResponse struct {
 }
 
 func (p *PackageResponse) HasPackage(name string) bool {
-	expectedName := fmt.Sprintf("store.heyFrame.com/%s", strings.ToLower(name))
+	expectedName := fmt.Sprintf("store.heyframe.com/%s", strings.ToLower(name))
 
 	_, ok := p.Packages[expectedName]
 
@@ -28,7 +28,7 @@ type PackageVersion struct {
 }
 
 func GetPackages(ctx context.Context, token string) (*PackageResponse, error) {
-	req, err := http.NewRequestWithContext(ctx, http.MethodGet, "https://packages.heyFrame.com/packages.json", nil)
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, "https://packages.heyframe.com/packages.json", nil)
 	if err != nil {
 		return nil, err
 	}

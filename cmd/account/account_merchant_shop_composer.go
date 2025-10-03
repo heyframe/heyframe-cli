@@ -12,7 +12,7 @@ import (
 
 var accountCompanyMerchantShopComposerCmd = &cobra.Command{
 	Use:   "configure-composer [domain]",
-	Short: "Configure local composer.json to use packages.heyFrame.com",
+	Short: "Configure local composer.json to use packages.heyframe.com",
 	Args:  cobra.MinimumNArgs(1),
 	ValidArgsFunction: func(cmd *cobra.Command, _ []string, _ string) ([]string, cobra.ShellCompDirective) {
 		completions := make([]string, 0)
@@ -68,10 +68,10 @@ var accountCompanyMerchantShopComposerCmd = &cobra.Command{
 				return err
 			}
 
-			if !composerJson.Repositories.HasRepository("https://packages.heyFrame.com") {
+			if !composerJson.Repositories.HasRepository("https://packages.heyframe.com") {
 				composerJson.Repositories = append(composerJson.Repositories, packagist.ComposerJsonRepository{
 					Type: "composer",
-					URL:  "https://packages.heyFrame.com",
+					URL:  "https://packages.heyframe.com",
 				})
 			}
 
@@ -84,7 +84,7 @@ var accountCompanyMerchantShopComposerCmd = &cobra.Command{
 				return err
 			}
 
-			composerAuth.BearerAuth["packages.heyFrame.com"] = token
+			composerAuth.BearerAuth["packages.heyframe.com"] = token
 
 			if err := composerAuth.Save(); err != nil {
 				return err

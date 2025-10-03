@@ -37,13 +37,13 @@ var extensionAssetBundleCmd = &cobra.Command{
 		if assetCfg.HeyFrameRoot != "" {
 			constraint, err := extension.GetHeyFrameProjectConstraint(assetCfg.HeyFrameRoot)
 			if err != nil {
-				return fmt.Errorf("cannot get heyFrame version constraint from project %s: %w", assetCfg.HeyFrameRoot, err)
+				return fmt.Errorf("cannot get heyframe version constraint from project %s: %w", assetCfg.HeyFrameRoot, err)
 			}
 			assetCfg.HeyFrameVersion = constraint
 		} else {
 			constraint, err := validatedExtensions[0].GetHeyFrameVersionConstraint()
 			if err != nil {
-				return fmt.Errorf("cannot get heyFrame version constraint: %w", err)
+				return fmt.Errorf("cannot get heyframe version constraint: %w", err)
 			}
 
 			assetCfg.HeyFrameVersion = constraint

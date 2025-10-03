@@ -39,8 +39,8 @@ var removeDirectories = []string{
 }
 
 var cleanupByMd5 = map[string][]string{
-	"config/packages/heyFrame.yaml": {
-		"398b89fe27bed7a69fbf0b5d92a0b421", // heyFrame.yaml template everything commented out
+	"config/packages/heyframe.yaml": {
+		"398b89fe27bed7a69fbf0b5d92a0b421", // heyframe.yaml template everything commented out
 	},
 	"config/packages/dev/monolog.yaml": {
 		"65f91981a4e8b944023d3b5e08627805",

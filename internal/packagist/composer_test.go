@@ -13,7 +13,7 @@ func TestComposerJsonRepositoriesHasRepository(t *testing.T) {
 	repos := ComposerJsonRepositories{
 		{
 			Type: "vcs",
-			URL:  "https://github.com/heyFrame/platform",
+			URL:  "https://github.com/heyframe/platform",
 		},
 		{
 			Type: "composer",
@@ -21,9 +21,9 @@ func TestComposerJsonRepositoriesHasRepository(t *testing.T) {
 		},
 	}
 
-	assert.True(t, repos.HasRepository("https://github.com/heyFrame/platform"))
+	assert.True(t, repos.HasRepository("https://github.com/heyframe/platform"))
 	assert.True(t, repos.HasRepository("https://packages.example.org"))
-	assert.False(t, repos.HasRepository("https://github.com/heyFrame/core"))
+	assert.False(t, repos.HasRepository("https://github.com/heyframe/core"))
 	assert.False(t, repos.HasRepository(""))
 }
 
@@ -67,7 +67,7 @@ func TestComposerJsonSave(t *testing.T) {
 
 	composer := &ComposerJson{
 		path:        composerFile,
-		Name:        "heyFrame/cli",
+		Name:        "heyframe/cli",
 		Description: "HeyFrame CLI tool",
 		Version:     "1.0.0",
 		Type:        "library",
@@ -75,7 +75,7 @@ func TestComposerJsonSave(t *testing.T) {
 		Authors: []ComposerJsonAuthor{
 			{
 				Name:  "HeyFrame AG",
-				Email: "info@heyFrame.com",
+				Email: "info@heyframe.com",
 			},
 		},
 		Require: ComposerPackageLink{
@@ -88,7 +88,7 @@ func TestComposerJsonSave(t *testing.T) {
 		Repositories: ComposerJsonRepositories{
 			{
 				Type: "vcs",
-				URL:  "https://github.com/heyFrame/platform",
+				URL:  "https://github.com/heyframe/platform",
 			},
 		},
 	}
@@ -129,7 +129,7 @@ func TestReadComposerJson(t *testing.T) {
 		composerFile := filepath.Join(tempDir, "composer.json")
 
 		testComposer := ComposerJson{
-			Name:        "heyFrame/cli",
+			Name:        "heyframe/cli",
 			Description: "HeyFrame CLI tool",
 			Version:     "1.0.0",
 			Require: ComposerPackageLink{
@@ -138,7 +138,7 @@ func TestReadComposerJson(t *testing.T) {
 			Repositories: ComposerJsonRepositories{
 				{
 					Type: "vcs",
-					URL:  "https://github.com/heyFrame/platform",
+					URL:  "https://github.com/heyframe/platform",
 				},
 			},
 		}
@@ -151,12 +151,12 @@ func TestReadComposerJson(t *testing.T) {
 		composer, err := ReadComposerJson(composerFile)
 		assert.NoError(t, err)
 		assert.Equal(t, composerFile, composer.path)
-		assert.Equal(t, "heyFrame/cli", composer.Name)
+		assert.Equal(t, "heyframe/cli", composer.Name)
 		assert.Equal(t, "HeyFrame CLI tool", composer.Description)
 		assert.Equal(t, "1.0.0", composer.Version)
 		assert.Equal(t, "^7.4 || ^8.0", composer.Require["php"])
 		assert.Equal(t, "vcs", composer.Repositories[0].Type)
-		assert.Equal(t, "https://github.com/heyFrame/platform", composer.Repositories[0].URL)
+		assert.Equal(t, "https://github.com/heyframe/platform", composer.Repositories[0].URL)
 	})
 
 	// Test with non-existing file
@@ -193,7 +193,7 @@ func TestReadComposerJsonDifferentRepositoryWritings(t *testing.T) {
 	"repositories": [
 		{
 			"type": "vcs",
-			"url": "https://github.com/heyFrame/platform"
+			"url": "https://github.com/heyframe/platform"
 		},
 		{
 			"type": "path",
@@ -210,7 +210,7 @@ func TestReadComposerJsonDifferentRepositoryWritings(t *testing.T) {
 		assert.Equal(t, composerFile, composer.path)
 
 		expectedRepos := []ComposerJsonRepository{
-			{Type: "vcs", URL: "https://github.com/heyFrame/platform"},
+			{Type: "vcs", URL: "https://github.com/heyframe/platform"},
 			{Type: "path", URL: "custom/plugins"},
 		}
 		assert.ElementsMatch(t, expectedRepos, composer.Repositories)
@@ -225,7 +225,7 @@ func TestReadComposerJsonDifferentRepositoryWritings(t *testing.T) {
 	"repositories": {
 		"remote": {
 			"type": "vcs",
-			"url": "https://github.com/heyFrame/platform"
+			"url": "https://github.com/heyframe/platform"
 		},
 		"local": {
 			"type": "path",
@@ -242,7 +242,7 @@ func TestReadComposerJsonDifferentRepositoryWritings(t *testing.T) {
 		assert.Equal(t, composerFile, composer.path)
 
 		expectedRepos := []ComposerJsonRepository{
-			{Type: "vcs", URL: "https://github.com/heyFrame/platform"},
+			{Type: "vcs", URL: "https://github.com/heyframe/platform"},
 			{Type: "path", URL: "custom/plugins"},
 		}
 		assert.ElementsMatch(t, expectedRepos, composer.Repositories)

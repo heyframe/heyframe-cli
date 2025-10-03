@@ -90,7 +90,7 @@ var projectAutofixComposerCmd = &cobra.Command{
 				continue
 			}
 
-			composerInstall = append(composerInstall, fmt.Sprintf("store.heyFrame.com/%s:%s", strings.ToLower(extName), extVersion.String()))
+			composerInstall = append(composerInstall, fmt.Sprintf("store.heyframe.com/%s:%s", strings.ToLower(extName), extVersion.String()))
 			deleteDirectories = append(deleteDirectories, extension.GetPath())
 		}
 
@@ -111,10 +111,10 @@ var projectAutofixComposerCmd = &cobra.Command{
 		fmt.Print(greenStyle.Render("bin/console plugin:refresh"))
 		fmt.Println(" after deleting the directories.")
 
-		if !rootComposerJson.Repositories.HasRepository("https://packages.heyFrame.com") {
+		if !rootComposerJson.Repositories.HasRepository("https://packages.heyframe.com") {
 			rootComposerJson.Repositories = append(rootComposerJson.Repositories, packagist.ComposerJsonRepository{
 				Type: "composer",
-				URL:  "https://packages.heyFrame.com",
+				URL:  "https://packages.heyframe.com",
 			})
 		}
 
@@ -123,7 +123,7 @@ var projectAutofixComposerCmd = &cobra.Command{
 			return err
 		}
 
-		auth.BearerAuth["packages.heyFrame.com"] = token
+		auth.BearerAuth["packages.heyframe.com"] = token
 
 		if err := auth.Save(); err != nil {
 			return err

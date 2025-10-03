@@ -34,7 +34,7 @@ func findPHPWasmFile(ctx context.Context, phpVersion string) ([]byte, error) {
 		return nil, fmt.Errorf("cache error: %w", err)
 	}
 
-	downloadUrl := "https://github.com/heyFrameLabs/php-cli-wasm-binaries/releases/download/1.0.0/" + expectedFile
+	downloadUrl := "https://github.com/heyframeLabs/php-cli-wasm-binaries/releases/download/1.0.0/" + expectedFile
 
 	r, err := http.NewRequestWithContext(ctx, http.MethodGet, downloadUrl, nil)
 	if err != nil {

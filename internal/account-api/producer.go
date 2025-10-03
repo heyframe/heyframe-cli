@@ -97,7 +97,7 @@ type Producer struct {
 	HasCancelledContract bool   `json:"hasCancelledContract"`
 	IconPath             string `json:"iconPath"`
 	IconIsSet            bool   `json:"iconIsSet"`
-	HeyFrameID           string `json:"heyFrameId"`
+	HeyFrameID           string `json:"heyframeId"`
 	UserId               int    `json:"userId"`
 	CompanyId            int    `json:"companyId"`
 	CompanyName          string `json:"companyName"`
@@ -204,7 +204,7 @@ type Extension struct {
 			ApplicationDate                   int     `json:"applicationDate"`
 			ConfirmationDate                  int     `json:"confirmationDate"`
 			SdkLicense                        bool    `json:"sdkLicense"`
-			HeyFrameApproved                  bool    `json:"heyFrameApproved"`
+			HeyFrameApproved                  bool    `json:"heyframeApproved"`
 			ProducerApproved                  bool    `json:"producerApproved"`
 			SignedDocument                    struct {
 				Id   int `json:"id"`
@@ -393,7 +393,7 @@ func (e ProducerEndpoint) UpdateExtension(ctx context.Context, extension *Extens
 }
 
 func (e ProducerEndpoint) GetSoftwareVersions(ctx context.Context, generation string) (*SoftwareVersionList, error) {
-	errorFormat := "heyFrame_versions: %v"
+	errorFormat := "heyframe_versions: %v"
 	r, err := e.c.NewAuthenticatedRequest(ctx, "GET", fmt.Sprintf("%s/pluginstatics/softwareVersions?filter=[{\"property\":\"pluginGeneration\",\"value\":\"%s\"},{\"property\":\"includeNonPublic\",\"value\":\"1\"}]", ApiUrl, generation), nil)
 	if err != nil {
 		return nil, fmt.Errorf(errorFormat, err)
@@ -528,7 +528,7 @@ func (e ProducerEndpoint) GetExtensionGeneralInfo(ctx context.Context) (*Extensi
 
 	err = json.Unmarshal(body, &info)
 	if err != nil {
-		return nil, fmt.Errorf("heyFrame_versions: %v", err)
+		return nil, fmt.Errorf("heyframe_versions: %v", err)
 	}
 
 	return info, nil
