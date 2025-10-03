@@ -1,0 +1,159 @@
+# yaml-language-server: $schema=https://goreleaser.com/static/schema-pro.json
+version: 2
+before:
+  hooks:
+    - go mod tidy
+    - go generate ./...
+    - ./scripts/completion.sh
+
+builds:
+  - env:
+      - CGO_ENABLED=0
+    binary: heyframe-cli
+    ldflags: -s -w -X 'github.com/heyframe/heyframe-cli/cmd.version={{ .Version }}'
+    flags:
+      - -trimpath
+    goos:
+      - linux
+      - darwin
+    ignore:
+      - goos: linux
+        goarch: '386'
+
+archives:
+  - name_template: >-
+      {{ .ProjectName }}_
+      {{- title .Os }}_
+      {{- if eq .Arch "amd64" }}x86_64
+      {{- else if eq .Arch "386" }}i386
+      {{- else }}{{ .Arch }}{{ end }}
+    files:
+      - LICENSE
+      - completions/*
+
+release:
+  github:
+    owner: heyframe
+    name: heyframe-cli
+
+dockers_v2:
+  - id: php-84
+    images:
+      - "heyframe/heyframe-cli"
+      - "ghcr.io/heyframe/heyframe-cli"
+    tags:
+      - "{{ .Version }}-php-8.4"
+      - "latest-php-8.4"
+    build_args:
+      PHP_VERSION: "8.4"
+    platforms:
+      - "linux/amd64"
+      - "linux/arm64"
+  - id: php-83
+    images:
+      - "heyframe/heyframe-cli"
+      - "ghcr.io/heyframe/heyframe-cli"
+    tags:
+      - "{{ .Version }}-php-8.3"
+      - "latest-php-8.3"
+      - "{{ .Version }}"
+      - "latest"
+    build_args:
+      PHP_VERSION: "8.3"
+    platforms:
+      - "linux/amd64"
+      - "linux/arm64"
+  - id: php-82
+    images:
+      - "heyframe/heyframe-cli"
+      - "ghcr.io/heyframe/heyframe-cli"
+    tags:
+      - "{{ .Version }}-php-8.2"
+      - "latest-php-8.2"
+    build_args:
+      PHP_VERSION: "8.2"
+    platforms:
+      - "linux/amd64"
+      - "linux/arm64"
+  - id: php-81
+    images:
+      - "heyframe/heyframe-cli"
+      - "ghcr.io/heyframe/heyframe-cli"
+    tags:
+      - "{{ .Version }}-php-8.1"
+      - "latest-php-8.1"
+    build_args:
+      PHP_VERSION: "8.1"
+    platforms:
+      - "linux/amd64"
+      - "linux/arm64"
+  - id: bin
+    images:
+      - "heyframe/heyframe-cli"
+      - "ghcr.io/heyframe/heyframe-cli"
+    dockerfile: Dockerfile.bin
+    tags:
+      - "bin-{{ .Version }}"
+      - "bin"
+    platforms:
+      - "linux/amd64"
+      - "linux/arm64"
+
+sboms:
+  - artifacts: archive
+  - id: source
+    artifacts: source
+
+signs:
+  - cmd: cosign
+    certificate: "${artifact}.pem"
+    env:
+      - COSIGN_EXPERIMENTAL=1
+    artifacts: checksum
+    args:
+    - "sign-blob"
+    - "--output-certificate=${certificate}"
+    - "--output-signature=${signature}"
+    - '${artifact}'
+    - "--yes"
+
+docker_signs:
+  - cmd: cosign
+    env:
+    - COSIGN_EXPERIMENTAL=1
+    artifacts: all
+    args:
+    - 'sign'
+    - '${artifact}'
+    - "--yes"
+
+checksum:
+  name_template: 'checksums.txt'
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - '^docs:'
+      - '^test:'
+      - '^Merge pull request:'
+  groups:
+    - title: 🚀 Features
+      regexp: '^.*?feat(\([[:word:]]+\))??!?:.+$'
+      order: 0
+    - title: "🐛 Bug Fixes"
+      regexp: '^.*?bug(\([[:word:]]+\))??!?:.+$'
+      order: 1
+    - title: 🧰 Maintenance
+      order: 999
+
+npms:
+  - name: "@heyframe-ag/heyframe-cli"
+    description: "Heyframe CLI helps Heyframe developers manage extensions"
+    license: MIT
+    keywords:
+      - cli
+      - heyframe
+    repository: https://github.com/heyframe/heyframe-cli
+    bugs: https://github.com/heyframe/heyframe-cli/issues
+    access: public

@@ -1,0 +1,6 @@
+FROM scratch
+ARG TARGETPLATFORM
+
+COPY $TARGETPLATFORM/heyFrame-cli /
+ENTRYPOINT ["/heyFrame-cli"]
+CMD ["--help"]

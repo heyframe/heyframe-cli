@@ -1,0 +1,25 @@
+/.idea
+/.fleet
+/heyFrame-cli*
+dist/
+/completions
+/local
+/.heyFrame-cli
+/.heyFrame-project.yml
+/.heyFrame-project.yaml
+/test-app
+/go-heyFrame-admin-api-sdk
+/*.zip
+/Frosh*
+/Swag*
+/result
+/project
+dump.sql*
+
+/testdata
+
+# Devenv
+.devenv*
+devenv.local.nix
+
+/.direnv

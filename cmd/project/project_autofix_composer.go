@@ -1,0 +1,138 @@
+package project
+
+import (
+	"context"
+	"fmt"
+	"path"
+	"strings"
+
+	"github.com/charmbracelet/huh"
+	"github.com/charmbracelet/huh/spinner"
+	"github.com/charmbracelet/lipgloss"
+	"github.com/spf13/cobra"
+
+	"github.com/heyframe/heyframe-cli/extension"
+	"github.com/heyframe/heyframe-cli/internal/packagist"
+	"github.com/heyframe/heyframe-cli/logging"
+)
+
+var projectAutofixComposerCmd = &cobra.Command{
+	Use:   "composer-plugins",
+	Short: "Autofix plugins from custom/plugins to Composer",
+	RunE: func(cmd *cobra.Command, args []string) error {
+		project, err := findClosestHeyFrameProject()
+		if err != nil {
+			return err
+		}
+
+		rootComposerJson, err := packagist.ReadComposerJson(path.Join(project, "composer.json"))
+		if err != nil {
+			return err
+		}
+
+		var token string
+
+		if err := huh.NewInput().
+			Title("Please enter the HeyFrame Packagist Token").
+			Value(&token).
+			Run(); err != nil {
+			return err
+		}
+
+		if token == "" {
+			return fmt.Errorf("token cannot be empty")
+		}
+
+		ctx, cancel := context.WithCancel(cmd.Context())
+
+		go func() {
+			_ = spinner.New().Context(ctx).Title("Fetching packages").Run()
+		}()
+
+		packagistResponse, err := packagist.GetPackages(cmd.Context(), token)
+
+		cancel()
+
+		if err != nil {
+			return err
+		}
+
+		extensions := extension.FindExtensionsFromProject(logging.DisableLogger(cmd.Context()), project)
+
+		composerInstall := []string{}
+		deleteDirectories := []string{}
+
+		for _, extension := range extensions {
+			if !strings.Contains(extension.GetPath(), "custom/plugins") {
+				continue
+			}
+
+			extName, err := extension.GetName()
+			if err != nil {
+				return err
+			}
+
+			extVersion, err := extension.GetVersion()
+			if err != nil {
+				return err
+			}
+
+			if !packagistResponse.HasPackage(extName) {
+				composerName, err := extension.GetComposerName()
+				if err != nil {
+					continue
+				}
+
+				if !rootComposerJson.HasPackage(composerName) {
+					composerInstall = append(composerInstall, composerName)
+				}
+
+				continue
+			}
+
+			composerInstall = append(composerInstall, fmt.Sprintf("store.heyFrame.com/%s:%s", strings.ToLower(extName), extVersion.String()))
+			deleteDirectories = append(deleteDirectories, extension.GetPath())
+		}
+
+		greenStyle := lipgloss.NewStyle().Foreground(lipgloss.Color("#04B575"))
+
+		if len(composerInstall) > 0 {
+			fmt.Println("You can install the existing plugins with the following command:")
+			fmt.Println(greenStyle.Render("composer require " + strings.Join(composerInstall, " ")))
+		}
+
+		if len(deleteDirectories) > 0 {
+			fmt.Println("and delete the following directories afterwards:")
+			fmt.Println(greenStyle.Render("rm -rf " + strings.Join(deleteDirectories, " ")))
+		}
+
+		fmt.Println("")
+		fmt.Print("Don't forget to run ")
+		fmt.Print(greenStyle.Render("bin/console plugin:refresh"))
+		fmt.Println(" after deleting the directories.")
+
+		if !rootComposerJson.Repositories.HasRepository("https://packages.heyFrame.com") {
+			rootComposerJson.Repositories = append(rootComposerJson.Repositories, packagist.ComposerJsonRepository{
+				Type: "composer",
+				URL:  "https://packages.heyFrame.com",
+			})
+		}
+
+		auth, err := packagist.ReadComposerAuth(path.Join(project, "auth.json"))
+		if err != nil {
+			return err
+		}
+
+		auth.BearerAuth["packages.heyFrame.com"] = token
+
+		if err := auth.Save(); err != nil {
+			return err
+		}
+
+		return rootComposerJson.Save()
+	},
+}
+
+func init() {
+	projectAutofixCmd.AddCommand(projectAutofixComposerCmd)
+}
