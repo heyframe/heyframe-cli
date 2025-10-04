@@ -147,7 +147,7 @@ changelog:
     - title: 🧰 Maintenance
       order: 999
 
-npms:
+npm:
   - name: "@heyframe-ag/heyframe-cli"
     description: "Heyframe CLI helps Heyframe developers manage extensions"
     license: MIT
