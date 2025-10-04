@@ -1,6 +1,8 @@
 FROM scratch
+ARG TARGETOS
+ARG TARGETARCH
 
-COPY {{ .Binary }} /heyframe-cli
+COPY ${TARGETOS}/${TARGETARCH}/heyframe-cli /heyframe-cli
 
 ENTRYPOINT ["/heyframe-cli"]
 CMD ["--help"]
