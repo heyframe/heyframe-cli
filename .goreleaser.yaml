@@ -37,103 +37,155 @@ release:
     name: heyframe-cli
 
 dockers:
-  - image_templates:
-      - "heyframe/heyframe-cli:{{ .Version }}-php-8.4"
-      - "heyframe/heyframe-cli:latest-php-8.4"
-      - "ghcr.io/heyframe/heyframe-cli:{{ .Version }}-php-8.4"
-      - "ghcr.io/heyframe/heyframe-cli:latest-php-8.4"
-    dockerfile: Dockerfile
+  # AMD64
+  - use: buildx
     goos: linux
-    goarch:
-      - amd64
-      - arm64
+    goarch: amd64
+    image_templates:
+      - "heyframe/heyframe-cli:{{ .Tag }}-php-8.4-amd64"
     build_flag_templates:
       - "--build-arg=PHP_VERSION=8.4"
-
-  - image_templates:
-      - "heyframe/heyframe-cli:{{ .Version }}-php-8.3"
-      - "heyframe/heyframe-cli:latest-php-8.3"
-      - "heyframe/heyframe-cli:{{ .Version }}"
-      - "heyframe/heyframe-cli:latest"
-      - "ghcr.io/heyframe/heyframe-cli:{{ .Version }}-php-8.3"
-      - "ghcr.io/heyframe/heyframe-cli:latest-php-8.3"
-      - "ghcr.io/heyframe/heyframe-cli:{{ .Version }}"
-      - "ghcr.io/heyframe/heyframe-cli:latest"
-    dockerfile: Dockerfile
+      - "--platform=linux/amd64"
+  - use: buildx
     goos: linux
-    goarch:
-      - amd64
-      - arm64
+    goarch: amd64
+    image_templates:
+      - "heyframe/heyframe-cli:{{ .Tag }}-php-8.3-amd64"
     build_flag_templates:
       - "--build-arg=PHP_VERSION=8.3"
-
-  - image_templates:
-      - "heyframe/heyframe-cli:{{ .Version }}-php-8.2"
-      - "heyframe/heyframe-cli:latest-php-8.2"
-      - "ghcr.io/heyframe/heyframe-cli:{{ .Version }}-php-8.2"
-      - "ghcr.io/heyframe/heyframe-cli:latest-php-8.2"
-    dockerfile: Dockerfile
+      - "--platform=linux/amd64"
+  - use: buildx
     goos: linux
-    goarch:
-      - amd64
-      - arm64
+    goarch: amd64
+    image_templates:
+      - "heyframe/heyframe-cli:{{ .Tag }}-php-8.2-amd64"
     build_flag_templates:
       - "--build-arg=PHP_VERSION=8.2"
-
-  - image_templates:
-      - "heyframe/heyframe-cli:{{ .Version }}-php-8.1"
-      - "heyframe/heyframe-cli:latest-php-8.1"
-      - "ghcr.io/heyframe/heyframe-cli:{{ .Version }}-php-8.1"
-      - "ghcr.io/heyframe/heyframe-cli:latest-php-8.1"
-    dockerfile: Dockerfile
+      - "--platform=linux/amd64"
+  - use: buildx
     goos: linux
-    goarch:
-      - amd64
-      - arm64
+    goarch: amd64
+    image_templates:
+      - "heyframe/heyframe-cli:{{ .Tag }}-php-8.1-amd64"
     build_flag_templates:
       - "--build-arg=PHP_VERSION=8.1"
-
-  - image_templates:
-      - "heyframe/heyframe-cli:bin-{{ .Version }}"
-      - "heyframe/heyframe-cli:bin"
-      - "ghcr.io/heyframe/heyframe-cli:bin-{{ .Version }}"
-      - "ghcr.io/heyframe/heyframe-cli:bin"
-    dockerfile: Dockerfile.bin
+      - "--platform=linux/amd64"
+  # ARM64
+  - use: buildx
     goos: linux
-    goarch:
-      - amd64
-      - arm64
+    goarch: arm64
+    image_templates:
+      - "heyframe/heyframe-cli:{{ .Tag }}-php-8.4-arm64"
+    build_flag_templates:
+      - "--build-arg=PHP_VERSION=8.4"
+      - "--platform=linux/arm64"
+  - use: buildx
+    goos: linux
+    goarch: arm64
+    image_templates:
+      - "heyframe/heyframe-cli:{{ .Tag }}-php-8.3-arm64"
+    build_flag_templates:
+      - "--build-arg=PHP_VERSION=8.3"
+      - "--platform=linux/arm64"
+  - use: buildx
+    goos: linux
+    goarch: arm64
+    image_templates:
+      - "heyframe/heyframe-cli:{{ .Tag }}-php-8.2-arm64"
+    build_flag_templates:
+      - "--build-arg=PHP_VERSION=8.2"
+      - "--platform=linux/arm64"
+  - use: buildx
+    goos: linux
+    goarch: arm64
+    image_templates:
+      - "heyframe/heyframe-cli:{{ .Tag }}-php-8.1-arm64"
+    build_flag_templates:
+      - "--build-arg=PHP_VERSION=8.1"
+      - "--platform=linux/arm64"
 
-sboms:
-  - artifacts: archive
-  - id: source
-    artifacts: source
+  - use: buildx
+    goos: linux
+    goarch: amd64
+    dockerfile: Dockerfile.bin
+    image_templates:
+      - "heyframe/heyframe-cli:bin-{{ .Tag }}-amd64"
+    build_flag_templates:
+      - "--platform=linux/amd64"
 
-signs:
-  - cmd: cosign
-    certificate: "${artifact}.pem"
-    env:
-      - COSIGN_EXPERIMENTAL=1
-    artifacts: checksum
-    args:
-      - "sign-blob"
-      - "--output-certificate=${certificate}"
-      - "--output-signature=${signature}"
-      - '${artifact}'
-      - "--yes"
+  - use: buildx
+    goos: linux
+    goarch: arm64
+    dockerfile: Dockerfile.bin
+    image_templates:
+      - "heyframe/heyframe-cli:bin-{{ .Tag }}-arm64"
+    build_flag_templates:
+      - "--platform=linux/arm64"
 
-docker_signs:
-  - cmd: cosign
-    env:
-      - COSIGN_EXPERIMENTAL=1
-    artifacts: all
-    args:
-      - 'sign'
-      - '${artifact}'
-      - "--yes"
+docker_manifests:
+  - name_template: heyframe/heyframe-cli:latest
+    image_templates:
+      - "heyframe/heyframe-cli:{{ .Tag }}-php-8.3-amd64"
+      - "heyframe/heyframe-cli:{{ .Tag }}-php-8.3-arm64"
+
+  - name_template: heyframe/heyframe-cli:latest-php-8.4
+    image_templates:
+      - "heyframe/heyframe-cli:{{ .Tag }}-php-8.4-amd64"
+      - "heyframe/heyframe-cli:{{ .Tag }}-php-8.4-arm64"
+
+  - name_template: heyframe/heyframe-cli:latest-php-8.3
+    image_templates:
+      - "heyframe/heyframe-cli:{{ .Tag }}-php-8.3-amd64"
+      - "heyframe/heyframe-cli:{{ .Tag }}-php-8.3-arm64"
+
+  - name_template: heyframe/heyframe-cli:latest-php-8.2
+    image_templates:
+      - "heyframe/heyframe-cli:{{ .Tag }}-php-8.2-amd64"
+      - "heyframe/heyframe-cli:{{ .Tag }}-php-8.2-arm64"
+
+  - name_template: heyframe/heyframe-cli:latest-php-8.1
+    image_templates:
+      - "heyframe/heyframe-cli:{{ .Tag }}-php-8.1-amd64"
+      - "heyframe/heyframe-cli:{{ .Tag }}-php-8.1-arm64"
+
+  - name_template: heyframe/heyframe-cli:{{ .Tag }}
+    image_templates:
+      - "heyframe/heyframe-cli:{{ .Tag }}-php-8.3-amd64"
+      - "heyframe/heyframe-cli:{{ .Tag }}-php-8.3-arm64"
+
+  - name_template: heyframe/heyframe-cli:{{ .Tag }}-php-8.4
+    image_templates:
+      - "heyframe/heyframe-cli:{{ .Tag }}-php-8.4-amd64"
+      - "heyframe/heyframe-cli:{{ .Tag }}-php-8.4-arm64"
+
+  - name_template: heyframe/heyframe-cli:{{ .Tag }}-php-8.3
+    image_templates:
+      - "heyframe/heyframe-cli:{{ .Tag }}-php-8.3-amd64"
+      - "heyframe/heyframe-cli:{{ .Tag }}-php-8.3-arm64"
+
+  - name_template: heyframe/heyframe-cli:{{ .Tag }}-php-8.2
+    image_templates:
+      - "heyframe/heyframe-cli:{{ .Tag }}-php-8.2-amd64"
+      - "heyframe/heyframe-cli:{{ .Tag }}-php-8.2-arm64"
+
+  - name_template: heyframe/heyframe-cli:{{ .Tag }}-php-8.1
+    image_templates:
+      - "heyframe/heyframe-cli:{{ .Tag }}-php-8.1-amd64"
+      - "heyframe/heyframe-cli:{{ .Tag }}-php-8.1-arm64"
+
+  - name_template: heyframe/heyframe-cli:bin-{{ .Tag }}
+    image_templates:
+      - "heyframe/heyframe-cli:bin-{{ .Tag }}-amd64"
+      - "heyframe/heyframe-cli:bin-{{ .Tag }}-arm64"
+
+  - name_template: heyframe/heyframe-cli:bin
+    image_templates:
+      - "heyframe/heyframe-cli:bin-{{ .Tag }}-amd64"
+      - "heyframe/heyframe-cli:bin-{{ .Tag }}-arm64"
 
 checksum:
   name_template: 'checksums.txt'
+
 
 changelog:
   sort: asc
