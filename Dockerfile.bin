@@ -1,6 +1,6 @@
 FROM scratch
 ARG TARGETPLATFORM
 
-COPY $TARGETPLATFORM/heyframe-cli /
+COPY heyframe-cli /
 ENTRYPOINT ["/heyframe-cli"]
 CMD ["--help"]
