@@ -1,4 +1,6 @@
 FROM scratch
-COPY heyframe-cli /
+
+COPY {{ .Binary }} /heyframe-cli
+
 ENTRYPOINT ["/heyframe-cli"]
 CMD ["--help"]

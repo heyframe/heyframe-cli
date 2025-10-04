@@ -1,5 +1,6 @@
 # yaml-language-server: $schema=https://goreleaser.com/static/schema.json
 version: 2
+
 before:
   hooks:
     - go mod tidy
@@ -37,7 +38,9 @@ release:
     name: heyframe-cli
 
 dockers_v2:
+  # PHP 镜像
   - id: php-84
+    dockerfile: Dockerfile
     images:
       - "heyframe/heyframe-cli"
       - "ghcr.io/heyframe/heyframe-cli"
@@ -49,21 +52,23 @@ dockers_v2:
     platforms:
       - "linux/amd64"
       - "linux/arm64"
+
   - id: php-83
+    dockerfile: Dockerfile
     images:
       - "heyframe/heyframe-cli"
       - "ghcr.io/heyframe/heyframe-cli"
     tags:
       - "{{ .Version }}-php-8.3"
       - "latest-php-8.3"
-      - "{{ .Version }}"
-      - "latest"
     build_args:
       PHP_VERSION: "8.3"
     platforms:
       - "linux/amd64"
       - "linux/arm64"
+
   - id: php-82
+    dockerfile: Dockerfile
     images:
       - "heyframe/heyframe-cli"
       - "ghcr.io/heyframe/heyframe-cli"
@@ -75,7 +80,9 @@ dockers_v2:
     platforms:
       - "linux/amd64"
       - "linux/arm64"
+
   - id: php-81
+    dockerfile: Dockerfile
     images:
       - "heyframe/heyframe-cli"
       - "ghcr.io/heyframe/heyframe-cli"
@@ -87,11 +94,13 @@ dockers_v2:
     platforms:
       - "linux/amd64"
       - "linux/arm64"
+
+  # bin 镜像
   - id: bin
+    dockerfile: Dockerfile.bin
     images:
       - "heyframe/heyframe-cli"
       - "ghcr.io/heyframe/heyframe-cli"
-    dockerfile: Dockerfile.bin
     tags:
       - "bin-{{ .Version }}"
       - "bin"
@@ -129,7 +138,6 @@ docker_signs:
 
 checksum:
   name_template: 'checksums.txt'
-
 
 changelog:
   sort: asc
