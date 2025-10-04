@@ -1,8 +1,6 @@
 FROM scratch
-ARG TARGETOS
-ARG TARGETARCH
+ARG TARGETPLATFORM
 
-COPY ${TARGETOS}/${TARGETARCH}/heyframe-cli /heyframe-cli
-
+COPY $TARGETPLATFORM/heyframe-cli /
 ENTRYPOINT ["/heyframe-cli"]
 CMD ["--help"]

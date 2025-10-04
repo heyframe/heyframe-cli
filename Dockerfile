@@ -1,10 +1,10 @@
 ARG PHP_VERSION
+
 FROM ghcr.io/heyframe/heyframe-cli-base:${PHP_VERSION}
 
-ARG TARGETOS
-ARG TARGETARCH
+ARG TARGETPLATFORM
 
-COPY ${TARGETOS}/${TARGETARCH}/heyframe-cli /usr/local/bin/heyframe-cli
+COPY $TARGETPLATFORM/heyframe-cli /usr/local/bin/
 
 ENTRYPOINT ["/usr/local/bin/heyframe-cli"]
 CMD ["--help"]
