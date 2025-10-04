@@ -1,6 +1,4 @@
 FROM scratch
-ARG TARGETPLATFORM
-
-COPY $TARGETPLATFORM/heyframe-cli /
+COPY {{ .Binary }} /heyframe-cli
 ENTRYPOINT ["/heyframe-cli"]
 CMD ["--help"]
